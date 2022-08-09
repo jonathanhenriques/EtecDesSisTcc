@@ -14,12 +14,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_sprint")
-public class Sprint {
+@Table(name = "tb_prova")
+public class Prova {
 
     //    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
@@ -30,15 +30,24 @@ public class Sprint {
     @Size(max = 400, message = "A descricao deve ter no máximo 400 caracteres")
     private String descricao;
 
-    @NotBlank(message = "O atributo duracao não pode ser nullo")
+//    @NotBlank(message = "O atributo duracao não pode ser nullo")
     private Integer duracao;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    @JsonIgnoreProperties("provas")
     private Usuario usuario;
 
 
-    @OneToMany(mappedBy = "sprint")
-//    @JsonIgnoreProperties("sprint")
-    private List<ItemSprint> itens;
+    @OneToMany(mappedBy = "prova")
+    @JsonIgnoreProperties("prova")
+    private List<QuestaoProva> questoes;
+
+    private String instituicao;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    @JsonIgnoreProperties("provas")
+    private CategoriaProva categoria;
 
 }

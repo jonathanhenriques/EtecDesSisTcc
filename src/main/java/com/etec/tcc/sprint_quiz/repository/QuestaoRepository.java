@@ -20,6 +20,6 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long> {
 
     List<Questao> findAllByAnoBetween(LocalDate anoInicial, LocalDate anoFinal);
 
-    List<Questao> findAllWitchAnoBefore(LocalDate ano);
+    List<Questao> findAllByAnoBefore(LocalDate ano);
 
 }

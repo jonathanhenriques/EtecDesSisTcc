@@ -11,23 +11,23 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_item_sprint")
-public class ItemSprint {
+@Table(name = "tb_questao_prova")
+public class QuestaoProva {
 
     //    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "questoes_id")
+    @JoinColumn(name = "questao_id")
     //    @JsonIgnoreProperties("grupo_questoes")
-    private Questao questoes;
+    private Questao questao;
 
     @ManyToOne
-    @JoinColumn(name = "sprint_id")
-    //    @JsonIgnoreProperties("sprint_id")
-    private Sprint sprint;
+    @JoinColumn(name = "prova_id")
+    @JsonIgnoreProperties("questoes")
+    private Prova prova;
 
 
 }

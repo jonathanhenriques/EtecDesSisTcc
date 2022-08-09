@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,13 +25,15 @@ public class Questao {
 
     //    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @NotNull(message = "O atributo instituicao não pode ser nullo")
+    @NotNull(message = "O atributo instituicao não pode ser nullo")
     private String instituicao;
 
-    @Temporal(TemporalType.DATE)
+    //    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @CreationTimestamp
     private LocalDate ano;
 
     @NotBlank(message = "O atributo texto não pode ser nullo nem vazio!")
@@ -55,14 +60,20 @@ public class Questao {
     @Size(max = 1000)
     private String opcao_5;
 
-    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
-    @Size(max = 1)
+        @NotNull(message = "O atributo resposta não pode ser nullo nem vazio!")
+//    @Size(max = 1)
     @Positive
     private int resposta;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "itemSprint_questoes_id")
-////    @JsonIgnoreProperties("questoes")
-//    private ItemSprint itemSprint_questoes;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    @JsonIgnoreProperties("questoes")
+    private CategoriaQuestao categoria;
+
+
+    @ManyToOne
+    @JoinColumn(name = "criador_id")
+    @JsonIgnoreProperties("questoes")
+    private Usuario criador;
 
 }
