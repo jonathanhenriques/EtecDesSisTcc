@@ -32,8 +32,9 @@ public class Questao {
     private String instituicao;
 
     //    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+//    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @CreationTimestamp
+//    @UpdateTimestamp
     private LocalDate ano;
 
     @NotBlank(message = "O atributo texto não pode ser nullo nem vazio!")
@@ -67,13 +68,13 @@ public class Questao {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties("questoes")
+    @JsonIgnoreProperties({"descricao", "questoes"})
     private CategoriaQuestao categoria;
 
 
     @ManyToOne
     @JoinColumn(name = "criador_id")
-    @JsonIgnoreProperties("questoes")
+    @JsonIgnoreProperties({"email", "senha","foto", "tipo", "provas" ,"questoes"})
     private Usuario criador;
 
 }

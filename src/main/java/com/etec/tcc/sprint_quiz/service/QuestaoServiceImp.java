@@ -29,11 +29,10 @@ public class QuestaoServiceImp implements QuestaoService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public ResponseEntity<QuestaoDTO> postQuestao(QuestaoDTO dto) {
-        Questao q = converterParaQuestao(dto);
-        questaoRepository.save(q);
-        QuestaoDTO qdto = new QuestaoDTO(q);
-        return ResponseEntity.status(HttpStatus.CREATED).body(qdto);
+    public ResponseEntity<Questao> postQuestao(Questao questao) {
+        if(categoriaQuestaoRepository.existsById(questao.getCategoria().getId()))
+            return ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao));
+        return ResponseEntity.badRequest().build();
 
     }
 

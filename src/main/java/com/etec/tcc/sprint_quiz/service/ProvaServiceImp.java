@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,40 +40,36 @@ public class ProvaServiceImp implements ProvaService {
 
     @Override
     @Transactional
-    public ResponseEntity<ProvaDTO> postProva(ProvaDTO dto) {
-
-        return categoriaProvaRepository.findById(dto.getCategoria())
-                .map(c -> {
-                    Usuario usuario = usuarioRepository.findById(dto.getUsuario())
-                            .orElseThrow(() -> new RegraNegocioException("código de cliente inválido!" + dto.getUsuario()));
-                    Prova prova = ProvaDTO.converterEmProva(dto, usuario, c);
-
-                    List<QuestaoProva> questaoProva = converterLista(dto.getQuestoes(), prova);
-                    provaRepository.save(prova);
-                   questaoProva = questaoProvaRepository.saveAll(questaoProva);
-                    prova.setQuestoes(questaoProva);
-
-                    ProvaDTO provaDTO = new ProvaDTO(prova);
-
-                    return ResponseEntity.status(HttpStatus.CREATED).body(provaDTO);
-
-                }).orElseThrow(() -> new CategoriaProvaNotFoundException());
+    public ResponseEntity<Prova> postProva(Prova prova) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(provaRepository.save(prova));
     }
 
-    private List<QuestaoProva> converterLista(List<QuestaoProvaDTO> lista, Prova prova) {
-        if (lista.isEmpty())
-            throw new RegraNegocioException("Não é possível criar uma prova sem questões!");
-
-        return lista
-                .stream()
-                .map(dto -> {
-                    QuestaoProva questaoProva = new QuestaoProva();
-                    Questao questao = questaoRepository.findById(dto.getQuestao())
-                            .orElseThrow(() -> new RegraNegocioException("código da questao não encontrado!" + dto.getQuestao()));
-                    questaoProva.setQuestao(questao);
-                    questaoProva.setProva(prova);
-                    return questaoProva;
-
-                }).collect(Collectors.toList());
-    }
+//    private List<QuestaoProva> converterLista(List<QuestaoProvaDTO> lista, Prova prova) {
+////        if (lista.isEmpty())
+////            throw new RegraNegocioException("Não é possível criar uma prova sem questões!");
+//
+//        return lista
+//                .stream()
+//                .map(dto -> {
+//                    QuestaoProva questaoProva = new QuestaoProva();
+//                    Questao questao = questaoRepository.findById(dto.getQuestao())
+//                            .orElseThrow(() -> new RegraNegocioException("código da questao não encontrado!" + dto.getQuestao()));
+//                    questaoProva.setQuestao(questao);
+//                    questaoProva.setProva(prova);
+//                    return questaoProva;
+//
+//                }).collect(Collectors.toList());
+//    }
+//
+//    private List<QuestaoProva> trocaIdQuestaoProva(List<QuestaoProva> lista, Prova prova) {
+////        List<Prova> pp = provaRepository.findAll();
+//        return lista
+//                .stream()
+//                .map(questaoProva -> {
+////                    questaoProvaRepository.findById(questaoProva.getId())
+////                            .orElseThrow(() -> new RegraNegocioException("código da questão não encontrado! " + questaoProva.getQuestao().getId()));
+//                    questaoProva.getProva().setId(prova.getId());
+//                    return questaoProva;
+//                }).collect(Collectors.toList());
+//    }
 }

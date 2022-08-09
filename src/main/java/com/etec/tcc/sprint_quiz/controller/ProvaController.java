@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.controller;
 
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/provas")
@@ -45,13 +47,11 @@ public class ProvaController {
     }
 
     @PostMapping
-    public ResponseEntity<ProvaDTO> postProva(@RequestBody ProvaDTO prova) {
-//        if (categoriaProvaRepository.existsById(prova.getId())) {
-//            return ResponseEntity.status(HttpStatus.CREATED).body(provaRepository.save(prova));
-//        }
-//        throw new CategoriaProvaNotFoundException();
+    public ResponseEntity<Prova> postProva(@RequestBody Prova prova) {
         return provaService.postProva(prova);
     }
+
+
 
 //    @PutMapping
 //    public ResponseEntity<Prova> putProva(@RequestBody Prova prova) {

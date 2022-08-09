@@ -20,7 +20,7 @@ public class QuestaoProvaDTO {
     public QuestaoProvaDTO(QuestaoProva questao) {
         this.id = questao.getId();
         this.questao = questao.getQuestao().getId();
-        this.prova = questao.getProva().getId();
+//        this.prova = questao.getProva().getId();
     }
 
     public static List<QuestaoProvaDTO> converterListaParaDto(List<QuestaoProva> lista){

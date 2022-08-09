@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface ProvaService {
 
-    ResponseEntity<ProvaDTO> postProva(@RequestBody ProvaDTO prova);
+    ResponseEntity<Prova> postProva(@RequestBody Prova prova);
 }

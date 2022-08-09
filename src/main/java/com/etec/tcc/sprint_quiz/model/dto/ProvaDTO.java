@@ -35,11 +35,11 @@ public class ProvaDTO {
         this.descricao = prova.getDescricao();
         this.duracao = prova.getDuracao();
         this.usuario = prova.getUsuario().getId();
-        if(converterListaParaDto(prova.getQuestoes()).isEmpty()){
-            this.questoes = new ArrayList<>();
-        } else {
-            this.questoes = (converterListaParaDto(prova.getQuestoes()));
-        }
+//        if(converterListaParaDto(prova.getQuestoes()).isEmpty()){
+//            this.questoes = new ArrayList<>();
+//        } else {
+//            this.questoes = (converterListaParaDto(prova.getQuestoes()));
+//        }
         this.instituicao = prova.getInstituicao();
         this.categoria = prova.getCategoria().getId();
     }

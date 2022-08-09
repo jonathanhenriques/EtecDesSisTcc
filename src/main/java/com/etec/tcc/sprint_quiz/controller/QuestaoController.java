@@ -67,7 +67,10 @@ public class QuestaoController {
     }
 
     @PostMapping
-    public ResponseEntity<QuestaoDTO> postQuestao( @RequestBody QuestaoDTO questao) {
+    public ResponseEntity<Questao> postQuestao( @RequestBody
+//                                                       @DateTimeFormat(
+//                                                                  iso = DateTimeFormat.ISO.DATE)
+                                                                  Questao questao) {
         return questaoService.postQuestao(questao);
     }
 
