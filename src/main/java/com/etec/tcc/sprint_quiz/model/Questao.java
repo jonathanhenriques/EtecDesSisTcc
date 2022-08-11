@@ -5,15 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 
 @Data
@@ -25,7 +22,7 @@ public class Questao {
 
     //    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "O atributo instituicao não pode ser nullo")
@@ -61,10 +58,20 @@ public class Questao {
     @Size(max = 1000)
     private String opcao_5;
 
-        @NotNull(message = "O atributo resposta não pode ser nullo nem vazio!")
-//    @Size(max = 1)
+//    private Alternativas alternativas;
+
+//    @OneToMany
+//    @JsonIgnoreProperties()
+//    private List<Alternativa> alternativas;
+
+
+//    private Alternativa resposta;
+
+
+    @NotNull(message = "O atributo resposta não pode ser nullo!")
     @Positive
     private int resposta;
+
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -74,7 +81,7 @@ public class Questao {
 
     @ManyToOne
     @JoinColumn(name = "criador_id")
-    @JsonIgnoreProperties({"email", "senha","foto", "tipo", "provas" ,"questoes"})
+    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
     private Usuario criador;
 
 }

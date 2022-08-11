@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,19 +20,30 @@ import java.util.List;
 public class CategoriaQuestao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "categoria")
+//    @Column(name = "titulo")
     @NotBlank(message = "O atributo titulo não pode ser nulo nem vazio!")
     @Size(max = 50, message = "No máximo 50 caracteres")
+//    @Schema(name = "Questões de Matemática")
     private String titulo;
 
-    @NotNull(message = "O atributo descricao não deve ser nullo!")
+
+    //    @Column(name = "titulo")
+    @NotBlank(message = "O atributo descricao não deve ser nullo!")
     @Size(max = 1000, message = "No máximo 1000 caracteres")
-    private String descricao;
+//    @Schema(name = "Questões de Matemática")
+    private String descritivo;
+
+
+//    @NotNull(message = "O atributo descricao não deve ser nullo!")
+//    @Size(max = 1000, message = "No máximo 1000 caracteres")
+////    @Schema(name = "Questões de Cálculo 1")
+//    private String descricao;
 
     @OneToMany(mappedBy = "categoria")
     @JsonIgnoreProperties("categoria")
     private List<Questao> questoes;
+
 }

@@ -25,6 +25,14 @@ public class CategoriaQuestaoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/descritivo/{descritivo}")
+    public ResponseEntity<CategoriaQuestao> getByDescritivo(@PathVariable("descritivo") String descritivo){
+        return categoriaQuestaoRepository.findByDescritivoContainingIgnoreCase(descritivo)
+                .map(categoria -> ResponseEntity.ok(categoria))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
     @GetMapping
     public ResponseEntity<List<CategoriaQuestao>> getAll(){
         return ResponseEntity.ok(categoriaQuestaoRepository.findAll());

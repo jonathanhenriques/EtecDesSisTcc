@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,18 +20,20 @@ public class Prova {
 
     //    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
     @Size(max = 50, message = "O nome deve ter no máximo 50 caracteres")
+//    @Schema(name = "Vestibulinho etec 1° SEM/2020")
     private String nome;
 
     @NotBlank(message = "O atributo descricao não pode ser nullo nem vazio!")
     @Size(max = 400, message = "A descricao deve ter no máximo 400 caracteres")
+//    @Schema(name = "etec - Vestibulinho 1° SEM/2020")
     private String descricao;
 
-//    @NotBlank(message = "O atributo duracao não pode ser nullo")
+//    @NotNull(message = "O atributo duracao não pode ser nullo")
     private Integer duracao;
 
     @ManyToOne
@@ -43,6 +46,7 @@ public class Prova {
     @JsonIgnoreProperties("prova")
     private List<QuestaoProva> questoes;
 
+//    @Schema(name = "Etec JK")
     private String instituicao;
 
     @ManyToOne
