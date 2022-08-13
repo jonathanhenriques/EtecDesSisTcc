@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -65,12 +66,14 @@ public class Questao {
 //    private List<Alternativa> alternativas;
 
 
-//    private Alternativa resposta;
+    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
+    @Size(max = 1)
+    private String resposta;
 
 
-    @NotNull(message = "O atributo resposta não pode ser nullo!")
-    @Positive
-    private int resposta;
+//    @NotNull(message = "O atributo resposta não pode ser nullo!")
+//    @Positive
+//    private int resposta;
 
 
     @ManyToOne

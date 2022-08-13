@@ -33,12 +33,12 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Usuario> findByNome(@PathVariable String email){
-        return usuarioRepository.findByEmail(email)
-                .map(u -> ResponseEntity.ok(u))
-                .orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/email/{email}")
+//    public ResponseEntity<Usuario> findByNome(@PathVariable String email){
+//        return usuarioRepository.findByEmail(email)
+//                .map(u -> ResponseEntity.ok(u))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
     @GetMapping("/listarUsuarios/{nome}")
     public ResponseEntity<List<Usuario>> findAllByNome(@PathVariable String nome){
@@ -77,7 +77,7 @@ public class UsuarioController {
 
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> cadastrarUsuario(@Valid Usuario usuario){
+    public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody  Usuario usuario){
         return usuarioService.cadastrarUsuario(usuario)
                 .map(u -> ResponseEntity.status(HttpStatus.CREATED).body(u))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());

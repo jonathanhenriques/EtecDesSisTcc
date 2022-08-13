@@ -4,7 +4,7 @@ import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
+//import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
@@ -36,32 +36,32 @@ public class QuestaoServiceImp implements QuestaoService {
 
     }
 
-    public Questao converterParaQuestao(QuestaoDTO dto) {
-        Questao q = new Questao();
-
-        q.setId(dto.getId());
-        q.setInstituicao(dto.getInstituicao());
-        dto.setAno(String.valueOf(LocalDate.now()));
-
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        LocalDate ld = LocalDate.parse(dto.getAno(), formatter);
-//        q.setAno(ld);
-
-        q.setTexto(dto.getTexto());
-        q.setOpcao_1(dto.getOpcao_1());
-        q.setOpcao_2(dto.getOpcao_2());
-        q.setOpcao_3(dto.getOpcao_3());
-        q.setOpcao_4(dto.getOpcao_4());
-        q.setOpcao_5(dto.getOpcao_5());
-        q.setResposta(dto.getResposta());
-
-        CategoriaQuestao cq = categoriaQuestaoRepository.findById(dto.getCategoria())
-                .orElseThrow(() -> new RegraNegocioException("Código da categoria da questão inválido!"));
-        q.setCategoria(cq);
-
-        Usuario u = usuarioRepository.findById(dto.getCriador())
-                .orElseThrow(() -> new RegraNegocioException("Código do criador(usuario) inválido!"));
-        q.setCriador(u);
-        return q;
-    }
+//    public Questao converterParaQuestao(QuestaoDTO dto) {
+//        Questao q = new Questao();
+//
+//        q.setId(dto.getId());
+//        q.setInstituicao(dto.getInstituicao());
+//        dto.setAno(String.valueOf(LocalDate.now()));
+//
+////        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+////        LocalDate ld = LocalDate.parse(dto.getAno(), formatter);
+////        q.setAno(ld);
+//
+//        q.setTexto(dto.getTexto());
+//        q.setOpcao_1(dto.getOpcao_1());
+//        q.setOpcao_2(dto.getOpcao_2());
+//        q.setOpcao_3(dto.getOpcao_3());
+//        q.setOpcao_4(dto.getOpcao_4());
+//        q.setOpcao_5(dto.getOpcao_5());
+//        q.setResposta(dto.getResposta());
+//
+//        CategoriaQuestao cq = categoriaQuestaoRepository.findById(dto.getCategoria())
+//                .orElseThrow(() -> new RegraNegocioException("Código da categoria da questão inválido!"));
+//        q.setCategoria(cq);
+//
+//        Usuario u = usuarioRepository.findById(dto.getCriador())
+//                .orElseThrow(() -> new RegraNegocioException("Código do criador(usuario) inválido!"));
+//        q.setCriador(u);
+//        return q;
+//    }
 }

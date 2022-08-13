@@ -10,16 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 /**
- * Classe UserDetailsServiceImpl
- * <p>
- * Implementa a interface UserDetailsService, que é responsável por recuperar os dados
- * do usuário no Banco de Dados pelo usuário e converter em um objeto da Classe
- * UserDetailsImpl.
- * <p>
- * Por se tratar de uma implementação de uma interface, a classe deve ter em seu nome o
- * sufixo Impl para indicar que se trata de uma implementação.
+ *  Classe UserDetailsServiceImpl
+ *
+ *  Implementa a interface UserDetailsService, que é responsável por recuperar os dados
+ *  do usuário no Banco de Dados pelo usuário e converter em um objeto da Classe
+ *  UserDetailsImpl.
+ *
+ *  Por se tratar de uma implementação de uma interface, a classe deve ter em seu nome o
+ *  sufixo Impl para indicar que se trata de uma implementação.
  */
 
 /**
@@ -37,10 +36,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      *
      * Sobrescreve (@Override) o método loadUserByUsername.
      *
-     * A implementação de autenticação chama o método loadUserByUsername(String username),
-     * para obter os dados de um usuário com um determinado nome de usuário.
-     * O nome do usuário deve ser único. O usuário retornado por este método é um objeto
-     * da classe UserDetailsImpl.
+     * A implementação de autenticação chama o método loadUserByUsername(String
+     * username), para obter os dados de um usuário com um determinado nome de
+     * usuário. O nome do usuário deve ser único. O usuário retornado por este
+     * método é um objeto da classe UserDetailsImpl.
      *
      */
 
@@ -52,10 +51,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * que foi assinado na interface UsuarioRepository
          */
 
-        Optional<Usuario> usuario = userRepository.findByNome(userName);
+        Optional<Usuario> usuario = userRepository.findByUsuario(userName);
 
         /**
-         * Se o usuário não existir, o método lança uma Exception do tipo UsernameNotFoundException.
+         * Se o usuário não existir, o método lança uma Exception do tipo
+         * UsernameNotFoundException.
          */
 
         usuario.orElseThrow(() -> new UsernameNotFoundException(userName + " not found."));
@@ -64,14 +64,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * Retorna um objeto do tipo UserDetailsImpl criado com os dados recuperados do
          * Banco de dados.
          *
-         * O operador :: faz parte de uma expressão que referencia um método, complementando
-         * uma função lambda. Neste exemplo, o operador faz referência ao construtor da
-         * Classe UserDetailsImpl.
+         * O operador :: faz parte de uma expressão que referencia um método,
+         * complementando uma função lambda. Neste exemplo, o operador faz referência ao
+         * construtor da Classe UserDetailsImpl.
          */
 
         return usuario.map(UserDetailsImpl::new).get();
     }
-
-
 }
-

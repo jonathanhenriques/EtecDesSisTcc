@@ -29,9 +29,9 @@ public class Alternativa {
 //    @Schema(name = "https://imgur.com/9q3tXhG")
     private String foto;
 
-//    @ManyToOne
-//    @JoinColumn(name = "questao_id")
-//    private Questao questao;
+    @ManyToOne
+    @JoinColumn(name = "questao_id")
+    private Questao questao;
 
 
 }
