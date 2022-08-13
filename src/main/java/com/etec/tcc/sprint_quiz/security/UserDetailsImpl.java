@@ -1,29 +1,29 @@
 package com.etec.tcc.sprint_quiz.security;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Classe UserDetailsImpl
  *
- * Implementa a interface UserDetails, que descreve o usuário para o Spring
- * Security,ou seja, detalha as caracteríticas do usuário.
+ * Implementa a interface UserDetails, que descreve o usuário para
+ * o Spring Security,ou seja, detalha as caracteríticas do usuário.
  *
- * Por se tratar de uma implementação de uma interface, a classe deve ter em seu
- * nome o sufixo Impl para indicar que se trata de uma implementação.
+ * Por se tratar de uma implementação de uma interface, a classe
+ * deve ter em seu nome o sufixo Impl para indicar que se trata de
+ * uma implementação.
  *
  * As características descritas na interface UserDetails são:
  *
- * 1) Credenciais do usuário (Username e Password) 2) As Autorizações do usuário
- * (o que ele pode e não pode fazer), através da Collection authorities do tipo
- * GrantedAuthority 3) As Restrições (isAccountNonExpired(),
- * isAccountNonLocked(), isCredentialsNonExpired() e isEnabled()) da conta do
- * usuário.
+ * 1) Credenciais do usuário (Username e Password)
+ * 2) As Autorizações do usuário (o que ele pode e não pode fazer),
+ *    através da Collection authorities do tipo GrantedAuthority
+ * 3) As Restrições (isAccountNonExpired(), isAccountNonLocked(),
+ *    isCredentialsNonExpired() e isEnabled()) da conta do usuário.
  */
 
 public class UserDetailsImpl implements UserDetails {
@@ -36,12 +36,12 @@ public class UserDetailsImpl implements UserDetails {
     /**
      * Método construtor com parâmetros
      *
-     * Observe que este método Construtor recebe um objeto Usuario e recupera os
-     * dados necessários através dos respectivos métodos Get
+     * Observe que este método Construtor recebe um objeto Usuario e
+     * recupera os dados necessários através dos respectivos métodos Get
      */
 
     public UserDetailsImpl(Usuario usuario) {
-        this.userName = usuario.getUsuario();
+        this.userName = usuario.getNome();
         this.password = usuario.getSenha();
     }
 
@@ -49,12 +49,12 @@ public class UserDetailsImpl implements UserDetails {
      * Método construtor sem parâmetros
      */
 
-    public UserDetailsImpl() {
-    }
+    public UserDetailsImpl() {	}
 
     /**
-     * Sobrescreve (@Override) o método que retorna as Autorizações da conta do
-     * usuário. Nesta implementação, não há nenhuma autorização negada
+     *  Sobrescreve (@Override) o método que retorna as Autorizações
+     *  da conta do usuário. Nesta implementação, não há nenhuma autorização
+     *  negada
      */
 
     @Override
@@ -74,7 +74,8 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * Sobrescreve (@Override) o método que Indica se a conta do usuário expirou.
+     *  Sobrescreve (@Override) o método que Indica se a conta do usuário
+     *  expirou.
      */
 
     @Override
@@ -83,8 +84,8 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * Sobrescreve (@Override) o método que Indica se o usuário está bloqueado ou
-     * desbloqueado.
+     *  Sobrescreve (@Override) o método que Indica se o usuário
+     *  está bloqueado ou desbloqueado.
      */
 
     @Override
@@ -93,8 +94,8 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * Sobrescreve (@Override) o método que indica se as credenciais do usuário
-     * (senha) expiraram.
+     *  Sobrescreve (@Override) o método que indica se as
+     *  credenciais do usuário (senha) expiraram.
      */
 
     @Override
@@ -103,12 +104,15 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * Sobrescreve (@Override) o método que Indica se o usuário está habilitado ou
-     * desabilitado. Se mudar para false nenhum usuário conseguirá logar.
+     * Sobrescreve (@Override) o método que Indica se o usuário
+     *  está habilitado ou desabilitado.
+     *  Se mudar para false nenhum usuário conseguirá logar.
      */
 
     @Override
     public boolean isEnabled() {
         return true;
     }
+
+
 }
