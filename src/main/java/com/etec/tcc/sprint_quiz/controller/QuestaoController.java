@@ -1,7 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import com.etec.tcc.sprint_quiz.model.Questao;
 //import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
+import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
 import io.swagger.v3.oas.annotations.Operation;

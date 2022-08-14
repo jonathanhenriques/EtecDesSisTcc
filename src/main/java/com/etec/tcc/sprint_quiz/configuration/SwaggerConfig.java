@@ -31,7 +31,7 @@ public class SwaggerConfig {
                 .info(new Info().title("Sprint Quiz").description("Projeto de TCC - Etec JK, Jonathan")
                         .version("v0.0.1")
                         .license(new License().name("TCC").url("https://github.com/jonathanhenriques"))
-                        .contact(new Contact().name("Linkedin").url("https://www.linkedin.com/in/jonathan-henrique-/")
+                        .contact(new Contact().name("Jonathan").url("https://www.linkedin.com/in/jonathan-henrique-/")
                                 .email("silva.henriquejonas@gmail.com")))
                 .externalDocs(new ExternalDocumentation().description("Github")
                         .url("https://github.com/jonathanhenriques/"));

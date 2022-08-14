@@ -1,23 +1,12 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.QuestaoProva;
-import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
-import com.etec.tcc.sprint_quiz.model.dto.QuestaoProvaDTO;
 import com.etec.tcc.sprint_quiz.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProvaServiceImp implements ProvaService {

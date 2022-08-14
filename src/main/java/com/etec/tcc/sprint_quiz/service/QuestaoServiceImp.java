@@ -1,10 +1,7 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
-import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
-import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.Usuario;
 //import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
+import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
@@ -12,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class QuestaoServiceImp implements QuestaoService {
