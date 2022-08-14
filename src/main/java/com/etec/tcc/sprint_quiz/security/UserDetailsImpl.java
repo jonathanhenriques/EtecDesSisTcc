@@ -1,11 +1,12 @@
 package com.etec.tcc.sprint_quiz.security;
 
+import java.util.Collection;
+import java.util.List;
+
+
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Classe UserDetailsImpl
@@ -41,7 +42,7 @@ public class UserDetailsImpl implements UserDetails {
      */
 
     public UserDetailsImpl(Usuario usuario) {
-        this.userName = usuario.getNome();
+        this.userName = usuario.getUsuario();
         this.password = usuario.getSenha();
     }
 

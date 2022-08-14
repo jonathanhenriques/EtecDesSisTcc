@@ -12,7 +12,7 @@ public class UsuarioLogin {
     private Long id;
     private String nome;
     private String senha;
-    private String email;
+    private String usuario;
     private String foto;
     private String tipo;
     private String token;

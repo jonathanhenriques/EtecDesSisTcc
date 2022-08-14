@@ -33,19 +33,19 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Usuario> findByNome(@PathVariable String email){
-        return usuarioRepository.findByEmail(email)
-                .map(u -> ResponseEntity.ok(u))
-                .orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/email/{email}")
+//    public ResponseEntity<Usuario> findByNome(@PathVariable String email){
+//        return usuarioRepository.findByEmail(email)
+//                .map(u -> ResponseEntity.ok(u))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
-    @GetMapping("/listarUsuarios/{nome}")
+    @GetMapping("/nome/{nome}")
     public ResponseEntity<List<Usuario>> findAllByNome(@PathVariable String nome){
         return ResponseEntity.ok(usuarioRepository.findAllByNomeContainingIgnoreCase(nome));
     }
 
-    @GetMapping()
+    @GetMapping("/todos")
     public ResponseEntity<List<Usuario>> findAll(){
         return ResponseEntity.ok(usuarioRepository.findAll());
     }

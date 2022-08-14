@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.security;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -12,22 +13,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
- /** Classe BasicSecurityConfig
-         *
-         * Esta classe é responsável por habilitar a segurança básica da aplicação e o login
-         * na aplicação.
-         *
-         * Para habilitar a segurança HTTP no Spring, precisamos extender (herdar)
-         * a Classe WebSecurityConfigurerAdapter para fornecer uma configuração padrão
-         * no método configure (HttpSecurity http)
-         *
-         * A configuração padrão garante que qualquer requisição enviada para a API
-         * seja autenticada com login baseado em formulário ou autenticação via Browser.
-         *
-         * Para personalizar a autenticação utilizaremos a sobrecarga dos métodos da
-         * Classe WebSecurityConfigurerAdapter
-         *
-         */
+/**
+ * Classe BasicSecurityConfig
+ *
+ * Esta classe é responsável por habilitar a segurança básica da aplicação e o login
+ * na aplicação.
+ *
+ * Para habilitar a segurança HTTP no Spring, precisamos extender (herdar)
+ * a Classe WebSecurityConfigurerAdapter para fornecer uma configuração padrão
+ * no método configure (HttpSecurity http)
+ *
+ * A configuração padrão garante que qualquer requisição enviada para a API
+ * seja autenticada com login baseado em formulário ou autenticação via Browser.
+ *
+ * Para personalizar a autenticação utilizaremos a sobrecarga dos métodos da
+ * Classe WebSecurityConfigurerAdapter
+ *
+ */
 
 /**
  *  A annotation @EnableWebSecurity: habilita a configuração de segurança padrão
@@ -160,29 +162,26 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
          */
 
         http.authorizeRequests()
-
                 .antMatchers("/usuarios/logar").permitAll()
                 .antMatchers("/usuarios/cadastrar").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios/all").permitAll()
-                .antMatchers(HttpMethod.GET, "/categorias").permitAll()
-                .antMatchers(HttpMethod.GET, "/categorias/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/categorias/tipo/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/produtos/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/produtos").permitAll()
-                .antMatchers(HttpMethod.GET, "/produtos/all").permitAll()
-                .antMatchers(HttpMethod.GET, "/produtos/nome/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/usuarios").permitAll()
+//				.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/usuarios/all").permitAll()
+//				.antMatchers(HttpMethod.GET, "/categorias").permitAll()
+//				.antMatchers(HttpMethod.GET, "/categorias/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/categorias/tipo/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/produtos/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/produtos").permitAll()
+//				.antMatchers(HttpMethod.GET, "/produtos/all").permitAll()
+//				.antMatchers(HttpMethod.GET, "/produtos/nome/*").permitAll()
+//				.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors()
-
                 .and().csrf().disable();
 
     }
 }
-
 

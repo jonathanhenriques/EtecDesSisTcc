@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 
+    public Optional<Usuario> findByUsuario(String usuario);
 
-
-    Optional<Usuario> findByEmail(String email);
+//    Optional<Usuario> findByEmail(String email);
 
     List<Usuario> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 

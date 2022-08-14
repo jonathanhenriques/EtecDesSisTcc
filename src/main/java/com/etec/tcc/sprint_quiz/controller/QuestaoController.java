@@ -50,8 +50,8 @@ public class QuestaoController {
 
     @GetMapping("/ano/{ano}")
     public ResponseEntity<List<Questao>> findAllByAno(@PathVariable
-//                                                          @DateTimeFormat(
-//                                                                  iso = DateTimeFormat.ISO.DATE)
+                                                          @DateTimeFormat(
+                                                                  iso = DateTimeFormat.ISO.DATE)
                                                                   LocalDate ano) {
         return ResponseEntity.ok(questaoRepository.findAllByAno(ano));
     }

@@ -31,7 +31,7 @@ public class Usuario {
     @Schema(example = "email@email.com.br")
     @NotBlank(message = "O atributo email não pode ser nullo nem vazio")
     @Email(message = "Deve ser um email válido (email@email.com)")
-    private String email;
+    private String usuario;
 
     @NotBlank(message = "O atributo senha não pode ser nullo nem vazio!")
     @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")

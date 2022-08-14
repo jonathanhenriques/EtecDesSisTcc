@@ -38,7 +38,7 @@ public class Prova {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonIgnoreProperties({"email", "senha","foto", "tipo", "provas" ,"questoes"})
+    @JsonIgnoreProperties({"email", "senha","foto", "tipo", "provas" ,"questoes", "usuario"})
     private Usuario usuario;
 
 
@@ -51,7 +51,7 @@ public class Prova {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"descricao", "provas"})
+    @JsonIgnoreProperties({"descritivo", "provas"})
     private CategoriaProva categoria;
 
 }

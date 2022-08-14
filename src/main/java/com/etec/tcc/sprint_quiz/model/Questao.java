@@ -78,7 +78,7 @@ public class Questao {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"descricao", "questoes"})
+    @JsonIgnoreProperties({"descritivo", "questoes"})
     private CategoriaQuestao categoria;
 
 

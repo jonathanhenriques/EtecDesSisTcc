@@ -1,5 +1,7 @@
 package com.etec.tcc.sprint_quiz.security;
 
+import java.util.Optional;
+
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +10,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 
 /**
- * Classe UserDetailsServiceImpl
- * <p>
- * Implementa a interface UserDetailsService, que é responsável por recuperar os dados
- * do usuário no Banco de Dados pelo usuário e converter em um objeto da Classe
- * UserDetailsImpl.
- * <p>
- * Por se tratar de uma implementação de uma interface, a classe deve ter em seu nome o
- * sufixo Impl para indicar que se trata de uma implementação.
+ *  Classe UserDetailsServiceImpl
+ *
+ *  Implementa a interface UserDetailsService, que é responsável por recuperar os dados
+ *  do usuário no Banco de Dados pelo usuário e converter em um objeto da Classe
+ *  UserDetailsImpl.
+ *
+ *  Por se tratar de uma implementação de uma interface, a classe deve ter em seu nome o
+ *  sufixo Impl para indicar que se trata de uma implementação.
  */
 
 /**
@@ -52,7 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * que foi assinado na interface UsuarioRepository
          */
 
-        Optional<Usuario> usuario = userRepository.findByNome(userName);
+        Optional<Usuario> usuario = userRepository.findByUsuario(userName);
 
         /**
          * Se o usuário não existir, o método lança uma Exception do tipo UsernameNotFoundException.
@@ -74,4 +74,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
 }
-
