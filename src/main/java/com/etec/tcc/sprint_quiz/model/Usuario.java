@@ -44,9 +44,12 @@ public class Usuario {
     private String tipo;
 
     @OneToMany(mappedBy = "criador")
-    @JsonIgnoreProperties("criador")
+    @JsonIgnoreProperties({"instituicao",
+            "ano", "texto", "opcao_1", "opcao_2", "opcao_3" ,"opcao_4" ,"opcao_5",
+            "resposta", "categoria", "criador"})
     private List<Questao> questoes;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
     private List<Prova> provas;
 }
