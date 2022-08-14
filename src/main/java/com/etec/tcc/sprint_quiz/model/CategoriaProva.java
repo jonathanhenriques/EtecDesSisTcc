@@ -29,7 +29,7 @@ public class CategoriaProva {
 
     @Size(max = 1000 ,message = "O atributo descricao deve ter no máximo 1000 caracteres")
 //    @Schema(name = "Vestibulares públicos")
-    private String descritivo;
+    private String descritivos;
 
     @OneToMany(mappedBy = "categoria")
     @JsonIgnoreProperties("categoria")
