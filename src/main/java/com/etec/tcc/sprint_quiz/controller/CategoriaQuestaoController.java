@@ -27,7 +27,7 @@ public class CategoriaQuestaoController {
 
     @GetMapping("/descritivo/{descritivo}")
     public ResponseEntity<CategoriaQuestao> getByDescritivo(@PathVariable("descritivo") String descritivo){
-        return categoriaQuestaoRepository.findByDescritivoContainingIgnoreCase(descritivo)
+        return categoriaQuestaoRepository.findByDescritivosContainingIgnoreCase(descritivo)
                 .map(categoria -> ResponseEntity.ok(categoria))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }

@@ -1,7 +1,6 @@
 package com.etec.tcc.sprint_quiz.repository;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
-import com.etec.tcc.sprint_quiz.model.Questao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,5 +15,5 @@ public interface CategoriaQuestaoRepository extends JpaRepository<CategoriaQuest
 
     List<CategoriaQuestao> findAllByTituloContainingIgnoreCase(@Param("titulo") String titulo);
 
-    Optional<CategoriaQuestao> findByDescritivoContainingIgnoreCase(@Param("descritivo") String descritivo);
+    Optional<CategoriaQuestao> findByDescritivosContainingIgnoreCase(@Param("descritivo") String descritivo);
 }
