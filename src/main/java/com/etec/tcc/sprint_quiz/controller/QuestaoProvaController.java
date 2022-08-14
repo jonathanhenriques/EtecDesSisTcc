@@ -5,6 +5,7 @@ import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.service.QuestaoProvaService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +27,13 @@ public class QuestaoProvaController {
     @Autowired
     private ProvaRepository provaRepository;
 
+    @Operation(summary = "Obtem todas as questoesProva")
     @GetMapping
     public ResponseEntity<List<QuestaoProva>> findAll() {
         return ResponseEntity.ok(questaoProvaRepository.findAll());
     }
 
+    @Operation(summary = "Cadastra uma questaoProva")
     @PostMapping("/provaid/{id}")
     public ResponseEntity<QuestaoProva> postQuestaoProva(@RequestBody QuestaoProva questaoProva,
                                                          @PathVariable("id") Long id) {

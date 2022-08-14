@@ -4,6 +4,7 @@ import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.UsuarioLogin;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,25 +27,26 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Operation(summary = "Obtem usuario pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Long id){
         return usuarioRepository.findById(id)
                 .map(u -> ResponseEntity.ok(u))
                 .orElse(ResponseEntity.notFound().build());
     }
-
+    @Operation(summary = "Obtem usuario pelo email")
     @GetMapping("/email/{usuario}")
     public ResponseEntity<Usuario> findByNome(@PathVariable String usuario){
         return usuarioRepository.findByUsuario(usuario)
                 .map(u -> ResponseEntity.ok(u))
                 .orElse(ResponseEntity.notFound().build());
     }
-
+    @Operation(summary = "Obtem usuario pelo nome exato")
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<Usuario>> findAllByNome(@PathVariable String nome){
         return ResponseEntity.ok(usuarioRepository.findAllByNomeContainingIgnoreCase(nome));
     }
-
+    @Operation(summary = "Obtem todos os usuario")
     @GetMapping("/todos")
     public ResponseEntity<List<Usuario>> findAll(){
         return ResponseEntity.ok(usuarioRepository.findAll());
@@ -67,7 +69,7 @@ public class UsuarioController {
 //    }
 
 
-
+    @Operation(summary = "Logar um usuario")
     @PostMapping("/logar")
     public ResponseEntity<UsuarioLogin> logar(@RequestBody Optional<UsuarioLogin> usuarioLogin){
         return usuarioService.autenticarUsuario(usuarioLogin)
@@ -75,7 +77,7 @@ public class UsuarioController {
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
-
+    @Operation(summary = "Cadastrar um usuario")
     @PostMapping("/cadastrar")
     public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody  Usuario usuario){
         return usuarioService.cadastrarUsuario(usuario)
@@ -83,7 +85,7 @@ public class UsuarioController {
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
-
+    @Operation(summary = "Atualizar um usuario")
     @PutMapping("/atualizar")
     public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
         return usuarioService.atualizarUsuario(usuario)

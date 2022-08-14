@@ -7,6 +7,7 @@ import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.service.ProvaService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,22 +31,26 @@ public class ProvaController {
     private CategoriaProvaRepository categoriaProvaRepository;
 
 
+    @Operation(summary = "Obtem todas as provas pelo nome exato da prova")
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<Prova>> findByNome(@PathVariable String nome) {
         return ResponseEntity.ok(provaRepository.findAllByNome(nome));
     }
 
+    @Operation(summary = "Obtem todas as provas por descricao da prova")
     @GetMapping("/descricao/{descricao}")
     public ResponseEntity<List<Prova>> findByDescricao(@PathVariable String descricao) {
         return ResponseEntity.ok(provaRepository.findAllByDescricao(descricao));
     }
 
 
+    @Operation(summary = "Obtem todas as provas")
     @GetMapping
     public ResponseEntity<List<Prova>> findAll() {
         return ResponseEntity.ok(provaRepository.findAll());
     }
 
+    @Operation(summary = "Cadastra uma prova")
     @PostMapping
     public ResponseEntity<Prova> postProva(@RequestBody Prova prova) {
         return provaService.postProva(prova);
@@ -58,6 +63,7 @@ public class ProvaController {
 //
 //    }
 
+    @Operation(summary = "Deleta uma prova")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProva(@PathVariable Long id){
         return provaRepository.findById(id)
