@@ -1,12 +1,16 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.*;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class ProvaServiceImp implements ProvaService {
@@ -26,6 +30,12 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private QuestaoRepository questaoRepository;
 
+    @Override
+    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id){
+        return provaRepository.findById(id)
+                .map(p -> ResponseEntity.ok(p))
+                .orElseThrow(() -> new RegraNegocioException("Prova não encontrada! Verifique a identificação"));
+    }
 
     @Override
     @Transactional

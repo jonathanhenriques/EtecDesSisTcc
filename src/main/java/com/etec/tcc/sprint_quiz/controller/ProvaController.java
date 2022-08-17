@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
@@ -30,6 +31,11 @@ public class ProvaController {
     @Autowired
     private CategoriaProvaRepository categoriaProvaRepository;
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtem uma prova pelo seu id")
+    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id){
+        return provaService.getByIdProva(id);
+    }
 
     @Operation(summary = "Obtem todas as provas pelo nome exato da prova")
     @GetMapping("/nome/{nome}")

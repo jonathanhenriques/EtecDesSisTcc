@@ -35,6 +35,8 @@ public class Questao {
 //    @UpdateTimestamp
     private LocalDate ano;
 
+//    private String imagem;
+
     @NotBlank(message = "O atributo texto não pode ser nullo nem vazio!")
     @Size(min = 1, max = 1000)
     private String texto;
