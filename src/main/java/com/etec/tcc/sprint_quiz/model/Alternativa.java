@@ -24,7 +24,7 @@ public class Alternativa {
     @NotNull(message = "O atributo opcao_1 não pode ser nullo")
     @Size(max = 1000)
 //    @Schema(name = "Onde está wally?")
-    private String alternativa;
+    private String texto;
 
 //    @Schema(name = "https://imgur.com/9q3tXhG")
     private String foto;
