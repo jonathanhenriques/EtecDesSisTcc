@@ -35,37 +35,37 @@ public class Questao {
 //    @UpdateTimestamp
     private LocalDate ano;
 
-//    private String imagem;
+    private String imagem;
 
     @NotBlank(message = "O atributo texto não pode ser nullo nem vazio!")
     @Size(min = 1, max = 1000)
     private String texto;
 
-    @NotNull(message = "O atributo opcao_1 não pode ser nullo")
-    @Size(max = 1000)
+//    @NotNull(message = "O atributo opcao_1 não pode ser nullo")
+//    @Size(max = 1000)
     private String opcao_1;
 
-    @NotNull(message = "O atributo opcao_2 não pode ser nullo")
-    @Size(max = 1000)
+//    @NotNull(message = "O atributo opcao_2 não pode ser nullo")
+//    @Size(max = 1000)
     private String opcao_2;
 
-    @NotNull(message = "O atributo opcao_3 não pode ser nullo")
-    @Size(max = 1000)
+//    @NotNull(message = "O atributo opcao_3 não pode ser nullo")
+//    @Size(max = 1000)
     private String opcao_3;
 
-    @NotNull(message = "O atributo opcao_4 não pode ser nullo")
-    @Size(max = 1000)
+//    @NotNull(message = "O atributo opcao_4 não pode ser nullo")
+//    @Size(max = 1000)
     private String opcao_4;
 
-    @NotNull(message = "O atributo opcao_5 não pode ser nullo")
-    @Size(max = 1000)
+//    @NotNull(message = "O atributo opcao_5 não pode ser nullo")
+//    @Size(max = 1000)
     private String opcao_5;
 
 //    private Alternativas alternativas;
 
-//    @OneToMany
-//    @JsonIgnoreProperties()
-//    private List<Alternativa> alternativas;
+    @OneToMany
+    @JsonIgnoreProperties()
+    private List<Alternativa> alternativas;
 
 
     @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
