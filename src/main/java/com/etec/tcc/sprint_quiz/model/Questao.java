@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 //@Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "tb_questao")
 public class Questao {
@@ -89,6 +89,29 @@ public class Questao {
     @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
     private Usuario criador;
 
+
+    public Questao(Long id, String instituicao, LocalDate ano, String imagem, String texto, String opcao_1, String opcao_2,
+                   String opcao_3, String opcao_4, String opcao_5, List<Alternativa> alternativas, String resposta,
+                   CategoriaQuestao categoria, Usuario criador) {
+        this.id = id;
+        this.instituicao = instituicao;
+        this.ano = ano;
+        this.imagem = imagem;
+        this.texto = texto;
+        this.opcao_1 = opcao_1;
+        this.opcao_2 = opcao_2;
+        this.opcao_3 = opcao_3;
+        this.opcao_4 = opcao_4;
+        this.opcao_5 = opcao_5;
+        this.alternativas = alternativas;
+        this.resposta = resposta;
+        this.categoria = categoria;
+        this.criador = criador;
+    }
+
+    public Questao() {
+
+    }
 
     public Long getId() {
         return id;
