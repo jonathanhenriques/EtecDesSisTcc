@@ -68,8 +68,8 @@ public class Questao {
     private List<Alternativa> alternativas;
 
 
-    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
-    @Size(max = 1)
+//    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
+//    @Size(max = 1)
     private String resposta;
 
 
