@@ -34,7 +34,7 @@ public class CategoriaQuestao {
     @NotBlank(message = "O atributo descricao não deve ser nullo!")
     @Size(max = 1000, message = "No máximo 1000 caracteres")
 //    @Schema(name = "Questões de Matemática")
-    private String descritivos;
+    private String descricao;
 
 
 //    @NotNull(message = "O atributo descricao não deve ser nullo!")
