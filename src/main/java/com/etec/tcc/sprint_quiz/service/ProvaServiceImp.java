@@ -1,5 +1,7 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.*;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 
 @Service
 public class ProvaServiceImp implements ProvaService {
@@ -34,14 +39,38 @@ public class ProvaServiceImp implements ProvaService {
     public ResponseEntity<Prova> getByIdProva(@PathVariable Long id){
         return provaRepository.findById(id)
                 .map(p -> ResponseEntity.ok(p))
-                .orElseThrow(() -> new RegraNegocioException("Prova não encontrada! Verifique a identificação"));
+                .orElseThrow(() -> new ProvaNotFoundException());
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<Prova> postProva(Prova prova) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(provaRepository.save(prova));
+//    @Transactional
+    public ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova) {
+        return categoriaProvaRepository.findById(prova.getCategoria().getId())
+                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+                .orElseThrow(() -> new CategoriaProvaNotFoundException());
     }
+
+    @Override
+    public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){
+//        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
+//            return ResponseEntity.ok(provaRepository.save(prova));
+//
+//        throw new RegraNegocioException("Categoria não encontrada! | id:" + prova.getCategoria().getId());
+
+        return categoriaProvaRepository.findById(prova.getCategoria().getId())
+                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+                .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    }
+
+
+    public ResponseEntity<?> deleteProva(@PathVariable Long id) {
+        return provaRepository.findById(id)
+                .map(p -> {
+                    provaRepository.delete(p);
+                    return ResponseEntity.noContent().build();
+                }).orElseThrow(() -> new ProvaNotFoundException());
+    }
+
 
 //    private List<QuestaoProva> converterLista(List<QuestaoProvaDTO> lista, Prova prova) {
 ////        if (lista.isEmpty())

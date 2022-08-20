@@ -1,24 +1,26 @@
 package com.etec.tcc.sprint_quiz.service;
 
-//import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
-import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestaoServiceImp implements QuestaoService {
@@ -35,11 +37,55 @@ public class QuestaoServiceImp implements QuestaoService {
     @Autowired
     private AlternativaRepository alternativaRepository;
 
+
+    @GetMapping
+    public ResponseEntity<List<Questao>> getAll() {
+        return ResponseEntity.ok(questaoRepository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Questao> getById(@PathVariable Long id) {
+        return questaoRepository.findById(id)
+                .map(q -> ResponseEntity.ok(q))
+                .orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
+    }
+
+    @GetMapping("/texto/{texto}")
+    public ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto) {
+        return ResponseEntity.ok(questaoRepository.findAllByTextoContainingIgnoreCase(texto));
+    }
+
+    @GetMapping("/instituicao/{instituicao}")
+    public ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao) {
+        return ResponseEntity.ok(questaoRepository.findAllByInstituicaoContainingIgnoreCase(instituicao));
+    }
+
+    @GetMapping("/ano/{ano}")
+    public ResponseEntity<List<Questao>> findAllByAno(@PathVariable
+                                                      @DateTimeFormat(
+                                                              iso = DateTimeFormat.ISO.DATE)
+                                                              LocalDate ano) {
+        return ResponseEntity.ok(questaoRepository.findAllByAno(ano));
+    }
+
+    @GetMapping("/ano/entre/{anoInicial}/{anoFinal}")
+    public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
+        return ResponseEntity.ok(questaoRepository.findAllByAnoBetween(anoInicial, anoFinal));
+    }
+
+    @GetMapping("/ano/antes/{ano}")
+    public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano) {
+        return ResponseEntity.ok(questaoRepository.findAllByAnoBefore(ano));
+    }
+
+
     @Override
-    public ResponseEntity<Questao> postQuestao(Questao questao) {
-        if(categoriaQuestaoRepository.existsById(questao.getCategoria().getId()))
-            return ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao));
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao) {
+        return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
+                .map(c ->
+                        ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao))
+                ).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException(questao.getCategoria().getId().toString()));
+
 
     }
 
@@ -47,14 +93,15 @@ public class QuestaoServiceImp implements QuestaoService {
     public ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao) {
         return questaoRepository.findById(questao.getId())
                 .map(q -> ResponseEntity.ok(questaoRepository.save(questao)))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+                .orElseThrow(() -> new QuestaoNotFoundException(questao.getId().toString()));
     }
 
-
-
-
-
-
+    @Override
+    public ResponseEntity<?> deleteQuestao(@PathVariable Long id) {
+        return questaoRepository.findById(id)
+                .map(q -> ResponseEntity.notFound().build())
+                .orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
+    }
 
 
 //    @Override
@@ -97,13 +144,6 @@ public class QuestaoServiceImp implements QuestaoService {
 //
 //
 //    }
-
-
-
-
-
-
-
 
 
 //    public Questao converterParaQuestao(QuestaoDTO dto) {

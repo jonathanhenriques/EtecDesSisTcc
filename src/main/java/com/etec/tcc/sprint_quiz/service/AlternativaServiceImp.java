@@ -1,5 +1,7 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -35,12 +38,14 @@ public class AlternativaServiceImp implements  AlternativaService{
     public ResponseEntity<Alternativa> findById(@PathVariable Long id){
         return alternativaRepository.findById(id)
                 .map(alternativa -> ResponseEntity.ok(alternativa))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
     }
 
     @Override
-    public ResponseEntity<List<Alternativa>> postListaAlternativa(List<Alternativa> alternativas) {
-//        if(alternativaRepository.existsById(alternativa.getQuestao().getId())){
+    public ResponseEntity<List<Alternativa>> postListaAlternativa(
+//            @Valid
+//            @RequestBody
+                    List<Alternativa> alternativas) {
             Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
                     .orElseThrow(() -> new RegraNegocioException("Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
 
@@ -53,13 +58,24 @@ public class AlternativaServiceImp implements  AlternativaService{
 //            questao.getAlternativas().add(alternativas);
             questaoService.putQuestao(questao);
             return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
-//        }
     }
 
     @Override
-    public ResponseEntity<Alternativa> postAlternativa(@RequestBody Alternativa alternativa){
+    public ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa){
         Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
-                .orElseThrow(() -> new RegraNegocioException("Questão não encontrada | id:" + alternativa.getQuestao().getId()));
+                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(alternativaRepository.save(alternativa));
+    }
+
+    @Override
+    public ResponseEntity<Alternativa> putAlternativa(@Valid @RequestBody Alternativa alternativa){
+        alternativaRepository.findById(alternativa.getId())
+                .orElseThrow(() -> new AlternativaNotFoundException(alternativa.getId().toString()));
+
+        Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
+                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
+
         return  ResponseEntity.status(HttpStatus.CREATED).body(alternativaRepository.save(alternativa));
     }
 
@@ -69,7 +85,7 @@ public class AlternativaServiceImp implements  AlternativaService{
                 .map(alternativa -> {
                     alternativaRepository.delete(alternativa);
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-                }).orElse(ResponseEntity.notFound().build());
+                }).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
     }
 
 }

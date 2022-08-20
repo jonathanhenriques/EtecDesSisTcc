@@ -46,22 +46,11 @@ public class UsuarioService {
 
 
 
-    public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-        return atualizarUsuario(usuario)
-                .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
 
 
 
-    public ResponseEntity<?> deleteUsuario(@PathVariable Long id){
-        return usuarioRepository.findById(id)
-                .map(u -> {
-                    usuarioRepository.delete(u);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
+
+
 
 
 

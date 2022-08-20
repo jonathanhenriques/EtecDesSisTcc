@@ -1,9 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
 import com.etec.tcc.sprint_quiz.ApiErrors;
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
-import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,5 +28,20 @@ public class ApplicationControllerAdvice {
     public ApiErrors handleProvaNotFoundException(ProvaNotFoundException ex) {
         return new ApiErrors(ex.getMessage());
     }
+
+    @ExceptionHandler(QuestaoNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handleQuestaoNotFoundException(QuestaoNotFoundException ex) {
+        return new ApiErrors(ex.getMessage());
+    }
+
+    @ExceptionHandler(AlternativaNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handleAlternativaNotFoundException(AlternativaNotFoundException ex) {
+        return new ApiErrors(ex.getMessage());
+    }
+
+
+
 
 }

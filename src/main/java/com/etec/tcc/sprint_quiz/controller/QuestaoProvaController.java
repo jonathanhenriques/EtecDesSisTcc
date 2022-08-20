@@ -35,10 +35,7 @@ public class QuestaoProvaController {
 
     @Operation(summary = "Cadastra uma questaoProva")
     @PostMapping("/provaid/{id}")
-    public ResponseEntity<QuestaoProva> postQuestaoProva(@RequestBody QuestaoProva questaoProva,
-                                                         @PathVariable("id") Long id) {
-        questaoProva.setProva((provaRepository.findById(id).get()));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(questaoProvaService.postQuestaoProva(questaoProva));
+    public ResponseEntity<QuestaoProva> postQuestaoProva(@RequestBody QuestaoProva questaoProva, @PathVariable("id") Long id) {
+        return questaoProvaService.postQuestaoProva(questaoProva, id);
     }
 }
