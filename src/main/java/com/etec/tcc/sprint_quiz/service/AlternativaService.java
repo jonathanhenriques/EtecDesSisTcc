@@ -14,10 +14,7 @@ public interface AlternativaService {
 
      ResponseEntity<Alternativa> findById(@PathVariable Long id);
 
-     ResponseEntity<List<Alternativa>> postListaAlternativa(
-//             @Valid
-//             @RequestBody
-                     List<Alternativa> alternativas);
+     ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas);
 
      ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa);
 

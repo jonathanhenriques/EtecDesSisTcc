@@ -49,11 +49,11 @@ public class Questao {
 
     //    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
-//    @ManyToOne()
-//    @JoinColumn(name = "resposta_alternativa_id")
-//    private Alternativa resposta;
+    @ManyToOne()
+    @JoinColumn(name = "resposta_alternativa_id")
+    private Alternativa resposta;
 
-    private String resposta;
+//    private String resposta;
 
 
     @ManyToOne

@@ -42,10 +42,7 @@ public class AlternativaServiceImp implements  AlternativaService{
     }
 
     @Override
-    public ResponseEntity<List<Alternativa>> postListaAlternativa(
-//            @Valid
-//            @RequestBody
-                    List<Alternativa> alternativas) {
+    public ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas) {
             Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
                     .orElseThrow(() -> new RegraNegocioException("Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
 

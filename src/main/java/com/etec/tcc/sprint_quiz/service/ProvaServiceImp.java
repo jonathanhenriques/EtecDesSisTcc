@@ -2,16 +2,11 @@ package com.etec.tcc.sprint_quiz.service;
 
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.*;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -36,7 +31,7 @@ public class ProvaServiceImp implements ProvaService {
     private QuestaoRepository questaoRepository;
 
     @Override
-    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id){
+    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
         return provaRepository.findById(id)
                 .map(p -> ResponseEntity.ok(p))
                 .orElseThrow(() -> new ProvaNotFoundException());
@@ -51,7 +46,7 @@ public class ProvaServiceImp implements ProvaService {
     }
 
     @Override
-    public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){
+    public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova) {
 //        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
 //            return ResponseEntity.ok(provaRepository.save(prova));
 //

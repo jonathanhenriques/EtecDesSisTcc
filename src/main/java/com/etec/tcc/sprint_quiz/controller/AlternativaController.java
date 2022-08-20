@@ -43,9 +43,7 @@ public class AlternativaController {
 
     @Operation(summary = "cria várias alternativas")
     @PostMapping("/listaAlternativas")
-    public ResponseEntity<List<Alternativa>> postListaAlternativa(
-//            @RequestBody
-            List<Alternativa> alternativas) {
+    public ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas) {
         return alternativaService.postListaAlternativa(alternativas);
     }
 
