@@ -14,9 +14,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_questao")
 public class Questao {
@@ -41,28 +41,6 @@ public class Questao {
     @Size(min = 1, max = 1000)
     private String texto;
 
-//    @NotNull(message = "O atributo opcao_1 não pode ser nullo")
-//    @Size(max = 1000)
-    private String opcao_1;
-
-//    @NotNull(message = "O atributo opcao_2 não pode ser nullo")
-//    @Size(max = 1000)
-    private String opcao_2;
-
-//    @NotNull(message = "O atributo opcao_3 não pode ser nullo")
-//    @Size(max = 1000)
-    private String opcao_3;
-
-//    @NotNull(message = "O atributo opcao_4 não pode ser nullo")
-//    @Size(max = 1000)
-    private String opcao_4;
-
-//    @NotNull(message = "O atributo opcao_5 não pode ser nullo")
-//    @Size(max = 1000)
-    private String opcao_5;
-
-//    private Alternativas alternativas;
-
     @OneToMany
     @JsonIgnoreProperties()
     private List<Alternativa> alternativas;
@@ -71,11 +49,6 @@ public class Questao {
 //    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
     private String resposta;
-
-
-//    @NotNull(message = "O atributo resposta não pode ser nullo!")
-//    @Positive
-//    private int resposta;
 
 
     @ManyToOne
@@ -90,138 +63,25 @@ public class Questao {
     private Usuario criador;
 
 
-    public Questao(Long id, String instituicao, LocalDate ano, String imagem, String texto, String opcao_1, String opcao_2,
-                   String opcao_3, String opcao_4, String opcao_5, List<Alternativa> alternativas, String resposta,
-                   CategoriaQuestao categoria, Usuario criador) {
-        this.id = id;
-        this.instituicao = instituicao;
-        this.ano = ano;
-        this.imagem = imagem;
-        this.texto = texto;
-        this.opcao_1 = opcao_1;
-        this.opcao_2 = opcao_2;
-        this.opcao_3 = opcao_3;
-        this.opcao_4 = opcao_4;
-        this.opcao_5 = opcao_5;
-        this.alternativas = alternativas;
-        this.resposta = resposta;
-        this.categoria = categoria;
-        this.criador = criador;
-    }
+//    public Questao(Long id, String instituicao, LocalDate ano, String imagem, String texto,
+//                   List<Alternativa> alternativas, String resposta,
+//                   CategoriaQuestao categoria, Usuario criador) {
+//        this.id = id;
+//        this.instituicao = instituicao;
+//        this.ano = ano;
+//        this.imagem = imagem;
+//        this.texto = texto;
+//        this.alternativas = alternativas;
+//        this.resposta = resposta;
+//        this.categoria = categoria;
+//        this.criador = criador;
+//    }
+//
+//    public Questao() {
+//
+//    }
 
-    public Questao() {
 
-    }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getInstituicao() {
-        return instituicao;
-    }
-
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
-    }
-
-    public LocalDate getAno() {
-        return ano;
-    }
-
-    public void setAno(LocalDate ano) {
-        this.ano = ano;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    public String getOpcao_1() {
-        return opcao_1;
-    }
-
-    public void setOpcao_1(String opcao_1) {
-        this.opcao_1 = opcao_1;
-    }
-
-    public String getOpcao_2() {
-        return opcao_2;
-    }
-
-    public void setOpcao_2(String opcao_2) {
-        this.opcao_2 = opcao_2;
-    }
-
-    public String getOpcao_3() {
-        return opcao_3;
-    }
-
-    public void setOpcao_3(String opcao_3) {
-        this.opcao_3 = opcao_3;
-    }
-
-    public String getOpcao_4() {
-        return opcao_4;
-    }
-
-    public void setOpcao_4(String opcao_4) {
-        this.opcao_4 = opcao_4;
-    }
-
-    public String getOpcao_5() {
-        return opcao_5;
-    }
-
-    public void setOpcao_5(String opcao_5) {
-        this.opcao_5 = opcao_5;
-    }
-
-    public List<Alternativa> getAlternativas() {
-        return alternativas;
-    }
-
-    public void setAlternativas(List<Alternativa> alternativas) {
-        this.alternativas = alternativas;
-    }
-
-    public String getResposta() {
-        return resposta;
-    }
-
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
-
-    public CategoriaQuestao getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(CategoriaQuestao categoria) {
-        this.categoria = categoria;
-    }
-
-    public Usuario getCriador() {
-        return criador;
-    }
-
-    public void setCriador(Usuario criador) {
-        this.criador = criador;
-    }
 }
