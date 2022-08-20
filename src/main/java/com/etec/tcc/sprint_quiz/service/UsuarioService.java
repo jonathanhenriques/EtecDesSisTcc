@@ -9,9 +9,14 @@ import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 
 /**
  *  A Classe UsuarioService implementa as regras de negócio do Recurso Usuario.
@@ -38,6 +43,28 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+
+
+    public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
+        return atualizarUsuario(usuario)
+                .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
+
+    public ResponseEntity<?> deleteUsuario(@PathVariable Long id){
+        return usuarioRepository.findById(id)
+                .map(u -> {
+                    usuarioRepository.delete(u);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
+
 
     /**
      *  Cadastrar Usuário

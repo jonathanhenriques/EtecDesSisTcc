@@ -88,19 +88,13 @@ public class UsuarioController {
     @Operation(summary = "Atualizar um usuario")
     @PutMapping("/atualizar")
     public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-        return usuarioService.atualizarUsuario(usuario)
-                .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return usuarioService.putUsuario(usuario);
     }
 
+    @Operation(summary = "deleta um usuário")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Long id){
-        return usuarioRepository.findById(id)
-                .map(u -> {
-                    usuarioRepository.delete(u);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return usuarioService.deleteUsuario(id);
     }
 
 

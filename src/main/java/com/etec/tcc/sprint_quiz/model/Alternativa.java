@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
 //import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,8 @@ public class Alternativa {
     private String foto;
 
     @ManyToOne
-    @JoinColumn(name = "questao_id")
+//    @JoinColumn(name = "questao_id")
+    @JsonIgnoreProperties("alternativas")
     private Questao questao;
 
 

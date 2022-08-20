@@ -9,4 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface QuestaoService {
 
     ResponseEntity<Questao> postQuestao(@RequestBody Questao dto);
+
+    ResponseEntity<Questao> putQuestao(@RequestBody Questao dto);
+
+//    ResponseEntity<Questao> salvarQuestao(@RequestBody Questao questao);
+
+
 }

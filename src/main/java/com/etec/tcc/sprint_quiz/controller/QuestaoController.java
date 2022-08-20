@@ -74,6 +74,13 @@ public class QuestaoController {
         return ResponseEntity.ok(questaoRepository.findAllByAnoBefore(ano));
     }
 
+//    @PostMapping("/salvarQuestao")
+//    public ResponseEntity<Questao> salvarQuestao(@RequestBody Questao questao){
+//        return questaoService.salvarQuestao(questao);
+//    }
+
+
+
     @Operation(summary = "Cadastra uma questao")
     @PostMapping
     public ResponseEntity<Questao> postQuestao( @RequestBody
@@ -86,9 +93,7 @@ public class QuestaoController {
     @Operation(summary = "Atualiza uma questao")
     @PutMapping
     public ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao) {
-        return questaoRepository.findById(questao.getId())
-                .map(q -> ResponseEntity.ok(questaoRepository.save(questao)))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+       return questaoService.putQuestao(questao);
     }
 
     @Operation(summary = "Deleta uma questao")

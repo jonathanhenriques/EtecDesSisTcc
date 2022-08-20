@@ -42,13 +42,17 @@ public class Questao {
     @Size(min = 1, max = 1000)
     private String texto;
 
-    @OneToMany
+    @OneToMany(mappedBy = "questao", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("questao")
     private List<Alternativa> alternativas;
 
 
-//    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
+    //    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
+//    @ManyToOne()
+//    @JoinColumn(name = "resposta_alternativa_id")
+//    private Alternativa resposta;
+
     private String resposta;
 
 
@@ -64,27 +68,6 @@ public class Questao {
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
     @JsonIgnoreProperties("questoes")
     private Usuario criador;
-
-
-//    public Questao(Long id, String instituicao, LocalDate ano, String imagem, String texto,
-//                   List<Alternativa> alternativas, String resposta,
-//                   CategoriaQuestao categoria, Usuario criador) {
-//        this.id = id;
-//        this.instituicao = instituicao;
-//        this.ano = ano;
-//        this.imagem = imagem;
-//        this.texto = texto;
-//        this.alternativas = alternativas;
-//        this.resposta = resposta;
-//        this.categoria = categoria;
-//        this.criador = criador;
-//    }
-//
-//    public Questao() {
-//
-//    }
-
-
 
 
 }
