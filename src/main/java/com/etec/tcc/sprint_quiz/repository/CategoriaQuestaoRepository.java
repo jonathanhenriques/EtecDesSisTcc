@@ -15,5 +15,5 @@ public interface CategoriaQuestaoRepository extends JpaRepository<CategoriaQuest
 
     List<CategoriaQuestao> findAllByTituloContainingIgnoreCase(@Param("titulo") String titulo);
 
-    Optional<CategoriaQuestao> findByDescritivosContainingIgnoreCase(@Param("descritivo") String descritivo);
+    Optional<CategoriaQuestao> findByDescricaoContainingIgnoreCase(@Param("descricao") String descricao);
 }
