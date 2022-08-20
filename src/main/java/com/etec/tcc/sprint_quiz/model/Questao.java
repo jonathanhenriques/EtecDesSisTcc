@@ -33,6 +33,7 @@ public class Questao {
 //    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @CreationTimestamp
 //    @UpdateTimestamp
+
     private LocalDate ano;
 
     private String imagem;
@@ -42,7 +43,7 @@ public class Questao {
     private String texto;
 
     @OneToMany
-    @JsonIgnoreProperties()
+//    @JsonIgnoreProperties()
     private List<Alternativa> alternativas;
 
 
@@ -53,13 +54,13 @@ public class Questao {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"descritivo", "questoes"})
+//    @JsonIgnoreProperties({"descritivo", "questoes"})
     private CategoriaQuestao categoria;
 
 
     @ManyToOne
     @JoinColumn(name = "criador_id")
-    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
+//    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
     private Usuario criador;
 
 
