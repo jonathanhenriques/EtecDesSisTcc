@@ -43,7 +43,7 @@ public class Questao {
     private String texto;
 
     @OneToMany
-//    @JsonIgnoreProperties()
+    @JsonIgnoreProperties("questao")
     private List<Alternativa> alternativas;
 
 
@@ -55,12 +55,14 @@ public class Questao {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
 //    @JsonIgnoreProperties({"descritivo", "questoes"})
+    @JsonIgnoreProperties("questoes")
     private CategoriaQuestao categoria;
 
 
     @ManyToOne
     @JoinColumn(name = "criador_id")
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
+    @JsonIgnoreProperties("questoes")
     private Usuario criador;
 
 
