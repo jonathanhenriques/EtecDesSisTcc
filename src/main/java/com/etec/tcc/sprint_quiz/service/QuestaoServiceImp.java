@@ -3,6 +3,7 @@ package com.etec.tcc.sprint_quiz.service;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
@@ -11,17 +12,22 @@ import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestaoServiceImp implements QuestaoService {
@@ -37,6 +43,12 @@ public class QuestaoServiceImp implements QuestaoService {
 
     @Autowired
     private AlternativaRepository alternativaRepository;
+
+    @Autowired
+    @Lazy
+    private AlternativaService alternativaService;
+
+
 
 
     @GetMapping
@@ -92,6 +104,23 @@ public class QuestaoServiceImp implements QuestaoService {
         throw new UsuarioNotFoundException(questao.getCriador().getId().toString());
 
     }
+//está atualizando ao invés de criar
+//    @Transactional
+//    public ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao) {
+//        List<Alternativa> alternativas = questao.getAlternativas();
+//        questao.setAlternativas(new ArrayList<Alternativa>());
+//        postQuestao(questao);
+//
+//        List<Alternativa> listaAlternativasComQuestao = alternativas.stream().map(a -> {
+//            a.setQuestao(questao);
+//            return a;
+//        }).collect(Collectors.toList());
+//
+//        alternativaService.postListaAlternativaSemQuestaoSalva(listaAlternativasComQuestao);
+//
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(questao);
+//    }
 
     @Override
     public ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao) {

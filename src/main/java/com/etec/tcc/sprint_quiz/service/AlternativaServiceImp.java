@@ -57,6 +57,19 @@ public class AlternativaServiceImp implements  AlternativaService{
             return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
     }
 
+//    public ResponseEntity<List<Alternativa>> postListaAlternativaSemQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas) {
+//        Questao questao = alternativas.get(0).getQuestao();
+//
+//        alternativas.forEach(a -> {
+//            questao.getAlternativas().add(a);
+//        });
+//
+//        alternativaRepository.saveAll(alternativas);
+//
+//        questaoService.putQuestao(questao);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
+//    }
+
     @Override
     public ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa){
         Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())

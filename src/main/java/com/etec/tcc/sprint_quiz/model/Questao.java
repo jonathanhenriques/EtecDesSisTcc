@@ -26,14 +26,13 @@ public class Questao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "O atributo instituicao não pode ser nullo")
+    //    @NotNull(message = "O atributo instituicao não pode ser nullo")
     private String instituicao;
 
     //    @Temporal(TemporalType.DATE)
 //    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @CreationTimestamp
 //    @UpdateTimestamp
-
     private LocalDate ano;
 
     private String imagem;

@@ -16,6 +16,8 @@ public interface AlternativaService {
 
      ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas);
 
+//     ResponseEntity<List<Alternativa>> postListaAlternativaSemQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas);
+
      ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa);
 
      ResponseEntity<Alternativa> putAlternativa(@Valid @RequestBody Alternativa alternativa);
