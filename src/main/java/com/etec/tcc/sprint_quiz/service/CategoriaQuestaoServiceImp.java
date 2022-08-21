@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
@@ -29,10 +30,14 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     }
 
     @Override
-    public ResponseEntity<CategoriaQuestao> getByDescricao(@PathVariable("descricao") String descricao){
-        return categoriaQuestaoRepository.findByDescricaoContainingIgnoreCase(descricao)
-                .map(categoria -> ResponseEntity.ok(categoria))
-                .orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("descricao:" + descricao));
+    public ResponseEntity<List<CategoriaQuestao>> getByTitutlo(@PathVariable("titulo") String titulo){
+        return ResponseEntity.ok(categoriaQuestaoRepository.findAllByTituloContainingIgnoreCase(titulo));
+
+    }
+
+    @Override
+    public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
+        return ResponseEntity.ok(categoriaQuestaoRepository.findByDescricaoContainingIgnoreCase(descricao));
     }
 
     @Override
@@ -48,7 +53,6 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     }
 
     @Override
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id){
         return categoriaQuestaoRepository.findById(id)
                 .map(c -> {

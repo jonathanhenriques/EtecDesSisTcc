@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface ProvaRepository extends JpaRepository<Prova, Long> {
 
-    List<Prova> findAllByNome(@Param("nome") String nome);
+    List<Prova> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 
-    List<Prova> findAllByDescricao(@Param("descricao") String descricao);
+    List<Prova> findAllByDescricaoContainingIgnoreCase(@Param("descricao") String descricao);
 
 
 

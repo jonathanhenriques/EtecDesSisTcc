@@ -32,7 +32,7 @@ public class CategoriaQuestaoController {
 
     @Operation(summary = "Obtem categorias pela descricao da categoria")
     @GetMapping("/descricao/{descricao}")
-    public ResponseEntity<CategoriaQuestao> getByDescricao(@PathVariable("descricao") String descricao){
+    public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
         return categoriaQuestaoService.getByDescricao(descricao);
     }
 

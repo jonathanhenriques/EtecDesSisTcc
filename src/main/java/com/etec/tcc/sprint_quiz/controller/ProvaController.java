@@ -29,7 +29,7 @@ public class ProvaController {
     @Operation(summary = "Obtem todas as provas")
     @GetMapping
     public ResponseEntity<List<Prova>> getAll() {
-        return ResponseEntity.ok(provaRepository.findAll());
+        return provaService.getAll();
     }
 
     @GetMapping("/{id}")
@@ -40,14 +40,14 @@ public class ProvaController {
 
     @Operation(summary = "Obtem todas as provas pelo nome exato da prova")
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<Prova>> getByNome(@PathVariable String nome) {
-        return ResponseEntity.ok(provaRepository.findAllByNome(nome));
+    public ResponseEntity<List<Prova>> getAllByNome(@PathVariable String nome) {
+        return provaService.getAllByNome(nome);
     }
 
     @Operation(summary = "Obtem todas as provas por descricao da prova")
     @GetMapping("/descricao/{descricao}")
-    public ResponseEntity<List<Prova>> getByDescricao(@PathVariable String descricao) {
-        return ResponseEntity.ok(provaRepository.findAllByDescricao(descricao));
+    public ResponseEntity<List<Prova>> getAllByDescricao(@PathVariable String descricao) {
+        return provaService.getAllByDescricao(descricao);
     }
 
 

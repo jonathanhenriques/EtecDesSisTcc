@@ -4,13 +4,16 @@ import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.*;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class ProvaServiceImp implements ProvaService {
@@ -30,12 +33,25 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private QuestaoRepository questaoRepository;
 
-    @Override
+
+    public ResponseEntity<List<Prova>> getAll() {
+        return ResponseEntity.ok(provaRepository.findAll());
+    }
+
     public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
         return provaRepository.findById(id)
-                .map(p -> ResponseEntity.ok(p))
-                .orElseThrow(() -> new ProvaNotFoundException());
+                .map(prova -> ResponseEntity.ok(prova))
+                .orElseThrow(() -> new ProvaNotFoundException(id.toString()));
     }
+
+    public ResponseEntity<List<Prova>> getAllByNome(@PathVariable String nome) {
+        return ResponseEntity.ok(provaRepository.findAllByNomeContainingIgnoreCase(nome));
+    }
+
+    public ResponseEntity<List<Prova>> getAllByDescricao(@PathVariable String descricao) {
+        return ResponseEntity.ok(provaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
+    }
+
 
     @Override
 //    @Transactional
