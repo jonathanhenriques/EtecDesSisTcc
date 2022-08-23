@@ -31,6 +31,8 @@ public interface QuestaoService {
 
     ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano);
 
+    ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long criadorId);
+
 
     public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao);
 

@@ -49,31 +49,29 @@ public class QuestaoServiceImp implements QuestaoService {
     private AlternativaService alternativaService;
 
 
-
-
-    @GetMapping
+    @Override
     public ResponseEntity<List<Questao>> getAll() {
         return ResponseEntity.ok(questaoRepository.findAll());
     }
 
-    @GetMapping("/{id}")
+    @Override
     public ResponseEntity<Questao> getById(@PathVariable Long id) {
         return questaoRepository.findById(id)
                 .map(q -> ResponseEntity.ok(q))
                 .orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
     }
 
-    @GetMapping("/texto/{texto}")
+    @Override
     public ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto) {
         return ResponseEntity.ok(questaoRepository.findAllByTextoContainingIgnoreCase(texto));
     }
 
-    @GetMapping("/instituicao/{instituicao}")
+    @Override
     public ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao) {
         return ResponseEntity.ok(questaoRepository.findAllByInstituicaoContainingIgnoreCase(instituicao));
     }
 
-    @GetMapping("/ano/{ano}")
+    @Override
     public ResponseEntity<List<Questao>> findAllByAno(@PathVariable
                                                       @DateTimeFormat(
                                                               iso = DateTimeFormat.ISO.DATE)
@@ -81,14 +79,19 @@ public class QuestaoServiceImp implements QuestaoService {
         return ResponseEntity.ok(questaoRepository.findAllByAno(ano));
     }
 
-    @GetMapping("/ano/entre/{anoInicial}/{anoFinal}")
+    @Override
     public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
         return ResponseEntity.ok(questaoRepository.findAllByAnoBetween(anoInicial, anoFinal));
     }
 
-    @GetMapping("/ano/antes/{ano}")
+    @Override
     public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano) {
         return ResponseEntity.ok(questaoRepository.findAllByAnoBefore(ano));
+    }
+
+    @Override
+    public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long criadorId) {
+        return ResponseEntity.ok(questaoRepository.findAllByCriadorId(criadorId));
     }
 
 

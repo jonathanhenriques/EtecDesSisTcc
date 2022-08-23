@@ -21,4 +21,6 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long> {
 
     List<Questao> findAllByAnoBefore(LocalDate ano);
 
+    List<Questao> findAllByCriadorId(Long criadorId);
+
 }
