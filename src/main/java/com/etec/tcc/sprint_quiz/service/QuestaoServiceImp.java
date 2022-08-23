@@ -135,7 +135,10 @@ public class QuestaoServiceImp implements QuestaoService {
     @Override
     public ResponseEntity<?> deleteQuestao(@PathVariable Long id) {
         return questaoRepository.findById(id)
-                .map(q -> ResponseEntity.notFound().build())
+                .map(q -> {
+                    questaoRepository.delete(q);
+                    return ResponseEntity.noContent().build();
+                })
                 .orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
     }
 
