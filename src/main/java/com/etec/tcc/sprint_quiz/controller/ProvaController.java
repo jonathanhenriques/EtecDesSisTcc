@@ -41,8 +41,8 @@ public class ProvaController {
 
     @Operation(summary = "Obtem todas as provas pelo id do usuario")
     @GetMapping("/criador/{id}")
-    public ResponseEntity<Prova> getByCriadorId(@PathVariable Long id) {
-        return provaService.getByIdProva(id);
+    public ResponseEntity<List<Prova>> getByCriadorId(@PathVariable Long id) {
+        return provaService.getByCriadorId(id);
     }
 
     @Operation(summary = "Obtem todas as provas pelo nome exato da prova")
