@@ -14,6 +14,8 @@ public interface ProvaRepository extends JpaRepository<Prova, Long> {
 
     List<Prova> findAllByDescricaoContainingIgnoreCase(@Param("descricao") String descricao);
 
+    List<Prova> findAllByUsuarioId(Long id);
+
 
 
 

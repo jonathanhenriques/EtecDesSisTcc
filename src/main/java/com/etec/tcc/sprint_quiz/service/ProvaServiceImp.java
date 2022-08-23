@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.service;
 
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +43,12 @@ public class ProvaServiceImp implements ProvaService {
         return provaRepository.findById(id)
                 .map(prova -> ResponseEntity.ok(prova))
                 .orElseThrow(() -> new ProvaNotFoundException(id.toString()));
+    }
+
+    public ResponseEntity<List<Prova>> getByCriadorId(@PathVariable Long id) {
+        return usuarioRepository.findById(id)
+                .map(u -> ResponseEntity.ok(provaRepository.findAllByUsuarioId(id))
+                ).orElseThrow(() -> new UsuarioNotFoundException(id.toString()));
     }
 
     public ResponseEntity<List<Prova>> getAllByNome(@PathVariable String nome) {

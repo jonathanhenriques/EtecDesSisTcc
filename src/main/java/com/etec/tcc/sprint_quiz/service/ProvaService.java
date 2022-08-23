@@ -18,6 +18,8 @@ public interface ProvaService {
 
     ResponseEntity<List<Prova>> getAllByDescricao(@PathVariable String descricao);
 
+    ResponseEntity<List<Prova>> getByCriadorId(@PathVariable Long id);
+
     ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova);
 
     ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova);

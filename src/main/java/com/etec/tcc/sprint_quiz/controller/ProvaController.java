@@ -32,9 +32,16 @@ public class ProvaController {
         return provaService.getAll();
     }
 
-    @GetMapping("/{id}")
+
     @Operation(summary = "Obtem uma prova pelo seu id")
+    @GetMapping("/{id}")
     public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
+        return provaService.getByIdProva(id);
+    }
+
+    @Operation(summary = "Obtem todas as provas pelo id do usuario")
+    @GetMapping("/criador/{id}")
+    public ResponseEntity<Prova> getByCriadorId(@PathVariable Long id) {
         return provaService.getByIdProva(id);
     }
 

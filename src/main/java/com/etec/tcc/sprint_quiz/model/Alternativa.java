@@ -32,7 +32,7 @@ public class Alternativa {
 
     @ManyToOne
 //    @JoinColumn(name = "questao_id")
-//    @JsonIgnoreProperties("alternativas")
+    @JsonIgnoreProperties("alternativas")
     private Questao questao;
 
 
