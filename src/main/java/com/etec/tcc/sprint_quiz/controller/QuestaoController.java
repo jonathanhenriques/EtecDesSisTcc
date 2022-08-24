@@ -73,8 +73,8 @@ public class QuestaoController {
     @Operation(summary = "Obtem questoes pelo id do criador da questão")
     @GetMapping("/criador/{id}")
     public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long id){
-        return questaoService.getQuestoesByCriadorId(id);
-    }
+//        return questaoService.getQuestoesByCriadorId(id);
+        return ResponseEntity.ok(questaoRepository.findAllByCriadorId(id));    }
 
 
     @Operation(summary = "Cadastra uma questao")

@@ -4,6 +4,7 @@ import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
@@ -90,8 +91,10 @@ public class QuestaoServiceImp implements QuestaoService {
     }
 
     @Override
-    public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long criadorId) {
-        return ResponseEntity.ok(questaoRepository.findAllByCriadorId(criadorId));
+    public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long id) {
+        return usuarioRepository.findById(id)
+                .map(u -> ResponseEntity.ok(questaoRepository.findAllByCriadorId(id))
+                ).orElseThrow(() -> new UsuarioNotFoundException(id.toString()));
     }
 
 

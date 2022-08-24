@@ -1,7 +1,8 @@
 USE db_sprintquiz_tcc;
 
 -- criando usuario
-INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'Jonathan2','12345678', 'admin', 'jonathan2@email.com');
+
+#INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'jonathan','$2a$10$aXACsqNAtCRsercQFWJjqOW0T3WNbvJtI.PSnR.DTFGY87qmkQliq', 'admin', 'jonathan@email.com');
 
 -- criando categoria de prova
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares Públicos');
@@ -35,10 +36,15 @@ INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Verde', '', 1);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Branco', '', 1);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Laranja', '', 1);
 
--- atualizando alternativas nas questoes
-UPDATE tb_questao SET alternativas = 1 WHERE (id = 1);
-UPDATE tb_questao SET alternativas = 1 WHERE (id = 2);
-UPDATE tb_questao SET alternativas = 1 WHERE (id = 3);
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Preto', '', 2);
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Rosa', '', 2);
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Laranja', '', 2);
+
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Verde', '', 3);
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Cinza', '', 3);
+INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Roxo', '', 3);
+
+
 
 -- atualizando respostas das questoes
 UPDATE tb_questao SET resposta_alternativa_id = 2 WHERE (id = 1);
