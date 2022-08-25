@@ -36,7 +36,7 @@ public interface QuestaoService {
 
     public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao);
 
-//    ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao);
+    ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
     ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao);
 

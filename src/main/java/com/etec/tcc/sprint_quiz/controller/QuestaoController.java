@@ -86,11 +86,11 @@ public class QuestaoController {
         return questaoService.postQuestao(questao);
     }
 
-//    @Operation(summary = "Cadastra uma questao com alternativas")
-//    @PostMapping("/questaoComAlternativas")
-//    public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
-//        return questaoService.salvarQuestaoComAlternativa(questao);
-//    }
+    @Operation(summary = "Cadastra uma questao com alternativas")
+    @PutMapping("/questaoComAlternativas")
+    public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
+        return questaoService.salvarQuestaoComAlternativa(questao);
+    }
 
     @Operation(summary = "Atualiza uma questao")
     @PutMapping

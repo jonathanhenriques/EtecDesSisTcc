@@ -57,18 +57,18 @@ public class AlternativaServiceImp implements  AlternativaService{
             return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
     }
 
-//    public ResponseEntity<List<Alternativa>> postListaAlternativaSemQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas) {
-//        Questao questao = alternativas.get(0).getQuestao();
-//
-//        alternativas.forEach(a -> {
-//            questao.getAlternativas().add(a);
-//        });
-//
-//        alternativaRepository.saveAll(alternativas);
-//
-//        questaoService.putQuestao(questao);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
-//    }
+    public ResponseEntity<List<Alternativa>> postListaAlternativasComQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas) {
+        Questao questao = alternativas.get(0).getQuestao();
+
+        alternativas.forEach(a -> {
+            questao.getAlternativas().add(a);
+        });
+
+        alternativaRepository.saveAll(alternativas);
+
+        questaoService.putQuestao(questao);
+        return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
+    }
 
     @Override
     public ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa){
@@ -80,13 +80,10 @@ public class AlternativaServiceImp implements  AlternativaService{
 
     @Override
     public ResponseEntity<Alternativa> putAlternativa(@Valid @RequestBody Alternativa alternativa){
-        alternativaRepository.findById(alternativa.getId())
+        return alternativaRepository.findById(alternativa.getId())
+                .map(q -> ResponseEntity.ok(alternativaRepository.save(alternativa)))
                 .orElseThrow(() -> new AlternativaNotFoundException(alternativa.getId().toString()));
 
-        Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
-                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
-
-        return  ResponseEntity.status(HttpStatus.CREATED).body(alternativaRepository.save(alternativa));
     }
 
     @Override
