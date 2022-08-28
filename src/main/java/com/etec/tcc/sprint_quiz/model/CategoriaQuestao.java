@@ -21,24 +21,17 @@ public class CategoriaQuestao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "titulo")
     @NotBlank(message = "O atributo titulo não pode ser nulo nem vazio!")
-    @Size(max = 50, message = "No máximo 50 caracteres")
+    @Size(min = 1 , max = 50, message = "No máximo 50 caracteres")
 //    @Schema(name = "Questões de Matemática")
     private String titulo;
 
 
-    //    @Column(name = "titulo")
-    @NotBlank(message = "O atributo descricao não deve ser nullo!")
-    @Size(max = 1000, message = "No máximo 1000 caracteres")
+    @NotBlank(message = "O atributo descricao não deve ser vazio nem nullo!")
+    @Size(min = 1, max = 1000, message = "No máximo 1000 caracteres")
 //    @Schema(name = "Questões de Matemática")
     private String descricao;
 
-
-//    @NotNull(message = "O atributo descricao não deve ser nullo!")
-//    @Size(max = 1000, message = "No máximo 1000 caracteres")
-////    @Schema(name = "Questões de Cálculo 1")
-//    private String descricao;
 
     @OneToMany(mappedBy = "categoria")
     @JsonIgnoreProperties("categoria")
