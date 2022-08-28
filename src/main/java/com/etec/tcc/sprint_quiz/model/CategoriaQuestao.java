@@ -22,7 +22,7 @@ public class CategoriaQuestao {
     private Long id;
 
     @NotBlank(message = "O atributo titulo não pode ser nulo nem vazio!")
-    @Size(min = 1 , max = 50, message = "No máximo 50 caracteres")
+    @Size(min = 1, max = 50, message = "No máximo 50 caracteres")
 //    @Schema(name = "Questões de Matemática")
     private String titulo;
 
