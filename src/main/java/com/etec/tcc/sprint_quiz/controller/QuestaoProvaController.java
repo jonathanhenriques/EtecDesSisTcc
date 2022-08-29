@@ -39,12 +39,12 @@ public class QuestaoProvaController {
         return questaoProvaService.postQuestaoProva(questaoProva, id);
     }
 
-//    @Operation(summary = "Cadastra lista de questoesProva")
-//    @PostMapping("/listaprovaid/{id}")
-//    public ResponseEntity<List<QuestaoProva>> postListaQuestaoProva(@RequestBody List<QuestaoProva> listaQuestaoProva,
-//                                                                    @PathVariable("id") Long id) {
-//        return questaoProvaService.postListaQuestaoProva(listaQuestaoProva, id);
-//    }
+    @Operation(summary = "Cadastra lista de questoesProva")
+    @PostMapping("/listaprovaid/{id}")
+    public ResponseEntity<List<QuestaoProva>> postListaQuestaoProva(@RequestBody List<QuestaoProva> listaQuestaoProva,
+                                                                    @PathVariable("id") Long id) {
+        return questaoProvaService.postListaQuestaoProva(listaQuestaoProva, id);
+    }
 
     @Operation(summary = "Deleta questoesProva pelo id")
     @DeleteMapping("{id}")

@@ -1,11 +1,13 @@
 package com.etec.tcc.sprint_quiz.service;
 
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,13 @@ import java.util.stream.Collectors;
 public class QuestaoProvaServiceImp implements QuestaoProvaService {
 
     @Autowired
-    QuestaoProvaRepository questaoProvaRepository;
+    private QuestaoProvaRepository questaoProvaRepository;
 
     @Autowired
-    ProvaRepository provaRepository;
+    private ProvaRepository provaRepository;
+
+    @Autowired
+    private QuestaoRepository questaoRepository;
 
     @Override
     public ResponseEntity<QuestaoProva> postQuestaoProva(@RequestBody QuestaoProva questaoProva,
@@ -42,6 +47,17 @@ public class QuestaoProvaServiceImp implements QuestaoProvaService {
         Prova prova = provaRepository.findById(id)
                 .orElseThrow(() -> new ProvaNotFoundException(id.toString()));
 
+        List<QuestaoProva> listaQuestaoProvaManipulada = listaQuestaoProva
+                .stream()
+                .map(questaoMap -> {
+                    Long idQuestaoParaVerificar = questaoMap.getQuestao().getId();
+                    questaoRepository.findById(idQuestaoParaVerificar)
+                            .orElseThrow(() -> new QuestaoNotFoundException(idQuestaoParaVerificar.toString()));
+                    questaoMap.setProva(prova);
+                    return questaoMap;
+                }).collect(Collectors.toList());
+
+
 //        List<QuestaoProva> listaQuestaoProvaManipulada = listaQuestaoProva.stream().map(
 //                qp -> {
 //                     qp.setProva(prova);
@@ -49,11 +65,11 @@ public class QuestaoProvaServiceImp implements QuestaoProvaService {
 //                }
 //        ).collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(questaoProvaRepository.saveAll(listaQuestaoProva));
+        return ResponseEntity.status(HttpStatus.CREATED).body(questaoProvaRepository.saveAll(listaQuestaoProvaManipulada));
     }
 
     @Override
-    public ResponseEntity<?> deleteQuestaoProva(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteQuestaoProva(@PathVariable("id") Long id) {
         return questaoProvaRepository.findById(id).map(
                 q -> {
                     questaoProvaRepository.delete(q);
