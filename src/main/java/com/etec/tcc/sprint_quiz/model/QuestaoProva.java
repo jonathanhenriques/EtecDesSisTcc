@@ -21,15 +21,14 @@ public class QuestaoProva {
 
     @ManyToOne()
     @JoinColumn(name = "questao_id")
-//        @JsonIgnoreProperties({"grupo_questoes", "instituicao",
-//                "ano", "texto", "opcao_1", "opcao_2", "opcao_3" ,"opcao_4" ,"opcao_5",
-//                "resposta", "categoria", "criador"})
+    @JsonIgnoreProperties({"ano", "texto", "resposta", "categoria", "criador", "alternativas", "imagem"})
+//    @JsonIgnoreProperties("questao")
     private Questao questao;
 
     @ManyToOne
     @JoinColumn(name = "prova_id")
-//    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
-//    @JsonIgnoreProperties("");
+    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
+//    @JsonIgnoreProperties("prova")
     private Prova prova;
 
 
