@@ -72,8 +72,8 @@ public class AlternativaServiceImp implements  AlternativaService{
 
     @Override
     public ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa){
-        Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
-                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
+//        Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
+//                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(alternativaRepository.save(alternativa));
     }
