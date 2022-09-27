@@ -55,4 +55,5 @@ public class Prova {
     @JsonIgnoreProperties("provas")
     private CategoriaProva categoria;
 
+
 }

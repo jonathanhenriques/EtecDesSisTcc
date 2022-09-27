@@ -160,6 +160,13 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
          * os endpoints que respondem ao verbo POST não serão executados.
          *
          */
+    	
+    	
+    	//habilitando o h2 console no navegador*********************
+    	http.headers().frameOptions().disable();
+    	http.authorizeRequests().antMatchers("/h2-console/**")
+        .permitAll();
+    	//*************
 
         http.authorizeRequests()
                 .antMatchers("/usuarios/logar").permitAll()
@@ -176,6 +183,9 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.antMatchers(HttpMethod.GET, "/produtos/nome/*").permitAll()
 //				.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                
+                
+                
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -34,4 +34,6 @@ public class CategoriaProva {
     @OneToMany(mappedBy = "categoria")
     @JsonIgnoreProperties("categoria")
     private List<Prova> provas;
+
+
 }
