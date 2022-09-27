@@ -32,7 +32,7 @@ public class AlternativaServiceImp implements  AlternativaService{
     @Override
     public ResponseEntity<List<Alternativa>> getAll(){
         return ResponseEntity.ok(alternativaRepository.findAll());
-    }
+    } 
 
     @Override
     public ResponseEntity<Alternativa> findById(@PathVariable Long id){

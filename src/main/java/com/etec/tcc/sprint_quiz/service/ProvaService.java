@@ -1,28 +1,28 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.model.Prova;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.etec.tcc.sprint_quiz.model.Prova;
 
 public interface ProvaService {
 
-    ResponseEntity<List<Prova>> getAll();
+    List<Prova> getAll();
 
-    ResponseEntity<Prova> getByIdProva(@PathVariable Long id);
+    Prova getByIdProva(@PathVariable Long id);
 
-    ResponseEntity<List<Prova>> getAllByNome(@PathVariable String nome);
+    List<Prova> getAllByNome(String nome);
 
-    ResponseEntity<List<Prova>> getAllByDescricao(@PathVariable String descricao);
+    List<Prova> getAllByDescricao(String descricao);
 
-    ResponseEntity<List<Prova>> getByCriadorId(@PathVariable Long id);
+    List<Prova> getByCriadorId(Long id);
 
-    ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova);
+    Prova postProva( Prova prova);
 
-    ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova);
+    Prova putProva(Prova prova);
 
-    ResponseEntity<?> deleteProva(@PathVariable Long id);
+//    ResponseEntity<?> deleteProva(Long id);
+//    <Object> Object deleteProva(Long id);
 }

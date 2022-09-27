@@ -33,7 +33,7 @@ public class UsuarioController {
         return usuarioRepository.findById(id)
                 .map(u -> ResponseEntity.ok(u))
                 .orElse(ResponseEntity.notFound().build());
-    }
+    } 
 
     @Operation(summary = "Obtem usuario pelo email")
     @GetMapping("/email/{usuario}")

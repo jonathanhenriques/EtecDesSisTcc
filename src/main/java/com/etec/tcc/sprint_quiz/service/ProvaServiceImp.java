@@ -1,20 +1,25 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.repository.*;
-import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
-import java.util.List;
+import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
+import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 
 @Service
 public class ProvaServiceImp implements ProvaService {
@@ -35,54 +40,58 @@ public class ProvaServiceImp implements ProvaService {
     private QuestaoRepository questaoRepository;
 
 
-    public ResponseEntity<List<Prova>> getAll() {
-        return ResponseEntity.ok(provaRepository.findAll());
-    }
+    public List<Prova> getAll() {
+        return provaRepository.findAll();
+    } 
 
-    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
+    public Prova getByIdProva(Long id) {
+//    	Optional<Prova> prova = provaRepository.findById(id);
+//    	return prova.orElseThrow(() -> new ProvaNotFoundException(id.toString()));
+//    	
         return provaRepository.findById(id)
-                .map(prova -> ResponseEntity.ok(prova))
                 .orElseThrow(() -> new ProvaNotFoundException(id.toString()));
     }
 
-    public ResponseEntity<List<Prova>> getByCriadorId(@PathVariable Long id) {
+    public List<Prova> getByCriadorId(Long id) {
         return usuarioRepository.findById(id)
-                .map(u -> ResponseEntity.ok(provaRepository.findAllByUsuarioId(id))
+                .map(u -> provaRepository.findAllByUsuarioId(id)
                 ).orElseThrow(() -> new UsuarioNotFoundException(id.toString()));
     }
 
-    public ResponseEntity<List<Prova>> getAllByNome(@PathVariable String nome) {
-        return ResponseEntity.ok(provaRepository.findAllByNomeContainingIgnoreCase(nome));
+    public List<Prova> getAllByNome(String nome) {
+        return provaRepository.findAllByNomeContainingIgnoreCase(nome);
     }
 
-    public ResponseEntity<List<Prova>> getAllByDescricao(@PathVariable String descricao) {
-        return ResponseEntity.ok(provaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
+    public List<Prova> getAllByDescricao(String descricao) {
+        return provaRepository.findAllByDescricaoContainingIgnoreCase(descricao);
     }
 
 
     @Override
 //    @Transactional
-    public ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova) {
+    public Prova postProva(Prova prova) {
+    	
+//    	usuarioRepository.findById(prova.getUsuario().getId())
+//    	.orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
+    	
+//      return categoriaProvaRepository.findById(prova.getCategoria().getId())
+//      .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+//      .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    	
     	
     	if(usuarioRepository.existsById(prova.getUsuario().getId())) {
     		
     		return categoriaProvaRepository.findById(prova.getCategoria().getId())
-                    .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+                    .map(c -> provaRepository.save(prova))
                     .orElseThrow(() -> new CategoriaProvaNotFoundException());
     		
     	} else 
     		throw new UsuarioNotFoundException(prova.getUsuario().getId().toString());
-    	
-    	
-//        return categoriaProvaRepository.findById(prova.getCategoria().getId())
-//                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
-//                .orElseThrow(() -> new CategoriaProvaNotFoundException());
-    	
     	 
     }
 
     @Override
-    public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova) {
+    public ResponseEntity<Prova> putProva(Prova prova) {
 //        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
 //            return ResponseEntity.ok(provaRepository.save(prova));
 //
@@ -94,7 +103,7 @@ public class ProvaServiceImp implements ProvaService {
     }
 
 
-    public ResponseEntity<?> deleteProva(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProva(Long id) {
         return provaRepository.findById(id)
                 .map(p -> {
                     provaRepository.delete(p);
