@@ -63,9 +63,22 @@ public class ProvaServiceImp implements ProvaService {
     @Override
 //    @Transactional
     public ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova) {
-        return categoriaProvaRepository.findById(prova.getCategoria().getId())
-                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
-                .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    	
+    	if(usuarioRepository.existsById(prova.getUsuario().getId())) {
+    		
+    		return categoriaProvaRepository.findById(prova.getCategoria().getId())
+                    .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+                    .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    		
+    	} else 
+    		throw new UsuarioNotFoundException(prova.getUsuario().getId().toString());
+    	
+    	
+//        return categoriaProvaRepository.findById(prova.getCategoria().getId())
+//                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
+//                .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    	
+    	 
     }
 
     @Override
