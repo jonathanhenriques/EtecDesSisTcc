@@ -30,9 +30,8 @@ public class UsuarioController {
     @Operation(summary = "Obtem usuario pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Long id) {
-        return usuarioRepository.findById(id)
-                .map(u -> ResponseEntity.ok(u))
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(usuarioService.findById(id));
+                
     } 
 
     @Operation(summary = "Obtem usuario pelo email")

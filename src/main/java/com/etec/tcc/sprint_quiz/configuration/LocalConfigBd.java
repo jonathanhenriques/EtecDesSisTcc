@@ -37,7 +37,7 @@ public class LocalConfigBd {
 
         //Long id, String nome, String usuario, String senha, String foto, String tipo, List<Questao> questoes, List<Prova> provas
         List<Questao> lq = new ArrayList<>();
-        List<Prova> lp = new ArrayList<>();
+        List<Prova> lp = new ArrayList<>(); 
         Usuario usuario1 = new Usuario(
         		null, "Jonathan", "jonathan@email.com", "12345678", "", "", new ArrayList<Questao>() , new ArrayList<Prova>());
 

@@ -41,7 +41,7 @@ public class Questao {
     private String texto;
 
     @OneToMany(mappedBy = "questao", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("questao")
+    @JsonIgnoreProperties(value = {"questao"}, allowSetters = true)
     private List<Alternativa> alternativas;
 
 

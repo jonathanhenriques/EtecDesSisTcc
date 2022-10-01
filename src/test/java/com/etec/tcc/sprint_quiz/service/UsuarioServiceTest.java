@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,7 +23,7 @@ import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 @SpringBootTest
 class UsuarioServiceTest {
 
-	private static final Long ID = null;
+	private static final Long ID = 1L;
 
 	private static final String NAME = "Jonathan";
 
@@ -41,7 +43,7 @@ class UsuarioServiceTest {
 	private UsuarioService service;
 	
 	@Mock //injeta instancias mock
-	private UsuarioRepository usuarioRepository;
+	private UsuarioRepository repository;
 	
 	private Usuario usuario;
 	private Optional<Usuario> optionalUsuario;
@@ -50,6 +52,15 @@ class UsuarioServiceTest {
 	void setUp() throws Exception {
 		MockitoAnnotations.openMocks(this); //indicamos de onde serão os mocks
 		startUsuario();
+	}
+	
+	
+	@Test
+	void deveriaTrazerUmUsuarioPorId() {
+		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(optionalUsuario);
+		Usuario response = service.findById(ID);
+		
+		assertEquals(Usuario.class, response.getClass());
 	}
 
 	@Test

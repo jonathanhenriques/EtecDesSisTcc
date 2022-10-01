@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private QuestaoProvaRepository questaoProvaRepository;
 
-    @Autowired
+    @Autowired 
     private QuestaoRepository questaoRepository;
 
 
@@ -91,24 +92,30 @@ public class ProvaServiceImp implements ProvaService {
     }
 
     @Override
-    public ResponseEntity<Prova> putProva(Prova prova) {
+    public Prova putProva(Prova prova) {
 //        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
 //            return ResponseEntity.ok(provaRepository.save(prova));
 //
 //        throw new RegraNegocioException("Categoria não encontrada! | id:" + prova.getCategoria().getId());
 
-        return categoriaProvaRepository.findById(prova.getCategoria().getId())
-                .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
-                .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    	categoriaProvaRepository.findById(prova.getCategoria().getId()).orElseThrow(() -> new ProvaNotFoundException());
+    	usuarioRepository.findById(prova.getUsuario().getId()).orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
+    	
+    	return provaRepository.save(prova);
+    	
+    	
+//        return categoriaProvaRepository.findById(prova.getCategoria().getId())
+//                .map(c -> ok(provaRepository.save(prova))
+//                .orElseThrow(() -> new CategoriaProvaNotFoundException())); 
+    	
     }
 
 
-    public ResponseEntity<?> deleteProva(Long id) {
-        return provaRepository.findById(id)
-                .map(p -> {
-                    provaRepository.delete(p);
-                    return ResponseEntity.noContent().build();
-                }).orElseThrow(() -> new ProvaNotFoundException());
+    public void deleteProva(Long id) {
+        Prova prova =  provaRepository.findById(id).orElseThrow(() -> new ProvaNotFoundException(id.toString()));
+         
+         provaRepository.delete((prova));
+                
     }
 
 

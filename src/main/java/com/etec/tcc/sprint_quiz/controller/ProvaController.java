@@ -1,30 +1,40 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
-import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.service.ProvaService;
-import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.service.ProvaService;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/provas")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProvaController {
 
-    @Autowired
-    private ProvaRepository provaRepository;
+//    @Autowired
+//    private ProvaRepository provaRepository;
 
     @Autowired
     private ProvaService provaService;
 
-    @Autowired
-    private CategoriaProvaRepository categoriaProvaRepository;
+//    @Autowired
+//    private CategoriaProvaRepository categoriaProvaRepository;
 
     @Operation(summary = "Obtem todas as provas")
     @GetMapping 
@@ -67,14 +77,14 @@ public class ProvaController {
     @Operation(summary = "atualiza uma prova")
     @PutMapping
     public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){
-        return provaService.putProva(prova);
+    	return ResponseEntity.ok(provaService.putProva(prova));
     }
 
 
     @Operation(summary = "Deleta uma prova")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProva(@PathVariable Long id) {
-        return provaService.deleteProva(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

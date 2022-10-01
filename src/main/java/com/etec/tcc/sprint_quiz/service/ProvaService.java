@@ -25,4 +25,8 @@ public interface ProvaService {
 
 //    ResponseEntity<?> deleteProva(Long id);
 //    <Object> Object deleteProva(Long id);
+    
+    void deleteProva(Long id);
+    
+    
 }
