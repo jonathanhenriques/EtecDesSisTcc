@@ -1,5 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
@@ -8,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
@@ -44,8 +48,22 @@ class CategoriaProvaControllerTest {
 	}
 
 	@Test
-	void testGetById() {
-		fail("Not yet implemented");
+	void testGetByIdDeveriaRetornarUmaCategoriaProva() {
+		Mockito.when(service.getById(Mockito.anyLong())).thenReturn(categoriaProva); //mockando resposta para chamada do service
+		
+		ResponseEntity<CategoriaProva> response = controller.getById(ID);  //efetuando a chamada
+		
+		//verificações de tipos
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(CategoriaProva.class, response.getBody().getClass());
+		//verificações de atributos
+		assertEquals(ID, response.getBody().getId());
+		assertEquals(TITULO, response.getBody().getTitulo());
+		assertEquals(DESCRICAO, response.getBody().getDescricao());
+		assertEquals(null, response.getBody().getProvas());
+		
 	}
 
 	@Test
