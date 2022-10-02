@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
@@ -82,6 +83,7 @@ public class ProvaController {
 
 
     @Operation(summary = "Deleta uma prova")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProva(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

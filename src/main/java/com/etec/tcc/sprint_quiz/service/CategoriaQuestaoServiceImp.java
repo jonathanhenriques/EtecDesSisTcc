@@ -23,38 +23,37 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     private CategoriaQuestaoRepository categoriaQuestaoRepository;
 
     @Override
-    public ResponseEntity<CategoriaQuestao> getById(@PathVariable Long id) {
+    public CategoriaQuestao getById(@PathVariable Long id) {
         return categoriaQuestaoRepository.findById(id)
-                .map(c -> ResponseEntity.ok(c))
                 .orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("id:" + id));
     }
 
     @Override
-    public ResponseEntity<List<CategoriaQuestao>> getByTitutlo(@PathVariable("titulo") String titulo){
-        return ResponseEntity.ok(categoriaQuestaoRepository.findAllByTituloContainingIgnoreCase(titulo));
+    public List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo){
+        return categoriaQuestaoRepository.findAllByTituloContainingIgnoreCase(titulo);
 
     }
 
     @Override
-    public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
-        return ResponseEntity.ok(categoriaQuestaoRepository.findByDescricaoContainingIgnoreCase(descricao));
+    public List<CategoriaQuestao> getByDescricao(@PathVariable("descricao") String descricao){
+        return categoriaQuestaoRepository.findByDescricaoContainingIgnoreCase(descricao);
     }
 
     @Override
-    public ResponseEntity<CategoriaQuestao> postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaQuestaoRepository.save(categoria));
+    public CategoriaQuestao postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
+        return categoriaQuestaoRepository.save(categoria);
     }
 
     @Override
-    public ResponseEntity<CategoriaQuestao> putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
+    public CategoriaQuestao putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
         return categoriaQuestaoRepository.findById(categoria.getId())
-                .map(c ->ResponseEntity.ok(categoriaQuestaoRepository.save(categoria)))
+                .map(c ->categoriaQuestaoRepository.save(categoria))
                 .orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("id:" + categoria.getId()));
     }
 
     @Override
-    public ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id){
-        return categoriaQuestaoRepository.findById(id)
+    public void deleteCategoriaQuestao(@PathVariable Long id){
+         categoriaQuestaoRepository.findById(id)
                 .map(c -> {
                     categoriaQuestaoRepository.delete(c);
                     return ResponseEntity.noContent().build();

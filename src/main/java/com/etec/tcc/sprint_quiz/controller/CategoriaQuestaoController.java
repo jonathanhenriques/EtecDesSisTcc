@@ -27,13 +27,13 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Obtem categoria pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaQuestao> getById(@PathVariable Long id) {
-        return categoriaQuestaoService.getById(id);
+        return ResponseEntity.ok(categoriaQuestaoService.getById(id));
     }
 
     @Operation(summary = "Obtem categorias pela descricao da categoria")
     @GetMapping("/descricao/{descricao}")
     public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
-        return categoriaQuestaoService.getByDescricao(descricao);
+        return ResponseEntity.ok(categoriaQuestaoService.getByDescricao(descricao));
     }
 
     @Operation(summary = "Obtem todas as  categorias")
@@ -45,13 +45,13 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Cadastra uma categoria")
     @PostMapping
     public ResponseEntity<CategoriaQuestao> postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return categoriaQuestaoService.postCategoriaQuestao(categoria);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaQuestaoService.postCategoriaQuestao(categoria));
     }
 
     @Operation(summary = "Atualiza uma categoria")
     @PutMapping
     public ResponseEntity<CategoriaQuestao> putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return categoriaQuestaoService.putCategoriaQuestao(categoria);
+        return ResponseEntity.ok(categoriaQuestaoService.putCategoriaQuestao(categoria));
     }
 
     @PatchMapping(path = "/patch")
@@ -66,7 +66,8 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Deleta uma categoria pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id){
-        return categoriaQuestaoService.deleteCategoriaQuestao(id);
+    	categoriaQuestaoService.deleteCategoriaQuestao(id);
+    	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 }

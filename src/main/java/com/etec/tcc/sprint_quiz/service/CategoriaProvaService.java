@@ -1,36 +1,34 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
-import com.etec.tcc.sprint_quiz.model.CategoriaProva;
-import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 
 public interface CategoriaProvaService {
 
 
 
-    public ResponseEntity<CategoriaProva> getById(@PathVariable Long id);
+     CategoriaProva getById(@PathVariable Long id);
 
 
-    public ResponseEntity<List<CategoriaProva>> getAll();
+     List<CategoriaProva> getAll();
 
 
-    public ResponseEntity<CategoriaProva> postCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
+     CategoriaProva postCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
 
 
-    public ResponseEntity<CategoriaProva> putCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
+     CategoriaProva putCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
 
 
-    public ResponseEntity<CategoriaProva> patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria);
+//     CategoriaProva patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria);
 
 
-    public ResponseEntity<?> deletetaoCategoriaProva(@PathVariable Long id);
+     void deletetaCategoriaProva(@PathVariable Long id);
 
 
 }
