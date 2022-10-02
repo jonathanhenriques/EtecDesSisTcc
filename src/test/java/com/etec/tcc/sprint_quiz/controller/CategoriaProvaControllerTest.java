@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
@@ -67,8 +71,26 @@ class CategoriaProvaControllerTest {
 	}
 
 	@Test
-	void testGetAll() {
-		fail("Not yet implemented");
+	void testGetAllDeveriaRetornarUmaListaDeCategoriaProva() {
+		List<CategoriaProva> lista = new ArrayList<>();
+		lista.add(categoriaProva);
+		Mockito.when(service.getAll()).thenReturn(lista);
+		
+		ResponseEntity<List<CategoriaProva>> response = controller.getAll();
+		
+		//verificações de tipo
+		assertNotNull(response); //verificando se a resposta não é null
+		assertNotNull(response.getBody()); //verificando se o corpo da resposta não é null
+		assertEquals(HttpStatus.OK, response.getStatusCode()); //verificando se o status da resposta é OK(200)
+		assertEquals(ResponseEntity.class, response.getClass()); //verificando se a resposta é do tipo esperado
+		assertEquals(ArrayList.class, response.getBody().getClass()); //verificando se o corpo da resposta é do tipo esperado
+		assertEquals(CategoriaProva.class, response.getBody().get(INDEX).getClass()); //verificando se o obj do corpo da resposta é do tipo categoria
+		
+		//verificações de atributos
+		assertEquals(ID, response.getBody().get(INDEX).getId()); //verificando se o atributo id é o que esperados
+		assertEquals(TITULO, response.getBody().get(INDEX).getTitulo()); //verificando se o atributo titulo é o que esperados
+		assertEquals(DESCRICAO, response.getBody().get(INDEX).getDescricao()); //verificando se o atributo descricao é o que esperados
+		assertEquals(null, response.getBody().get(INDEX).getProvas()); //verificando se o atributo provas é o que esperados
 	}
 
 	@Test
