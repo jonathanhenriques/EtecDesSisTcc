@@ -20,14 +20,12 @@ import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 
 
 @SpringBootTest
-class CategoriaProvaServiceImpTest {
+class CategoriaProvaServiceImpTest { 
 	
 	private static final int INDEX = 0;
 	private static final String TITULO = "teste";
 	private static final String DESCRICAO = "teste";
-
 	private static final String CATEGORIA_DE_PROVA_NAO_ENCONTRADA = "Categoria de Prova não encontrada!";
-
 	private static final long ID = 1L;
 
 	@InjectMocks
