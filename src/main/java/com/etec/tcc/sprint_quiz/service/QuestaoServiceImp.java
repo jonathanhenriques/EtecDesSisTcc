@@ -1,6 +1,6 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
@@ -99,7 +99,7 @@ public class QuestaoServiceImp implements QuestaoService {
             return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
                     .map(c ->
                             ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao))
-                    ).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException(questao.getCategoria().getId().toString()));
+                    ).orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
         }
 
         throw new UsuarioNotFoundException(questao.getCriador().getId().toString());

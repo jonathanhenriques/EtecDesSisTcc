@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/categoriaProva")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaProvaController {
-
+ 
     @Autowired
     private CategoriaProvaRepository categoriaProvaRepository;
 
@@ -52,7 +52,7 @@ public class CategoriaProvaController {
     }
 
     @Operation(summary = "Atualiza categoria")
-    @PutMapping
+    @PutMapping 
     public ResponseEntity<CategoriaProva> putCategoriaProva(@RequestBody CategoriaProva categoria){
         return ResponseEntity.ok(categoriaProvaService.putCategoriaProva(categoria));
     }
@@ -64,7 +64,7 @@ public class CategoriaProvaController {
 
     @Operation(summary = "Deleta uma categoria pelo id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletetaoCategoriaProva(@PathVariable Long id){
+    public ResponseEntity<?> deletetaCategoriaProva(@PathVariable Long id){
     	categoriaProvaService.deletetaCategoriaProva(id);
     	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

@@ -4,17 +4,15 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.assertj.core.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.etec.tcc.sprint_quiz.ApiErrors;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
@@ -27,7 +25,7 @@ public class ApplicationControllerAdvice {
 //	 @ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<ApiErrors> handleCategoriaProvaNotFoundException(CategoriaProvaNotFoundException ex,
 			HttpServletRequest request) {
-		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(), 
 				request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -41,9 +39,9 @@ public class ApplicationControllerAdvice {
 //        return new ApiErrors(mensagemErro);
 //    }
 
-	@ExceptionHandler(CategoriaQuestaoNaoEncontradaException.class)
+	@ExceptionHandler(CategoriaQuestaoNotFoundException.class)
 //	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<ApiErrors> handleCategoriaQuestaoNotFound(CategoriaQuestaoNaoEncontradaException ex,
+	public ResponseEntity<ApiErrors> handleCategoriaQuestaoNotFoundException(CategoriaQuestaoNotFoundException ex,
 			HttpServletRequest request) {
 		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
 				request.getRequestURI());

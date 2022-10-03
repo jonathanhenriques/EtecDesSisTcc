@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +50,10 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 	public void deletetaCategoriaProva(@PathVariable Long id) {
 		CategoriaProva cp = categoriaProvaRepository.findById(id)
-				.orElseThrow(() -> new CategoriaProvaNotFoundException(id.toString()));
+				.orElseThrow(() -> new CategoriaProvaNotFoundException(id.toString())); 
 		categoriaProvaRepository.delete(cp);
 	}
+	
+	
+
 }

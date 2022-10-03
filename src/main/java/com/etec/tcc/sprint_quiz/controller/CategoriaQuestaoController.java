@@ -1,6 +1,6 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;
@@ -60,7 +60,7 @@ public class CategoriaQuestaoController {
                 .map(c -> {
                     c.setTitulo(categoria.getTitulo());
                     return ResponseEntity.ok(categoriaQuestaoRepository.save(c));
-                }).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException());
+                }).orElseThrow(() -> new CategoriaQuestaoNotFoundException());
     }
 
     @Operation(summary = "Deleta uma categoria pelo id")

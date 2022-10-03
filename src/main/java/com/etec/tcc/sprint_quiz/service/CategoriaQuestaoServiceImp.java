@@ -1,6 +1,6 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
@@ -25,7 +25,7 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     @Override
     public CategoriaQuestao getById(@PathVariable Long id) {
         return categoriaQuestaoRepository.findById(id)
-                .orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("id:" + id));
+                .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     public CategoriaQuestao putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
         return categoriaQuestaoRepository.findById(categoria.getId())
                 .map(c ->categoriaQuestaoRepository.save(categoria))
-                .orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("id:" + categoria.getId()));
+                .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + categoria.getId()));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
                 .map(c -> {
                     categoriaQuestaoRepository.delete(c);
                     return ResponseEntity.noContent().build();
-                }).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException("id:" + id));
+                }).orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
 
     }
 }
