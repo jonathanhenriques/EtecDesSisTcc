@@ -39,19 +39,19 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Obtem todas as  categorias")
     @GetMapping
     public ResponseEntity<List<CategoriaQuestao>> getAll(){
-        return ResponseEntity.ok(categoriaQuestaoRepository.findAll());
+        return ResponseEntity.ok(categoriaQuestaoService.getAll());
     }
 
     @Operation(summary = "Cadastra uma categoria")
     @PostMapping
     public ResponseEntity<CategoriaQuestao> postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaQuestaoService.postCategoriaQuestao(categoria));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaQuestaoService.post(categoria));
     }
 
     @Operation(summary = "Atualiza uma categoria")
     @PutMapping
     public ResponseEntity<CategoriaQuestao> putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return ResponseEntity.ok(categoriaQuestaoService.putCategoriaQuestao(categoria));
+        return ResponseEntity.ok(categoriaQuestaoService.put(categoria));
     }
 
     @PatchMapping(path = "/patch")
@@ -66,7 +66,7 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Deleta uma categoria pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id){
-    	categoriaQuestaoService.deleteCategoriaQuestao(id);
+    	categoriaQuestaoService.delete(id);
     	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }

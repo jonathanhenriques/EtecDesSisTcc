@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,40 +108,29 @@ class CategoriaQuestaoControllerTest {
 
 	@Test
 	void testGetAllDeveriaRetornarUmaListaDeCategoriaQuestao() {
-		final List<CategoriaQuestao> esperado = new ArrayList<>();
-		esperado.add(categoria);
-		Mockito.when(service.getAll()).thenReturn(esperado);
-
-//		ResponseEntity<CategoriaQuestao> resposta = testeRestTemplate.exchange("/categoriaQuestao", HttpMethod.GET,
-//				null, CategoriaQuestao.class);
+		List<CategoriaQuestao> lista = new ArrayList<>();
+		lista.add(categoria);
+		Mockito.when(service.getAll()).thenReturn(lista);
 
 		ResponseEntity<List<CategoriaQuestao>> response = controller.getAll();
 
-		// verificações de tipo
-		assertNotNull(response); // verificando se a resposta não é null
-		assertNotNull(response.getBody()); // verificando se o corpo da resposta não é null
-		assertEquals(HttpStatus.OK, response.getStatusCode()); // verificando se o status da resposta é OK(200)
-		assertEquals(ResponseEntity.class, response.getClass()); // verificando se a resposta é do tipo esperado
-//		assertEquals(ArrayList.class, response.getBody().getClass()); // verificando se o corpo da resposta é do tipo
-																		// esperado
-		assertEquals(CategoriaQuestao.class, response.getBody().get(INDEX).getClass()); // verificando se o obj do corpo
-																						// da resposta é do tipo
-																						// categoria
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(ArrayList.class, response.getBody().getClass());
+		assertEquals(CategoriaQuestao.class, response.getBody().get(INDEX).getClass());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 
-		// verificações de atributos
-		assertEquals(0,esperado.size());
-		assertEquals(ID, response.getBody().get(INDEX).getId()); // verificando se o atributo id é o que esperados
-		assertEquals(TITULO, response.getBody().get(INDEX).getTitulo()); // verificando se o atributo titulo é o que
-																			// esperados
-		assertEquals(DESCRICAO, response.getBody().get(INDEX).getDescricao()); // verificando se o atributo descricao é
-																				// o que esperados
-		assertEquals(null, response.getBody().get(INDEX).getQuestoes()); // verificando se o atributo questoes é o que
-																			// esperados
+		assertEquals(1, response.getBody().size());
+		assertEquals(ID, response.getBody().get(INDEX).getId());
+		assertEquals(TITULO, response.getBody().get(INDEX).getTitulo());
+		assertEquals(DESCRICAO, response.getBody().get(INDEX).getDescricao());
+		assertEquals(null, response.getBody().get(INDEX).getQuestoes());
 	}
 
 	@Test
 	void testPostCategoriaQuestaoDeveriaRetornarUmaCategoriaQuestao() {
-		Mockito.when(service.postCategoriaQuestao(Mockito.any())).thenReturn(categoria);
+		Mockito.when(service.post(Mockito.any())).thenReturn(categoria);
 		ResponseEntity<CategoriaQuestao> response = controller.postCategoriaQuestao(categoria);
 
 		assertNotNull(response);
@@ -158,7 +148,7 @@ class CategoriaQuestaoControllerTest {
 
 	@Test
 	void testPutCategoriaQuestaoDeveriaRetornarUmaCategoriaQuestaoAtualizada() {
-		Mockito.when(service.putCategoriaQuestao(Mockito.any())).thenReturn(categoria);
+		Mockito.when(service.put(Mockito.any())).thenReturn(categoria);
 
 		ResponseEntity<CategoriaQuestao> response = controller.putCategoriaQuestao(categoria);
 
@@ -183,13 +173,13 @@ class CategoriaQuestaoControllerTest {
 
 	@Test
 	void testDeleteCategoriaQuestao() {
-		Mockito.doNothing().when(service).deleteCategoriaQuestao(Mockito.anyLong());
+		Mockito.doNothing().when(service).delete(Mockito.anyLong());
 		ResponseEntity<?> response =  controller.deleteCategoriaQuestao(ID);
 		
 		assertNotNull(response);
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-		Mockito.verify(service, Mockito.times(1)).deleteCategoriaQuestao(Mockito.anyLong());
+		Mockito.verify(service, Mockito.times(1)).delete(Mockito.anyLong());
 	}
 
 	private void startCategoriaQuestao() {
