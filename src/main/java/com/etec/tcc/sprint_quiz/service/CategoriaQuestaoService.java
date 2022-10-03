@@ -12,6 +12,8 @@ import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 public interface CategoriaQuestaoService {
 
     CategoriaQuestao getById(@PathVariable Long id);
+    
+    List<CategoriaQuestao> getAll();
 
     List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo);
 
@@ -22,4 +24,6 @@ public interface CategoriaQuestaoService {
     CategoriaQuestao putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria);
 
     void deleteCategoriaQuestao(@PathVariable Long id);
+
+	
 }

@@ -27,6 +27,13 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
         return categoriaQuestaoRepository.findById(id)
                 .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
     }
+    
+    @Override
+    public List<CategoriaQuestao> getAll(){
+        return categoriaQuestaoRepository.findAll();
+        		
+    }
+    
 
     @Override
     public List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo){

@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface CategoriaQuestaoRepository extends JpaRepository<CategoriaQuestao, Long> {
 
 //    Optional<CategoriaQuestao> findByTitulo(@Param("titulo") String titulo);
+	
+	List<CategoriaQuestao> getAll();
 
     List<CategoriaQuestao> findAllByTituloContainingIgnoreCase(@Param("titulo") String titulo);
 
