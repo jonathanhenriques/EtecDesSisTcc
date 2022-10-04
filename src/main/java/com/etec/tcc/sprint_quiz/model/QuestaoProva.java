@@ -29,7 +29,7 @@ public class QuestaoProva {
     @JoinColumn(name = "prova_id")
 //    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
 //    @JsonIgnoreProperties("prova")
-    @JsonIgnoreProperties("questoes")
+    @JsonIgnoreProperties(value = "questoes", allowSetters = true)
     private Prova prova;
 
 

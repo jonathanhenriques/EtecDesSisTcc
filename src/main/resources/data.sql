@@ -1,8 +1,9 @@
-USE db_sprintquiz_tcc;
+-- CREATE DATABASE db_sprintquiz_h2;
+-- USE db_sprintquiz_h2;
+
 
 -- criando usuario
-
-#INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'jonathan','$2a$10$aXACsqNAtCRsercQFWJjqOW0T3WNbvJtI.PSnR.DTFGY87qmkQliq', 'admin', 'jonathan@email.com');
+INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'jonathan','$2a$10$aXACsqNAtCRsercQFWJjqOW0T3WNbvJtI.PSnR.DTFGY87qmkQliq', 'admin', 'jonathan@email.com');
 
 -- criando categoria de prova
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares Públicos');

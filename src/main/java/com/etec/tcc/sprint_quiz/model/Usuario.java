@@ -50,7 +50,7 @@ public class Usuario {
     private List<Questao> questoes;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
+    @JsonIgnoreProperties(value = {"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"}, allowSetters = true)
     private List<Prova> provas;
 
 

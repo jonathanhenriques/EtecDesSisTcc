@@ -31,8 +31,9 @@ public class CategoriaProva {
 //    @Schema(name = "Vestibulares públicos")
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria")
-    @JsonIgnoreProperties("categoria")
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "categoria")
+    @JsonIgnoreProperties(value = "categoria", allowSetters = true)
     private List<Prova> provas;
 
 

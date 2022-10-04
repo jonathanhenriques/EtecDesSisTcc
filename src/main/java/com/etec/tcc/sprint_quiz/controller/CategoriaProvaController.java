@@ -48,13 +48,13 @@ public class CategoriaProvaController {
     @Operation(summary = "Cadastra uma nova categoria")
     @PostMapping
     public ResponseEntity<CategoriaProva> postCategoriaProva(@RequestBody CategoriaProva categoria){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaProvaService.postCategoriaProva(categoria));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaProvaService.post(categoria));
     }
 
     @Operation(summary = "Atualiza categoria")
     @PutMapping 
     public ResponseEntity<CategoriaProva> putCategoriaProva(@RequestBody CategoriaProva categoria){
-        return ResponseEntity.ok(categoriaProvaService.putCategoriaProva(categoria));
+        return ResponseEntity.ok(categoriaProvaService.put(categoria));
     }
 
 //    @PatchMapping()
@@ -65,7 +65,7 @@ public class CategoriaProvaController {
     @Operation(summary = "Deleta uma categoria pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletetaCategoriaProva(@PathVariable Long id){
-    	categoriaProvaService.deletetaCategoriaProva(id);
+    	categoriaProvaService.delete(id);
     	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }

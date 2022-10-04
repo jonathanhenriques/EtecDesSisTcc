@@ -45,7 +45,7 @@ public class ProvaServiceImp implements ProvaService {
         return provaRepository.findAll();
     } 
 
-    public Prova getByIdProva(Long id) {
+    public Prova getById(Long id) {
 //    	Optional<Prova> prova = provaRepository.findById(id);
 //    	return prova.orElseThrow(() -> new ProvaNotFoundException(id.toString()));
 //    	
@@ -70,7 +70,7 @@ public class ProvaServiceImp implements ProvaService {
 
     @Override
 //    @Transactional
-    public Prova postProva(Prova prova) {
+    public Prova post(Prova prova) {
     	
 //    	usuarioRepository.findById(prova.getUsuario().getId())
 //    	.orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
@@ -92,7 +92,7 @@ public class ProvaServiceImp implements ProvaService {
     }
 
     @Override
-    public Prova putProva(Prova prova) {
+    public Prova put(Prova prova) {
 //        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
 //            return ResponseEntity.ok(provaRepository.save(prova));
 //
@@ -111,7 +111,7 @@ public class ProvaServiceImp implements ProvaService {
     }
 
 
-    public void deleteProva(Long id) {
+    public void delete(Long id) {
         Prova prova =  provaRepository.findById(id).orElseThrow(() -> new ProvaNotFoundException(id.toString()));
          
          provaRepository.delete((prova));

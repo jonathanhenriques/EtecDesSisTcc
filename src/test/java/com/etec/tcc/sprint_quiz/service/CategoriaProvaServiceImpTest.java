@@ -91,7 +91,7 @@ class CategoriaProvaServiceImpTest {
 	@Test
 	void testPostCategoriaProvaDeveriaCriarUmaCategoriaProva() {
 		Mockito.when(repository.save(Mockito.any())).thenReturn(categoriaProva);//definindo o retorno do repository
-		CategoriaProva response = service.postCategoriaProva(categoriaProva); //chamando o método da service
+		CategoriaProva response = service.post(categoriaProva); //chamando o método da service
 		
 		assertNotNull(response);
 		assertEquals(CategoriaProva.class, response.getClass()); //verificando que a resposta seja do tipo CategoriaProva
@@ -116,7 +116,7 @@ class CategoriaProvaServiceImpTest {
 	@Test
 	void testPutCategoriaProvaDeveriaRetornarUmaCategoriaProvaAtualizada() {
 		Mockito.when(repository.save(Mockito.any())).thenReturn(categoriaProva);//definindo o retorno do repository
-		CategoriaProva response = service.postCategoriaProva(categoriaProva); //chamando o método da service
+		CategoriaProva response = service.post(categoriaProva); //chamando o método da service
 		
 		assertNotNull(response);
 		assertEquals(CategoriaProva.class, response.getClass());
@@ -128,7 +128,7 @@ class CategoriaProvaServiceImpTest {
 		
 		try {
 			optionalCategoriaProva.get().setId(2L);
-			service.putCategoriaProva(optionalCategoriaProva.get());
+			service.put(optionalCategoriaProva.get());
 		} catch(Exception ex) {
 			assertEquals(CategoriaProvaNotFoundException.class, ex.getClass());
 			assertEquals("Categoria de Prova não encontrada! | " + 2, ex.getMessage()); 
@@ -142,7 +142,7 @@ class CategoriaProvaServiceImpTest {
 	void testDeleteCategoriaProvaDeveriaDeletarUmaCategoria() {
 		Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(optionalCategoriaProva);
 		Mockito.doNothing().when(repository).deleteById(Mockito.anyLong()); //não faça nada quando o deleteById for chamado no repository
-		service.deletetaCategoriaProva(ID);
+		service.delete(ID);
 		
 		Mockito.verify(repository, Mockito.times(1)).deleteById(Mockito.anyLong()); //verifica quantas vezes o método foi chamado, já que ele não tem retorno
 	}
@@ -152,7 +152,7 @@ class CategoriaProvaServiceImpTest {
 		Mockito.when(repository.findById(Mockito.anyLong())).thenThrow(new CategoriaProvaNotFoundException());
 		
 		try {
-			service.deletetaCategoriaProva(ID);
+			service.delete(ID);
 		}catch(Exception ex) {
 			assertEquals(CategoriaProvaNotFoundException.class, ex.getClass());
 			assertEquals(CATEGORIA_DE_PROVA_NAO_ENCONTRADA, ex.getMessage());

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 
-public interface CategoriaProvaService {
+public interface CategoriaProvaService extends IDAO<CategoriaProva>{
 
 
 
@@ -19,16 +19,16 @@ public interface CategoriaProvaService {
      List<CategoriaProva> getAll();
 
 
-     CategoriaProva postCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
+     CategoriaProva post(@Valid @RequestBody CategoriaProva categoria);
 
 
-     CategoriaProva putCategoriaProva(@Valid @RequestBody CategoriaProva categoria);
+     CategoriaProva put(@Valid @RequestBody CategoriaProva categoria);
 
 
 //     CategoriaProva patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria);
 
 
-     void deletetaCategoriaProva(@PathVariable Long id);
+     void delete(@PathVariable Long id);
 
 
 }

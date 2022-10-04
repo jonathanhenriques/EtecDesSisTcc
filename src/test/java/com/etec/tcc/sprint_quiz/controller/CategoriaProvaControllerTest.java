@@ -102,7 +102,7 @@ class CategoriaProvaControllerTest {
 
 	@Test
 	void testPostCategoriaProvaDeveriaRetornarUmaCategoriaProvaCriada() {
-		Mockito.when(service.postCategoriaProva(Mockito.any())).thenReturn(categoriaProva);
+		Mockito.when(service.post(Mockito.any())).thenReturn(categoriaProva);
 
 		ResponseEntity<CategoriaProva> response = controller.postCategoriaProva(categoriaProva);
 
@@ -121,7 +121,7 @@ class CategoriaProvaControllerTest {
 
 	@Test
 	void testPutCategoriaProvaDeveriaRetornarUmCategoriaProvaAtualizado() {
-		Mockito.when(service.putCategoriaProva(Mockito.any())).thenReturn(categoriaProva);
+		Mockito.when(service.put(Mockito.any())).thenReturn(categoriaProva);
 		
 		ResponseEntity<CategoriaProva> response = controller.putCategoriaProva(categoriaProva);
 		
@@ -142,13 +142,13 @@ class CategoriaProvaControllerTest {
 
 	@Test
 	void testDeletetaoCategoriaProvaDeveriaDeletarUmaCategoriaProva() {
-		Mockito.doNothing().when(service).deletetaCategoriaProva(Mockito.anyLong());
+		Mockito.doNothing().when(service).delete(Mockito.anyLong());
 		ResponseEntity<?> response =  controller.deletetaCategoriaProva(ID);
 		
 		assertNotNull(response);
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-		Mockito.verify(service, Mockito.times(1)).deletetaCategoriaProva(Mockito.anyLong());
+		Mockito.verify(service, Mockito.times(1)).delete(Mockito.anyLong());
 		
 	}
 

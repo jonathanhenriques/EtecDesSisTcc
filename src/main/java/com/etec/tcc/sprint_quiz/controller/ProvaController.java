@@ -47,7 +47,7 @@ public class ProvaController {
     @Operation(summary = "Obtem uma prova pelo seu id")
     @GetMapping("/{id}")
     public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
-        return ResponseEntity.ok(provaService.getByIdProva(id));
+        return ResponseEntity.ok(provaService.getById(id));
     }
 
     @Operation(summary = "Obtem todas as provas pelo id do usuario")
@@ -72,13 +72,13 @@ public class ProvaController {
     @Operation(summary = "Cadastra uma prova")
     @PostMapping
     public ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova) {
-        return ResponseEntity.ok(provaService.postProva(prova));
+        return ResponseEntity.ok(provaService.post(prova));
     }
 
     @Operation(summary = "atualiza uma prova")
     @PutMapping
     public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){
-    	return ResponseEntity.ok(provaService.putProva(prova));
+    	return ResponseEntity.ok(provaService.put(prova));
     }
 
 
@@ -86,6 +86,7 @@ public class ProvaController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProva(@PathVariable Long id) {
+    	provaService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -64,7 +64,7 @@ public class Questao {
     @ManyToOne
     @JoinColumn(name = "criador_id")
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
-    @JsonIgnoreProperties("questoes")
+    @JsonIgnoreProperties(value = "questoes", allowSetters = true)
     private Usuario criador;
 
 

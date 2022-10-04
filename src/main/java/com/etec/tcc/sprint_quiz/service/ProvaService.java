@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
 
-public interface ProvaService {
+public interface ProvaService extends IDAO<Prova>{
 
     List<Prova> getAll();
 
-    Prova getByIdProva(@PathVariable Long id);
+    Prova getById(@PathVariable Long id);
 
     List<Prova> getAllByNome(String nome);
 
@@ -19,14 +19,14 @@ public interface ProvaService {
 
     List<Prova> getByCriadorId(Long id);
 
-    Prova postProva( Prova prova);
+    Prova post( Prova prova);
 
-    Prova putProva(Prova prova);
+    Prova put(Prova prova);
 
 //    ResponseEntity<?> deleteProva(Long id);
 //    <Object> Object deleteProva(Long id);
     
-    void deleteProva(Long id);
+    void delete(Long id);
     
     
 }

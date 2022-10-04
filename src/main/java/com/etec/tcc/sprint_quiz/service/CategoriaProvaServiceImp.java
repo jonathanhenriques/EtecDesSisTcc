@@ -32,11 +32,11 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 		return categoriaProvaRepository.findAll(); 
 	}
 
-	public CategoriaProva postCategoriaProva(@Valid @RequestBody CategoriaProva categoria) {
+	public CategoriaProva post(@Valid @RequestBody CategoriaProva categoria) {
 		return categoriaProvaRepository.save(categoria);
 	}
 
-	public CategoriaProva putCategoriaProva(@Valid @RequestBody CategoriaProva categoria) {
+	public CategoriaProva put(@Valid @RequestBody CategoriaProva categoria) {
 		return categoriaProvaRepository.findById(categoria.getId()).map(c -> categoriaProvaRepository.save(categoria))
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(categoria.getId().toString()));
 	} 
@@ -48,7 +48,7 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 //		}).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException());
 //	} 
 
-	public void deletetaCategoriaProva(@PathVariable Long id) {
+	public void delete(@PathVariable Long id) {
 		CategoriaProva cp = categoriaProvaRepository.findById(id)
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(id.toString())); 
 		categoriaProvaRepository.delete(cp);
