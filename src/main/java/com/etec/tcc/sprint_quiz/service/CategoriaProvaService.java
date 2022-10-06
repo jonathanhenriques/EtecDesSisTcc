@@ -13,22 +13,24 @@ public interface CategoriaProvaService extends IDAO<CategoriaProva>{
 
 
 
-     CategoriaProva getById(@PathVariable Long id);
+     CategoriaProva getById(Long id);
 
 
      List<CategoriaProva> getAll();
+     
+
+     List<CategoriaProva> getAllByTitulo(String titulo);
+
+     CategoriaProva post(CategoriaProva categoria);
 
 
-     CategoriaProva post(@Valid @RequestBody CategoriaProva categoria);
-
-
-     CategoriaProva put(@Valid @RequestBody CategoriaProva categoria);
+     CategoriaProva put(CategoriaProva categoria);
 
 
 //     CategoriaProva patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria);
 
 
-     void delete(@PathVariable Long id);
+     void delete(Long id);
 
 
 }

@@ -11,19 +11,19 @@ import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 
 public interface CategoriaQuestaoService extends IDAO<CategoriaQuestao>{
 
-//    CategoriaQuestao getById(@PathVariable Long id);
+    CategoriaQuestao getById(Long id);
     
-//    List<CategoriaQuestao> getAll();
+    List<CategoriaQuestao> getAll();
 
     List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo);
 
-    List<CategoriaQuestao> getByDescricao(@PathVariable("descricao") String descricao);
+    List<CategoriaQuestao> getAllByDescricao(@PathVariable("descricao") String descricao);
 
-//    CategoriaQuestao postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria);
+    CategoriaQuestao post(@Valid @RequestBody CategoriaQuestao categoria);
 
-//    CategoriaQuestao putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria);
+    CategoriaQuestao put(@Valid @RequestBody CategoriaQuestao categoria);
 
-//    void deleteCategoriaQuestao(@PathVariable Long id);
+    void delete(@PathVariable Long id);
 
 	
 }

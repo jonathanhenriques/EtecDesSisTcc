@@ -32,8 +32,8 @@ public class CategoriaQuestaoController {
 
     @Operation(summary = "Obtem categorias pela descricao da categoria")
     @GetMapping("/descricao/{descricao}")
-    public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
-        return ResponseEntity.ok(categoriaQuestaoService.getByDescricao(descricao));
+    public ResponseEntity<List<CategoriaQuestao>> getAllByDescricao(@PathVariable("descricao") String descricao){
+        return ResponseEntity.ok(categoriaQuestaoService.getAllByDescricao(descricao));
     }
 
     @Operation(summary = "Obtem todas as  categorias")

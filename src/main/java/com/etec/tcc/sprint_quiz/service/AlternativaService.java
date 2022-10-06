@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface AlternativaService {
+public interface AlternativaService extends IDAO<Alternativa> {
 
-     ResponseEntity<List<Alternativa>> getAll();
+	List<Alternativa> getAll();
 
-     ResponseEntity<Alternativa> findById(@PathVariable Long id);
+	Alternativa getById(Long id);
 
-     ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas);
+	List<Alternativa> postListaAlternativa(List<Alternativa> alternativas);
 
-     ResponseEntity<List<Alternativa>> postListaAlternativasComQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas);
+	List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas);
 
-     ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa);
+	Alternativa post(Alternativa alternativa);
 
-     ResponseEntity<Alternativa> putAlternativa(@Valid @RequestBody Alternativa alternativa);
+	Alternativa put(Alternativa alternativa);
 
-     ResponseEntity<?> deleteAlternativa(@PathVariable Long id);
+	void delete(Long id);
 }

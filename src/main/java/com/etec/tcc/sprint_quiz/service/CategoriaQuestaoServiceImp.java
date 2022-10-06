@@ -41,8 +41,8 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
     }
 
     @Override
-    public List<CategoriaQuestao> getByDescricao(@PathVariable("descricao") String descricao){
-        return categoriaQuestaoRepository.findByDescricaoContainingIgnoreCase(descricao);
+    public List<CategoriaQuestao> getAllByDescricao(@PathVariable("descricao") String descricao){
+        return categoriaQuestaoRepository.findAllByDescricaoContainingIgnoreCase(descricao);
     }
 
 //    @Override
@@ -88,6 +88,8 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
               }).orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
 
   }
+
+
 
 
 

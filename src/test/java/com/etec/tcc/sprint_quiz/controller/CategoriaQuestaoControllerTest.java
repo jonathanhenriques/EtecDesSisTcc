@@ -69,7 +69,7 @@ class CategoriaQuestaoControllerTest {
 	}
 
 	@Test
-	void testGetByDescricao() {
+	void testGetAllByDescricao() {
 
 //		List<CategoriaQuestao> obj = new ArrayList<CategoriaQuestao>() {
 //			{
@@ -88,9 +88,9 @@ class CategoriaQuestaoControllerTest {
 //		List lista = Arrays.asList(categoria)
 		List<CategoriaQuestao> lista = new ArrayList<>();
 		lista.add(categoria);
-		Mockito.when(service.getByDescricao(Mockito.anyString())).thenReturn(lista);
+		Mockito.when(service.getAllByDescricao(Mockito.anyString())).thenReturn(lista);
 
-		ResponseEntity<List<CategoriaQuestao>> response = controller.getByDescricao(DESCRICAO);
+		ResponseEntity<List<CategoriaQuestao>> response = controller.getAllByDescricao(DESCRICAO);
 
 		assertNotNull(response);
 		assertNotNull(response.getBody());

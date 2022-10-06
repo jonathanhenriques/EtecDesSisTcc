@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface AlternativaRepository extends JpaRepository<Alternativa, Long> {
 
-    ResponseEntity<List<Alternativa>> findAllByTextoContainingIgnoreCase(@Param("texto") String texto);
+    List<Alternativa> findAllByTextoContainingIgnoreCase(@Param("texto") String texto);
 
 }

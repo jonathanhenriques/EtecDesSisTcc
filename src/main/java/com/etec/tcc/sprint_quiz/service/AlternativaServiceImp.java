@@ -18,81 +18,75 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
-public class AlternativaServiceImp implements  AlternativaService{
+public class AlternativaServiceImp implements AlternativaService {
 
-    @Autowired
-    private AlternativaRepository alternativaRepository;
+	@Autowired
+	private AlternativaRepository alternativaRepository;
 
-    @Autowired
-    private QuestaoRepository questaoRepository;
+	@Autowired
+	private QuestaoRepository questaoRepository;
 
-    @Autowired
-    private QuestaoService questaoService;
+	@Autowired
+	private QuestaoService questaoService;
 
-    @Override
-    public ResponseEntity<List<Alternativa>> getAll(){
-        return ResponseEntity.ok(alternativaRepository.findAll());
-    } 
+	@Override
+	public List<Alternativa> getAll() {
+		return alternativaRepository.findAll();
+	}
 
-    @Override
-    public ResponseEntity<Alternativa> findById(@PathVariable Long id){
-        return alternativaRepository.findById(id)
-                .map(alternativa -> ResponseEntity.ok(alternativa))
-                .orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
-    }
+	@Override
+	public Alternativa getById(Long id) {
+		return alternativaRepository.findById(id).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
+	}
 
-    @Override
-    public ResponseEntity<List<Alternativa>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas) {
-            Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
-                    .orElseThrow(() -> new RegraNegocioException("Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
+	@Override
+	public List<Alternativa> postListaAlternativa(List<Alternativa> alternativas) {
+		Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
+				.orElseThrow(() -> new RegraNegocioException(
+						"Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
 
-            alternativas.forEach(a -> {
-                questao.getAlternativas().add(a);
-            });
+		alternativas.forEach(a -> {
+			questao.getAlternativas().add(a);
+		});
 
-            alternativaRepository.saveAll(alternativas);
+		alternativaRepository.saveAll(alternativas);
 
 //            questao.getAlternativas().add(alternativas);
-            questaoService.putQuestao(questao);
-            return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
-    }
+		questaoService.putQuestao(questao);
+		return alternativas;
+	}
 
-    public ResponseEntity<List<Alternativa>> postListaAlternativasComQuestaoSalva(@Valid @RequestBody List<Alternativa> alternativas) {
-        Questao questao = alternativas.get(0).getQuestao();
+	public List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas) {
+		Questao questao = alternativas.get(0).getQuestao();
 
-        alternativas.forEach(a -> {
-            questao.getAlternativas().add(a);
-        });
+		alternativas.forEach(a -> {
+			questao.getAlternativas().add(a);
+		});
 
-        alternativaRepository.saveAll(alternativas);
+		alternativaRepository.saveAll(alternativas);
 
-        questaoService.putQuestao(questao);
-        return ResponseEntity.status(HttpStatus.CREATED).body(alternativas);
-    }
+		questaoService.putQuestao(questao);
+		return alternativas;
+	}
 
-    @Override
-    public ResponseEntity<Alternativa> postAlternativa(@Valid @RequestBody Alternativa alternativa){
-//        Questao questao = questaoRepository.findById(alternativa.getQuestao().getId())
-//                .orElseThrow(() -> new QuestaoNotFoundException(alternativa.getQuestao().getId().toString()));
+	@Override
+	public Alternativa post(Alternativa alternativa) {
+		return alternativaRepository.save(alternativa);
+	}
 
-        return  ResponseEntity.status(HttpStatus.CREATED).body(alternativaRepository.save(alternativa));
-    }
+	@Override
+	public Alternativa put(Alternativa alternativa) {
+		alternativaRepository.findById(alternativa.getId())
+				.orElseThrow(() -> new AlternativaNotFoundException(alternativa.getId().toString()));
+		return alternativaRepository.save(alternativa);
 
-    @Override
-    public ResponseEntity<Alternativa> putAlternativa(@Valid @RequestBody Alternativa alternativa){
-        return alternativaRepository.findById(alternativa.getId())
-                .map(q -> ResponseEntity.ok(alternativaRepository.save(alternativa)))
-                .orElseThrow(() -> new AlternativaNotFoundException(alternativa.getId().toString()));
+	}
 
-    }
+	@Override
+	public void delete(Long id) {
+		Alternativa alternativa = alternativaRepository.findById(id).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
+		alternativaRepository.delete(alternativa);
 
-    @Override
-    public ResponseEntity<?> deleteAlternativa(@PathVariable Long id){
-        return alternativaRepository.findById(id)
-                .map(alternativa -> {
-                    alternativaRepository.delete(alternativa);
-                    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-                }).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
-    }
+	}
 
 }

@@ -44,6 +44,12 @@ public class CategoriaProvaController {
     public ResponseEntity<List<CategoriaProva>> getAll(){
     	return ResponseEntity.ok(categoriaProvaService.getAll());
     }
+    
+    @Operation(summary = "Obtem  todas as categorias contendo título passado")
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<List<CategoriaProva>> getAllByTitulo(@PathVariable String titulo){
+		return ResponseEntity.ok(categoriaProvaService.getAllByTitulo(titulo));
+	}
 
     @Operation(summary = "Cadastra uma nova categoria")
     @PostMapping
