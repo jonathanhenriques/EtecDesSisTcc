@@ -41,14 +41,15 @@ public class Questao {
     private String texto;
 
     @OneToMany(mappedBy = "questao", cascade = CascadeType.REMOVE)
+//    @OneToMany(mappedBy = "questao")
     @JsonIgnoreProperties(value = {"questao"}, allowSetters = true)
     private List<Alternativa> alternativas;
 
 
     //    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
-    @ManyToOne()
-    @JoinColumn(name = "resposta_alternativa_id")
+    @OneToOne(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "resposta_alternativa_id")
     private Alternativa resposta;
 
 //    private String resposta;

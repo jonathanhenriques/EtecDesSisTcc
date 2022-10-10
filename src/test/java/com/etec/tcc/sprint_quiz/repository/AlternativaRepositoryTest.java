@@ -26,19 +26,21 @@ class AlternativaRepositoryTest {
 	
 	@BeforeAll
 	 void start() throws Exception {
+//		repository.deleteAll();
 		repository.save(new Alternativa(0L,"Verde", "", null));
 	}
 
 	@AfterAll
 	 void end() throws Exception {
+//		repository.deleteAll();
 	}
 
 	@Test
 	@DisplayName("Retorna uma lista filtrada por texto")
 	void testFindAllByTextoContainingIgnoreCaseDeveriaRetornarUmaListaDeAlternativaFiltradaPorTexto() {
 		List<Alternativa> lista = repository.findAllByTextoContainingIgnoreCase("Verde");
-		
 		assertEquals("Verde", lista.get(0).getTexto());
+		assertEquals(3, lista.size());
 	}
 
 }

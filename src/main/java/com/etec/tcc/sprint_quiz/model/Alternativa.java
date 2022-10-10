@@ -22,7 +22,7 @@ public class Alternativa {
     private Long id;
 
 
-    @NotNull(message = "O atributo opcao_1 não pode ser nullo")
+    @NotNull(message = "O atributo texto não pode ser nullo")
     @Size(max = 1000)
 //    @Schema(name = "Onde está wally?")
     private String texto;
@@ -31,10 +31,12 @@ public class Alternativa {
     private String foto;
 
     @ManyToOne
-//    @JoinColumn(name = "questao_id")
+    @JoinColumn(name = "questao_id")
 //    @JsonIgnoreProperties("alternativas")
     @JsonIgnoreProperties(value = {"resposta", "alternativas"}, allowSetters = true)
     private Questao questao;
+    
+    
 
 
 }

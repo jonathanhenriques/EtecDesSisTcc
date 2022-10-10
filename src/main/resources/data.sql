@@ -48,7 +48,7 @@ INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Roxo', '', 3);
 
 
 -- atualizando respostas das questoes
-UPDATE tb_questao SET resposta_alternativa_id = 2 WHERE (id = 1);
-UPDATE tb_questao SET resposta_alternativa_id = 3 WHERE (id = 2);
-UPDATE tb_questao SET resposta_alternativa_id = 1 WHERE (id = 3);
+UPDATE tb_questao SET resposta_id = 2 WHERE (id = 1);
+UPDATE tb_questao SET resposta_id = 3 WHERE (id = 2);
+UPDATE tb_questao SET resposta_id = 1 WHERE (id = 3);
 
