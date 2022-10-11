@@ -1,17 +1,31 @@
 package com.etec.tcc.sprint_quiz.model;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.etec.tcc.sprint_quiz.model.Alternativa;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,16 +54,18 @@ public class Questao {
     @Size(min = 1, max = 1000)
     private String texto;
 
-    @OneToMany(mappedBy = "questao", cascade = CascadeType.REMOVE)
-//    @OneToMany(mappedBy = "questao")
+//    @OneToMany(mappedBy = "questao", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToOne(cascade = CascadeType.REMOVE, optional = true)
+//    @JoinColumn(name = "tb_alternativa_id")
     @JsonIgnoreProperties(value = {"questao"}, allowSetters = true)
     private List<Alternativa> alternativas;
 
 
     //    @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
-    @OneToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "resposta_alternativa_id")
+    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "respostaid")
     private Alternativa resposta;
 
 //    private String resposta;

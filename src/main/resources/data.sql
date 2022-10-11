@@ -23,6 +23,8 @@ INSERT INTO tb_questao(texto, imagem, instituicao,categoria_id, criador_id) VALU
 INSERT INTO tb_questao(texto, imagem, instituicao,categoria_id, criador_id) VALUES('Qual a cor da Laranja?','https://i.imgur.com/r98IEMu.png', 'Usp', 1, 1);
 INSERT INTO tb_questao(texto, imagem, instituicao,categoria_id, criador_id) VALUES('Qual a cor do Limão?','https://i.imgur.com/r98IEMu.png', 'UFRJ', 1, 1);
 
+
+
 -- criando associação entre prova e questao
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (1, 1);
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (1, 2);
@@ -32,7 +34,7 @@ INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (2, 1);
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (2, 2);
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (2, 3);
 
--- criando alternativas
+-- criando alternativas (com id da questao)
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Verde', '', 1);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Branco', '', 1);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Laranja', '', 1);
@@ -45,10 +47,33 @@ INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Verde', '', 3);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Cinza', '', 3);
 INSERT INTO tb_alternativa(texto, foto, questao_id) VALUES('Roxo', '', 3);
 
+-- criando alternativas (sem id da questao)
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Verde', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Branco', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Laranja', '');
+--
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Preto', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Rosa', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Laranja', '');
+--
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Verde', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Cinza', '');
+--INSERT INTO tb_alternativa(texto, foto) VALUES('Roxo', '');
+
 
 
 -- atualizando respostas das questoes
 UPDATE tb_questao SET resposta_id = 2 WHERE (id = 1);
 UPDATE tb_questao SET resposta_id = 3 WHERE (id = 2);
 UPDATE tb_questao SET resposta_id = 1 WHERE (id = 3);
+
+
+-- criando associação entre questao e alternativa
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (1);
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (2);
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (3);
+--
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 2) VALUES (4);
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 2) VALUES (5);
+--INSERT INTO tb_questao(alternativa_id) WHERE (id = 2) VALUES (6);
 

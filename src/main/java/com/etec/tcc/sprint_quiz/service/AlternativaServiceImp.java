@@ -51,7 +51,6 @@ public class AlternativaServiceImp implements AlternativaService {
 
 		alternativaRepository.saveAll(alternativas);
 
-//            questao.getAlternativas().add(alternativas);
 		questaoService.putQuestao(questao);
 		return alternativas;
 	}

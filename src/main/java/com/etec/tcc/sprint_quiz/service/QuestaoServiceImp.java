@@ -108,16 +108,16 @@ public class QuestaoServiceImp implements QuestaoService {
 
     @Transactional
     public ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao) {
-        List<Alternativa> alternativas = questao.getAlternativas();
-        questao.setAlternativas(new ArrayList<Alternativa>());
-        postQuestao(questao);
-
-        List<Alternativa> listaAlternativasComQuestao = alternativas.stream().map(a -> {
-            a.setQuestao(questao);
-            return a;
-        }).collect(Collectors.toList());
-
-        alternativaService.postListaAlternativasComQuestaoSalva(listaAlternativasComQuestao);
+//        List<Alternativa> alternativas = questao.getAlternativas();
+//        questao.setAlternativas(new ArrayList<Alternativa>());
+//        postQuestao(questao);
+//
+//        List<Alternativa> listaAlternativasComQuestao = alternativas.stream().map(a -> {
+//            a.setQuestao(questao);
+//            return a;
+//        }).collect(Collectors.toList());
+//
+//        alternativaService.postListaAlternativasComQuestaoSalva(listaAlternativasComQuestao);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(questao);

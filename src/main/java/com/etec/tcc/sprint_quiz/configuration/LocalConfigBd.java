@@ -62,7 +62,8 @@ public class LocalConfigBd {
         Alternativa a1 = new Alternativa(null, "texto alternativa a", "", questao1);
         Alternativa a2 = new Alternativa(null, "texto alternativa b", "", questao1);
         Alternativa a3 = new Alternativa(null, "texto alternativa c", "", questao1);
-
+        
+        
         questao1.setAlternativas(List.of(a1, a2, a3));
         questao2.setAlternativas(List.of(a1, a2, a3));
 
