@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,10 +41,10 @@ public class Alternativa {
     private String foto;
 
     @ManyToOne
-//    @JoinColumn(name = "questao_id")
+//    @OneToOne
     @JoinColumn(name = "questao_id")
-    @Cascade(CascadeType.SAVE_UPDATE)
-//    @JsonIgnoreProperties("alternativas")
+//    @Cascade(CascadeType.SAVE_UPDATE)
+////    @JsonIgnoreProperties("alternativas")
     @JsonIgnoreProperties(value = {"resposta", "alternativas"}, allowSetters = true)
     private Questao questao;
     

@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,13 +12,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
+import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 
 @Service
 public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 	@Autowired
 	private CategoriaProvaRepository categoriaProvaRepository;
+	
+	@Autowired
+	private QuestaoProvaRepository questaoProvaRepository;
 
 	
 	
@@ -53,6 +60,23 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 	public void delete(@PathVariable Long id) {
 		CategoriaProva cp = categoriaProvaRepository.findById(id)
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(id.toString())); 
+		
+		List<Prova> listaProvasDaCategoria = cp.getProvas();
+		List<Long> lista = new ArrayList<Long>();
+		
+		for(Prova p : listaProvasDaCategoria) {
+			lista.add(p.getId());
+		}
+		
+		List<QuestaoProva> listaQuestaoProva = new ArrayList<>();
+		
+		for(Long l : lista) {
+			listaQuestaoProva.addAll(questaoProvaRepository.findAllByProvaId(l));
+		}
+		
+		questaoProvaRepository.deleteAll(listaQuestaoProva);
+		
+		
 		categoriaProvaRepository.delete(cp);
 	}
 	

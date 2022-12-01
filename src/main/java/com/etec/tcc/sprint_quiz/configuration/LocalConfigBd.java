@@ -52,21 +52,22 @@ public class LocalConfigBd {
         CategoriaQuestao cq = new CategoriaQuestao(null, "Categoria questao teste", "Descrição categoria questao", Arrays.asList(new Questao()));
         CategoriaQuestao cq1 = new CategoriaQuestao(null, "Categoria questao teste 2", "Descrição categoria questao 2", Arrays.asList(new Questao()));
 
-        Questao questao1 = new Questao(null, "Questao teste", LocalDate.now(), "", "Texto questão teste", null, new Alternativa(), cq1, usuario1);
-        Questao questao2 = new Questao(null, "questao2 teste", LocalDate.now(), "", "Texto questao2 teste", null, new Alternativa(), cq1, usuario1);
+        Questao questao1 = new Questao(null,"instituicao ", LocalDate.now(), "imagem", "Texto questão teste",DificuldadeQuestao.FACIL, null , null, cq1, usuario1);
+        Questao questao2 = new Questao(null,"instituicao ", LocalDate.now(), "imagem", "Texto questao2 teste",DificuldadeQuestao.INTERMEDIARIO, null,null, cq1, usuario1);
+        Questao q = new Questao(null, null, null, null, null, null, null, null, cq1, usuario1);
 
         QuestaoProva qp1 = new QuestaoProva(null,questao1, prova1);
         QuestaoProva qp2 = new QuestaoProva(null,questao2, prova1);
 
         //Long id, String texto, String foto, Questao questao
-        Alternativa a1 = new Alternativa(null, "texto alternativa a", "", questao1);
-        Alternativa a2 = new Alternativa(null, "texto alternativa b", "", questao1);
-        Alternativa a3 = new Alternativa(null, "texto alternativa c", "", questao1);
+//        Alternativa a1 = new Alternativa(null, "texto alternativa a", "");
+//        Alternativa a2 = new Alternativa(null, "texto alternativa b", "");
+//        Alternativa a3 = new Alternativa(null, "texto alternativa c", "");
         
-        
-        questao1.setAlternativas(List.of(a1, a2, a3));
-        questao2.setAlternativas(List.of(a1, a2, a3));
-
+//        
+//        questao1.setAlternativas(List.of(a1, a2, a3));
+//        questao2.setAlternativas(List.of(a1, a2, a3));
+//
 
 
 

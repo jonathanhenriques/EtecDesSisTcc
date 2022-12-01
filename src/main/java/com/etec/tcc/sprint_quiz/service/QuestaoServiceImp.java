@@ -96,14 +96,25 @@ public class QuestaoServiceImp implements QuestaoService {
     @Override
     public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao) {
         if (usuarioRepository.existsById(questao.getCriador().getId())) {
-            return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
-                    .map(c ->
-                            ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao))
-                    ).orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
+//            Questao q =  salvaQuestao(questao).getBody();
+            Alternativa a = questao.getResposta();
+            List<Alternativa> lista = new ArrayList<Alternativa>();
+//            lista.add(a);
+            questao.setAlternativas(lista);
+            questao.getAlternativas().add(a);
+            return salvaQuestao(questao);
+            
         }
 
         throw new UsuarioNotFoundException(questao.getCriador().getId().toString());
 
+    }
+    
+    private ResponseEntity<Questao> salvaQuestao(Questao questao){
+    	return  categoriaQuestaoRepository.findById(questao.getCategoria().getId())
+                .map(c ->
+                ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao))
+        ).orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
     }
 
     @Transactional

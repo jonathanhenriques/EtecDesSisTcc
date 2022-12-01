@@ -41,30 +41,30 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	@Override
 	public List<Alternativa> postListaAlternativa(List<Alternativa> alternativas) {
-		Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
-				.orElseThrow(() -> new RegraNegocioException(
-						"Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
-
-		alternativas.forEach(a -> {
-			questao.getAlternativas().add(a);
-		});
-
-		alternativaRepository.saveAll(alternativas);
-
-		questaoService.putQuestao(questao);
+//		Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
+//				.orElseThrow(() -> new RegraNegocioException(
+//						"Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
+//
+//		alternativas.forEach(a -> {
+//			questao.getAlternativas().add(a);
+//		});
+//
+//		alternativaRepository.saveAll(alternativas);
+//
+//		questaoService.putQuestao(questao);
 		return alternativas;
 	}
 
 	public List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas) {
-		Questao questao = alternativas.get(0).getQuestao();
-
-		alternativas.forEach(a -> {
-			questao.getAlternativas().add(a);
-		});
-
-		alternativaRepository.saveAll(alternativas);
-
-		questaoService.putQuestao(questao);
+//		Questao questao = alternativas.get(0).getQuestao();
+//
+//		alternativas.forEach(a -> {
+//			questao.getAlternativas().add(a);
+//		});
+//
+//		alternativaRepository.saveAll(alternativas);
+//
+//		questaoService.putQuestao(questao);
 		return alternativas;
 	}
 

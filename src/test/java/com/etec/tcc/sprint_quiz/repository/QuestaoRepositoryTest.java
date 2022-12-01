@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
+import com.etec.tcc.sprint_quiz.model.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.Questao;
 
 
@@ -29,7 +30,7 @@ class QuestaoRepositoryTest {
 
 	@BeforeAll
 	 void start() throws Exception {
-		repository.save(new Questao(1L,INSTITUICAO,LocalDate.now(),"https://i.imgur.com/r98IEMu.png",TEXTO,null,null,null,null));
+		repository.save(new Questao(1L,INSTITUICAO,LocalDate.now(),"https://i.imgur.com/r98IEMu.png",TEXTO,DificuldadeQuestao.FACIL, null,null,null,null));
 		
 	}
 

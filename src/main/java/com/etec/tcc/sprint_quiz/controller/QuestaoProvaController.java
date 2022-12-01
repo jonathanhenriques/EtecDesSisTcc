@@ -32,6 +32,12 @@ public class QuestaoProvaController {
     public ResponseEntity<List<QuestaoProva>> findAll() {
         return ResponseEntity.ok(questaoProvaRepository.findAll());
     }
+    
+    @Operation(summary = "Obtem todas as questoesProva por prova id")
+    @GetMapping("/listaprovas/{id}")
+    public ResponseEntity<List<QuestaoProva>> findAllByProvaId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(questaoProvaRepository.findAllByProvaId(id));
+    }
 
     @Operation(summary = "Cadastra uma questaoProva")
     @PostMapping("/provaid/{id}")

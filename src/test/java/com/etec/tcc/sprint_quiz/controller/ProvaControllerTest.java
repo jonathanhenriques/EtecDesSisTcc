@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
+import com.etec.tcc.sprint_quiz.model.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.Usuario;
@@ -248,8 +249,8 @@ class ProvaControllerTest {
 	@Test
 	void testDeleteProvaDeveriaRetornarNoContent() {
 		Mockito.doNothing().when(service).delete(Mockito.anyLong());
-		ResponseEntity<?> response =  controller.deleteProva(ID);
-		
+		ResponseEntity<?> response = controller.deleteProva(ID);
+
 		assertNotNull(response);
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -260,17 +261,17 @@ class ProvaControllerTest {
 		usuario = new Usuario(ID, NOME, "email@email.com", "12345678", "foto", "admin", null, null);
 		optionalUsuario = Optional
 				.of(new Usuario(ID, NOME, "email@email.com", "12345678", "foto", "admin", null, null));
-		
+
 		prova = new Prova(ID, NOME, DESCRICAO, DURACAO, usuario, null, INSTITUICAO, categoriaProva);
 		optionalProva = Optional
 				.of(prova = new Prova(ID, NOME, DESCRICAO, DURACAO, usuario, null, INSTITUICAO, categoriaProva));
 
 		categoriaProva = new CategoriaProva(ID, "titulo", "descricao", null);
 		optionalCategoriaProva = Optional.of(new CategoriaProva(ID, "titulo", "descricao", null));
-		
-		questao = new Questao(ID, INSTITUICAO, LocalDate.now(), "", "texto", null, null, null, usuario);
+
+		questao = new Questao(ID, INSTITUICAO, LocalDate.now(), "", "texto", DificuldadeQuestao.FACIL, null, null, null, usuario);
 		optionalQuestao = Optional
-				.of(new Questao(ID, INSTITUICAO, LocalDate.now(), "", "texto", null, null, null, usuario));
+				.of(new Questao(ID, INSTITUICAO, LocalDate.now(), "", "texto", DificuldadeQuestao.FACIL, null, null, null, usuario));
 
 	}
 

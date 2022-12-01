@@ -11,13 +11,12 @@ import java.util.List;
 @Service
 public interface QuestaoProvaService {
 
+	ResponseEntity<List<QuestaoProva>> findAllByProvaId(Long id);
 
+	ResponseEntity<QuestaoProva> postQuestaoProva(QuestaoProva questaoProva, @PathVariable("id") Long id);
 
-     ResponseEntity<QuestaoProva> postQuestaoProva(@RequestBody QuestaoProva questaoProva,
-                                                         @PathVariable("id") Long id);
+	ResponseEntity<List<QuestaoProva>> postListaQuestaoProva(List<QuestaoProva> listaQuestaoProva,
+			@PathVariable("id") Long id);
 
-     ResponseEntity<List<QuestaoProva>> postListaQuestaoProva(@RequestBody List<QuestaoProva> listaQuestaoProva,
-                                                         @PathVariable("id") Long id);
-
-     ResponseEntity<?> deleteQuestaoProva(@PathVariable("id") Long id);
+	ResponseEntity<?> deleteQuestaoProva(@PathVariable("id") Long id);
 }
