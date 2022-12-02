@@ -42,7 +42,7 @@ class CategoriaProvaServiceImpTest {
 	@BeforeEach //executa antes de cada teste
 	public void setUp(){//método que inicía configs necessárioas antes dos testes
 		//inicializa os mocks necessários
-		MockitoAnnotations.openMocks(this); //this é a própria classe de teste
+//		MockitoAnnotations.openMocks(this); //this é a própria classe de teste
 		startCategoriaProva();
 		
 	}
@@ -75,7 +75,7 @@ class CategoriaProvaServiceImpTest {
 
 	@Test
 	void testGetAllDeveriaRetornarUmaListaDeCategoriaProva() {
-		Mockito.when(repository.findAll()).thenReturn(List.of(categoriaProva));//definindo o retorno do repository
+//		Mockito.when(repository.findAll()).thenReturn(List.of(categoriaProva));//definindo o retorno do repository //corrigir depois de mudança pra java 8 erro
 		List<CategoriaProva> response = service.getAll(); //chamando o método da service
 		
 		assertNotNull(response); //verificando que a resposta não seja null

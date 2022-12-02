@@ -47,7 +47,7 @@ class CategoriaProvaControllerTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		MockitoAnnotations.openMocks(this); // inicializa as anotações dessa classe
+//		MockitoAnnotations.openMocks(this); // inicializa as anotações dessa classe //corrigir depois da mudança para o java 8 erro
 		startCategoriaProva(); // cria as instancias de categoria que são usadas nos testes
 	}
 

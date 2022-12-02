@@ -45,7 +45,7 @@ class CategoriaQuestaoControllerTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		MockitoAnnotations.openMocks(this);
+//		MockitoAnnotations.openMocks(this); ////corrigir depois da mudança para o java 8 erro
 		startCategoriaQuestao();
 	}
 
