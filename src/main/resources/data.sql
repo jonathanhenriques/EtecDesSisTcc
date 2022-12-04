@@ -3,7 +3,8 @@
 
 
 -- criando usuario
-INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'jonathan','$2a$10$aXACsqNAtCRsercQFWJjqOW0T3WNbvJtI.PSnR.DTFGY87qmkQliq', 'admin', 'jonathan@email.com');
+--INSERT INTO tb_usuario(foto, nome, senha, tipo, usuario) VALUES ('foto', 'jonathan','$2a$10$aXACsqNAtCRsercQFWJjqOW0T3WNbvJtI.PSnR.DTFGY87qmkQliq', 'admin', 'jonathan@email.com');
+INSERT INTO tb_usuario(foto, nome, senha, tipo, email) VALUES ('foto', 'jonathan','12345678', 'admin', 'jonathan@email.com');
 
 -- criando categoria de prova
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares Públicos');
