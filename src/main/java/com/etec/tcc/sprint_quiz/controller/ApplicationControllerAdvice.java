@@ -15,6 +15,7 @@ import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 
 //manipulador de erros
@@ -87,6 +88,16 @@ public class ApplicationControllerAdvice {
 				request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(UsuarioJaCadastradoException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleUsuarioJaCadastradoException(UsuarioJaCadastradoException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 }

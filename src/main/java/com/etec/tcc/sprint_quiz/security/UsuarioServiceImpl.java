@@ -12,7 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
+import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
@@ -87,6 +90,10 @@ public class UsuarioServiceImpl implements UserDetailsService{
 				.orElseThrow(() -> new UsuarioNotFoundException(id.toString()));
 	}
 	
+	public Optional<Usuario> findByEmail(String email){
+		return usuarioRepository.findByEmail(email);
+	}
+	
 
 
 	
@@ -94,8 +101,9 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	@Transactional
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 		
-//		if(usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
+		if(usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
 //			return Optional.empty();
+			 throw new UsuarioJaCadastradoException(usuario.getEmail());
 		
 		if(usuario.getTipo() != null)
 			usuario.setTipo("user");

@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -69,6 +70,12 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> findAll() {
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
+    
+//    @Operation(summary = "Obtem usuário pelo email cadastrado")
+//    @GetMapping("/email/{email}")
+//    public ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
+//    	return ResponseEntity.ok(usuarioService.findByEmail(email));
+//    }
 
 
     @Operation(summary = "Logar um usuario")
@@ -79,9 +86,11 @@ public class UsuarioController {
         			.email(usuarioLogin.getEmail())
         			.senha(usuarioLogin.getSenha()).build();
         	
+        	Optional<Usuario> usuarioBD = usuarioService.findByEmail(usuarioLogin.getEmail());
+        	
         	UserDetails usuarioAutenticado = usuarioService.autenticar(usuario);
         	String token = jwtService.gerarToken(usuario);
-        	return  ResponseEntity.ok(new TokenDTO(usuario.getEmail(), token));
+        	return  ResponseEntity.ok(new TokenDTO(usuarioBD.get().getId() ,usuario.getEmail(), token));
         	
         }catch (UsernameNotFoundException | SenhaInvalidaException e) {
         	throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,e.getMessage());
