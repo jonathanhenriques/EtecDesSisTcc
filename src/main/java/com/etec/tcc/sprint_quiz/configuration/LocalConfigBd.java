@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.configuration;
 
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
@@ -39,8 +40,7 @@ public class LocalConfigBd {
         List<Questao> lq = new ArrayList<>();
         List<Prova> lp = new ArrayList<>(); 
         Usuario usuario1 = new Usuario(
-        		null, "Jonathan", "jonathan@email.com", "12345678", "", "", new ArrayList<Questao>() , new ArrayList<Prova>());
-
+        		null, "Jonathan", "jonathan@email.com", "12345678", "", Arrays.asList(), new ArrayList<Questao>() , new ArrayList<Prova>());
         //Long id, String titulo, String descricao, List<Prova> provas
 
         CategoriaProva cp = new CategoriaProva(null, "Categoria Prova teste", "Descrição categoriaProva", Arrays.asList(new Prova()));

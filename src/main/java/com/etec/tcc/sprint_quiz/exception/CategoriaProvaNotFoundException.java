@@ -4,7 +4,12 @@ package com.etec.tcc.sprint_quiz.exception;
 public class CategoriaProvaNotFoundException extends RuntimeException {
 
 
-    public CategoriaProvaNotFoundException(String message) { 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CategoriaProvaNotFoundException(String message) { 
         super("Categoria de Prova não encontrada! | " + message);
     } 
 

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.etec.tcc.sprint_quiz.model.DificuldadeQuestao;
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.Questao;
 
 

@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.model;
+package com.etec.tcc.sprint_quiz.enums;
 
 public enum DificuldadeQuestao {
 

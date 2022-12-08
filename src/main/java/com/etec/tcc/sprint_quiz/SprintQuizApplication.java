@@ -1,14 +1,8 @@
 package com.etec.tcc.sprint_quiz;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.security.JwtService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class SprintQuizApplication {
@@ -31,6 +25,7 @@ public class SprintQuizApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SprintQuizApplication.class, args);
+		System.out.println(new BCryptPasswordEncoder().encode("12345678")); //gerar senhas para salvar no banco usuários iniciais
 	}
 
 }

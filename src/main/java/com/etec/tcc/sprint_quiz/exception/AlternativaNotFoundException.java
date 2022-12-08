@@ -2,7 +2,12 @@ package com.etec.tcc.sprint_quiz.exception;
 
 public class AlternativaNotFoundException extends RuntimeException{
 
-    public AlternativaNotFoundException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public AlternativaNotFoundException(String message) {
         super("Alternativa não encontrada! | " + message);
     }
 

@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
@@ -57,7 +55,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 		.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 		
 		
-		String[] roles = usuario.getTipo().equals("admin") ?  new String[] {"ADMIN", "USER"} :  new String[] {"USER"};
+		String[] roles = usuario.getRoles().equals("admin") ?  new String[] {"ADMIN", "USER"} :  new String[] {"USER"};//rever nao funciona
 		
 		
 		return User
@@ -105,8 +103,8 @@ public class UsuarioServiceImpl implements UserDetailsService{
 //			return Optional.empty();
 			 throw new UsuarioJaCadastradoException(usuario.getEmail());
 		
-		if(usuario.getTipo() != null)
-			usuario.setTipo("user");
+		if(usuario.getId() != null)
+			usuario.setRoles(null);///rever nao funciona
 		
 		String senhaCriptografada = passwordEncoder.encode(usuario.getSenha()); //solicitamos a criptografia da senha
 		usuario.setSenha(senhaCriptografada); //salvamos o usuario já com a senha criptografada

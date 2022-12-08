@@ -93,10 +93,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		
     	http.authorizeRequests()
-//        .antMatchers("/usuarios/logar").permitAll()
-//        .antMatchers("/usuarios/cadastrar").permitAll()
-		.antMatchers(HttpMethod.POST, "/usuarios/*").permitAll()
+        .antMatchers("/usuarios/logar").permitAll()
+        .antMatchers("/usuarios/cadastrar").permitAll()
+    	
+//		.antMatchers(HttpMethod.POST, "/usuarios/*").permitAll()
+		
 //		.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
+		
+		
+
 //		.antMatchers("/usuarios/*").permitAll()
 //		.antMatchers("/usuarios/**").permitAll()
 		
@@ -107,7 +112,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		.antMatchers("/questoes/**").permitAll()//esse endpoint e de livre acesso para qualquer usuario
 //		.antMatchers("/provas/**").authenticated()
 //		.antMatchers("/categoriaQuestao/**").authenticated()
+//        .antMatchers("/categoriaProva").permitAll()
 //		.antMatchers("/categoriaProva/**").authenticated()
+//		.antMatchers("/categoriaProva/**").permitAll()
 //		.antMatchers("/alternativas/**").authenticated()
 		
 //		.antMatchers("/usuarios/cadastrar").permitAll()
@@ -115,9 +122,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		.antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
 		
 //		.antMatchers("/questaoProva/**").authenticated()
-        
+		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.anyRequest().authenticated()
-		//metodo volta para a raiz do objeto, no caso >> http << ,sempre depois de termos feito alguma configuracao 
+		//metodo and() volta para a raiz do objeto, no caso >> http << ,sempre depois de termos feito alguma configuracao 
 //		.formLogin();//habilita a tela de login do spring security
 //		.formLogin("/meu-login-customizado")//indicamos onde esta a tela de login customizada, normalmente fica em resources/public ou templates
 		.and()

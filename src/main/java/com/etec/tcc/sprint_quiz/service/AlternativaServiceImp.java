@@ -1,21 +1,13 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.RegraNegocioException;
-import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
-import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 
 @Service
 public class AlternativaServiceImp implements AlternativaService {
@@ -23,11 +15,11 @@ public class AlternativaServiceImp implements AlternativaService {
 	@Autowired
 	private AlternativaRepository alternativaRepository;
 
-	@Autowired
-	private QuestaoRepository questaoRepository;
+//	@Autowired
+//	private QuestaoRepository questaoRepository;
 
-	@Autowired
-	private QuestaoService questaoService;
+//	@Autowired
+//	private QuestaoService questaoService;
 
 	@Override
 	public List<Alternativa> getAll() {

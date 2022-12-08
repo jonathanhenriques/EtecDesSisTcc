@@ -1,8 +1,8 @@
 package com.etec.tcc.sprint_quiz.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -30,7 +30,7 @@ class ProvaRepositoryTest {
 
 	@BeforeAll
 	void start() throws Exception {
-		Usuario usuario = new Usuario(1L, "jonathan", "joanthan@email.com", "12345678", "", "", null, null);
+		Usuario usuario = new Usuario(1L, "jonathan", "joanthan@email.com", "12345678", "", Arrays.asList(), null, null);
 		usuarioRepository.save(usuario);
 		repository.save(new Prova(0L, NOME, DESCRICAO, 6, usuario, null, "instituicao", null));
 

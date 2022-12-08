@@ -3,7 +3,12 @@ package com.etec.tcc.sprint_quiz.exception;
 public class CategoriaQuestaoNotFoundException extends RuntimeException {
 
 
-    public CategoriaQuestaoNotFoundException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CategoriaQuestaoNotFoundException(String message) {
         super("Categoria da Questão não encontrada | " + message);
     }
 

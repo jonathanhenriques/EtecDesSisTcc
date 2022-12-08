@@ -4,9 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.etec.tcc.sprint_quiz.model.Usuario;
@@ -69,6 +66,7 @@ public class JwtService {
 	
 	public boolean tokenValido(String token) {
 		try {
+			System.out.println("tok - " + token);
 			Claims claims = obterClaims(token);
 			Date dataExpiracao = claims.getExpiration();
 			LocalDateTime data = dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(); //convertemos de Date para LocalDateTime

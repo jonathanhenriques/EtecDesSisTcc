@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
-import com.etec.tcc.sprint_quiz.model.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.Usuario;
@@ -258,9 +259,9 @@ class ProvaControllerTest {
 	}
 
 	private void startCategoriaProva() {
-		usuario = new Usuario(ID, NOME, "email@email.com", "12345678", "foto", "admin", null, null);
+		usuario = new Usuario(ID, NOME, "email@email.com", "12345678", "foto", Arrays.asList(), null, null);
 		optionalUsuario = Optional
-				.of(new Usuario(ID, NOME, "email@email.com", "12345678", "foto", "admin", null, null));
+				.of(new Usuario(ID, NOME, "email@email.com", "12345678", "foto", Arrays.asList(), null, null));
 
 		prova = new Prova(ID, NOME, DESCRICAO, DURACAO, usuario, null, INSTITUICAO, categoriaProva);
 		optionalProva = Optional

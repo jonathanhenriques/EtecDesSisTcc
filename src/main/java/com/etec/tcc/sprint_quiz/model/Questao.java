@@ -21,9 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import com.etec.tcc.sprint_quiz.model.Alternativa;
-
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

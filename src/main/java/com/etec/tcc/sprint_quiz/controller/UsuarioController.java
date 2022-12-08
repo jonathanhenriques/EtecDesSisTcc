@@ -22,8 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
+import com.etec.tcc.sprint_quiz.model.UsuarioLogin2;
 import com.etec.tcc.sprint_quiz.model.dto.TokenDTO;
-import com.etec.tcc.sprint_quiz.model.dto.UsuarioLogin2;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.security.JwtService;
 import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
@@ -71,11 +71,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
     
-//    @Operation(summary = "Obtem usuário pelo email cadastrado")
-//    @GetMapping("/email/{email}")
-//    public ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
-//    	return ResponseEntity.ok(usuarioService.findByEmail(email));
-//    }
 
 
     @Operation(summary = "Logar um usuario")
