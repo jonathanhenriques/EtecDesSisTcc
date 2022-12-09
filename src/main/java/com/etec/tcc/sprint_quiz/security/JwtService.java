@@ -51,6 +51,7 @@ public class JwtService {
 		if(!usuario.getAuthorities().isEmpty())
 			claims.put("authorities", usuario.getAuthorities());
 
+		
 //		int i = 0;
 //		for(RolesModel role : usuario.getRoles()) {
 //			i++;
