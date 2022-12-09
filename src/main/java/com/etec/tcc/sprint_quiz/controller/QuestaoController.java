@@ -66,7 +66,9 @@ public class QuestaoController {
 
     @Operation(summary = "Obtem questoes pelo anteriores a um periodo")
     @GetMapping("/ano/antes/{ano}")
-    public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano) {
+    public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable @DateTimeFormat(
+            iso = DateTimeFormat.ISO.DATE)
+            LocalDate ano) {
         return questaoService.findAllByAntesAno(ano);
     }
 

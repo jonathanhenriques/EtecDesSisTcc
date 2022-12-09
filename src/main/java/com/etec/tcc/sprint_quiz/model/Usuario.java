@@ -1,5 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,6 +18,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,17 +29,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * classe representando os usuarios no Banco
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder // permite construir obj com mais facilidade
 @Entity
-@Table(name = "tb_usuario")
-public class Usuario {
+@Table(name = "TB_USUARIO")
+public class Usuario implements UserDetails, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "usuario_id")
+//	@Column(name = "usuario_id")
 	private Long id;
 
 	@NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
@@ -51,22 +61,22 @@ public class Usuario {
 	@NotBlank(message = "{campo.email.obrigatorio}")
 	@Column(unique = true)
 	@Email(message = "Deve ser um email válido (email@email.com)")
-	private String email; // campo de login
+	private String username; // campo de login
 
 	@NotBlank(message = "O atributo senha não pode ser nullo nem vazio!")
 	@Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
-	private String senha;
+	private String password;
 
 //    @Schema(name = "link da foto")
 	private String foto;
 
+//	private boolean enable;
+
 //	@Schema(example = "admin / user")
 //	private String tipo;
 	@ManyToMany
-	@JoinTable(name = "TB_USUARIO_ROLES", joinColumns = @JoinColumn(name = "usuario_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "TB_USUARIO_ROLE", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<RolesModel> roles;
-	
-	
 
 	@OneToMany(mappedBy = "criador")
 	@JsonIgnoreProperties({ "instituicao", "ano", "texto", "opcao_1", "opcao_2", "opcao_3", "opcao_4", "opcao_5",
@@ -77,5 +87,41 @@ public class Usuario {
 	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
 			"categoria" }, allowSetters = true)
 	private List<Prova> provas;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+//		return this.enable;
+		return true;
+	}
 
 }

@@ -2,6 +2,8 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 
 @Service
+@Transactional
 public class AlternativaServiceImp implements AlternativaService {
 
 	@Autowired

@@ -13,7 +13,7 @@ import com.etec.tcc.sprint_quiz.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 
-	Optional<Usuario> findByEmail(String email);
+	Optional<Usuario> findByUsername(String username);
 
 	List<Usuario> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 

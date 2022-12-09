@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UsuarioLogin2 {
+public class UsuarioLoginDTO {
 
 
-    private Long id;
-    private String nome;
-    private String email; //campo de login
-    private String senha;
-    private String foto;
-    private String tipo;
+//    private Long id;
+//    private String nome;
+    private String username; //campo de login
+    private String password;
+//    private String foto;
+//    private String roles;
 
 
 }

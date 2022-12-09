@@ -49,7 +49,7 @@ public class JwtService {
 		
 		return Jwts
 				.builder()
-				.setSubject(usuario.getEmail())// identificacao do usuario
+				.setSubject(usuario.getUsername())// identificacao do usuario
 				.setExpiration(data)
 //				.setClaims(claims) //informacoes diversas
 				.signWith(SignatureAlgorithm.HS512, "bWV1IGdhdG8gc2UgY2hhbWEgbWFkcnVndWluaGE=")
@@ -66,7 +66,7 @@ public class JwtService {
 	
 	public boolean tokenValido(String token) {
 		try {
-			System.out.println("tok - " + token);
+//			System.out.println("tok - " + token);
 			Claims claims = obterClaims(token);
 			Date dataExpiracao = claims.getExpiration();
 			LocalDateTime data = dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(); //convertemos de Date para LocalDateTime

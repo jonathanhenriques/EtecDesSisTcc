@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
+import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.UsuarioLogin2;
+import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.model.dto.TokenDTO;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.security.JwtService;
@@ -54,7 +55,7 @@ public class UsuarioController {
     @Operation(summary = "Obtem usuario pelo email")
     @GetMapping("/email/{usuario}")
     public ResponseEntity<Usuario> findByEmail(@PathVariable String usuario) {
-        return usuarioRepository.findByEmail(usuario)
+        return usuarioRepository.findByUsername(usuario)
                 .map(u -> ResponseEntity.ok(u))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -75,17 +76,22 @@ public class UsuarioController {
 
     @Operation(summary = "Logar um usuario")
     @PostMapping("/logar")
-    public ResponseEntity<TokenDTO> autenticar(@RequestBody UsuarioLogin2 usuarioLogin) {
-        try {
-        	Usuario usuario = Usuario.builder()
-        			.email(usuarioLogin.getEmail())
-        			.senha(usuarioLogin.getSenha()).build();
+    public ResponseEntity<TokenDTO> autenticar( @RequestBody Usuario usuarioLogin) {
+       
+    	Optional<Usuario> usuarioBD = Optional.ofNullable(usuarioService.findByEmail(usuarioLogin.getUsername()).orElseThrow(() -> new UsuarioNotFoundException(usuarioLogin.getUsername())));
+    	
+    	try {
+//        	Usuario usuario = Usuario.builder()
+//        			.username(usuarioLogin.getUsername())
+//        			.password(usuarioLogin.getPassword()).build();
         	
-        	Optional<Usuario> usuarioBD = usuarioService.findByEmail(usuarioLogin.getEmail());
         	
-        	UserDetails usuarioAutenticado = usuarioService.autenticar(usuario);
-        	String token = jwtService.gerarToken(usuario);
-        	return  ResponseEntity.ok(new TokenDTO(usuarioBD.get().getId() ,usuario.getEmail(), token));
+        	
+//        	UserDetails usuarioAutenticado = 
+        			usuarioService.autenticar(usuarioLogin);
+        	
+        	String token = jwtService.gerarToken(usuarioBD.get());
+        	return  ResponseEntity.ok(new TokenDTO(usuarioBD.get().getId() ,usuarioBD.get().getUsername(), token));
         	
         }catch (UsernameNotFoundException | SenhaInvalidaException e) {
         	throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,e.getMessage());
