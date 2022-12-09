@@ -46,7 +46,6 @@ public class JwtService {
 		HashMap<String, Object> claims = new HashMap<>();
 
 		claims.put("nome", usuario.getNome());
-//		claims.put("username", usuario.getUsername());
 		if (usuario.getFoto() != null)
 			claims.put("linkFoto", usuario.getFoto());
 		if(!usuario.getAuthorities().isEmpty())
