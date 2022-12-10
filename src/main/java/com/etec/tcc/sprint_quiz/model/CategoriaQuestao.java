@@ -10,6 +10,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+
+/**
+ * Representa a categoria das questões
+ * 
+ * @author hsjon
+ *
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,13 +28,13 @@ public class CategoriaQuestao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O atributo titulo não pode ser nulo nem vazio!")
-    @Size(min = 1, max = 50, message = "No máximo 50 caracteres")
+    @NotBlank(message = "titulo {campo.texto.notBlank.obrigatorio}")
+    @Size(min = 1, max = 50, message = "titulo {campo.texto.sizeMax} 50")
 //    @Schema(name = "Questões de Matemática")
     private String titulo;
 
 
-    @NotBlank(message = "O atributo descricao não deve ser vazio nem nullo!")
+    @NotBlank(message = "descricao {campo.texto.notBlank.obrigatorio}")
     @Size(min = 1, max = 1000, message = "No máximo 1000 caracteres")
 //    @Schema(name = "Questões de Matemática")
     private String descricao;

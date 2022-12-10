@@ -11,6 +11,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ * Representa prova no banco
+ * 
+ * @author hsjon
+ *
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,13 +29,13 @@ public class Prova {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
+    @NotBlank(message = "nome {campo.texto.notBlank.obrigatorio}")
     @Size(max = 50, message = "O nome deve ter no máximo 50 caracteres")
 //    @Schema(name = "Vestibulinho etec 1° SEM/2020")
     private String nome;
 
-    @NotBlank(message = "O atributo descricao não pode ser nullo nem vazio!")
-    @Size(max = 400, message = "A descricao deve ter no máximo 400 caracteres")
+    @NotBlank(message = "descricao {campo.texto.notBlank.obrigatorio}")
+    @Size(max = 400, message = "descricao {campo.texto.sizeMax} 400")
 //    @Schema(name = "etec - Vestibulinho 1° SEM/2020")
     private String descricao;
 

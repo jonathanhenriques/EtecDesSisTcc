@@ -47,8 +47,9 @@ public class Usuario implements UserDetails, Serializable {
 //	@Column(name = "usuario_id")
 	private Long id;
 
-	@NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
-	@Size(min = 3, max = 75, message = "O nome deve ter no mínimo 3 caracteres")
+//	@NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
+	@NotBlank(message = "nome {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 3, max = 75, message = "nome {campo.texto.sizeMin} 3")
 	private String nome;
 
 // necessario na antiga implementacao de security pois login é feito com email
@@ -58,13 +59,13 @@ public class Usuario implements UserDetails, Serializable {
 //    private String usuario;
 
 	@Schema(example = "email@email.com.br")
-	@NotBlank(message = "{campo.email.obrigatorio}")
+	@NotBlank(message = "email {campo.texto.notBlank.obrigatori}")
 	@Column(unique = true)
-	@Email(message = "Deve ser um email válido (email@email.com)")
+	@Email(message = "{campo.email}")
 	private String username; // campo de login
 
-	@NotBlank(message = "O atributo senha não pode ser nullo nem vazio!")
-	@Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
+	@NotBlank(message = "senha {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 8, message = "senha {campo.texto.sizeMin} 8")
 	private String password;
 
 //    @Schema(name = "link da foto")

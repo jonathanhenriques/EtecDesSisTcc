@@ -28,7 +28,7 @@ public class Alternativa {
     private Long id;
 
 
-    @NotNull(message = "O atributo texto não pode ser nullo")
+    @NotNull(message = "texto {campo.texto.notnull.obrigatorio}")
     @Size(max = 1000)
 //    @Schema(name = "Onde está wally?")
     private String texto;

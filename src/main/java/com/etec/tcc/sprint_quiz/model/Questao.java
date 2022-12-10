@@ -26,6 +26,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representa a Questão no Banco
+ * 
+ * @author hsjon
+ *
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,8 +55,8 @@ public class Questao {
 
 	private String imagem;
 
-	@NotBlank(message = "O atributo texto não pode ser nullo nem vazio!")
-	@Size(min = 1, max = 1000)
+	@NotBlank(message = "texto {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 1, max = 1000, message = "texto {campo.texto.sizeMax} 1000")
 	private String texto;
 
 	private DificuldadeQuestao dificuldade;
