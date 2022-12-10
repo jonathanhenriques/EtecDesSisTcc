@@ -76,7 +76,7 @@ public class UsuarioController {
 
     @Operation(summary = "Logar um usuario")
     @PostMapping("/logar")
-    public ResponseEntity<TokenDTO> autenticar( @RequestBody Usuario usuarioLogin) {
+    public ResponseEntity<TokenDTO> autenticar( @RequestBody UsuarioLoginDTO usuarioLogin) {
        
     	Optional<Usuario> usuarioBD = Optional.ofNullable(usuarioService.findByEmail(usuarioLogin.getUsername()).orElseThrow(() -> new UsuarioNotFoundException(usuarioLogin.getUsername())));
     	

@@ -16,6 +16,7 @@ import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
+import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 
 @Service
@@ -41,7 +42,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	 * @param usuario
 	 * @return usuarioDetails
 	 */
-	public UserDetails autenticar (Usuario usuario) {
+	public UserDetails autenticar (UsuarioLoginDTO usuario) {
 		UserDetails user = loadUserByUsername(usuario.getUsername());
 		boolean senhasBatem = encoder.matches(usuario.getPassword(), user.getPassword());
 		if(senhasBatem) {
