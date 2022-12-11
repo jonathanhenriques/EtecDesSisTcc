@@ -5,10 +5,13 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +32,21 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+//	
+//	@Autowired
+//	@Lazy
+//    private PasswordEncoder encoder;
 	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+	
+	/**
+	 * faz a criptografia da senha usando a lógica do BCryptPasswordEncoder
+	 * 
+	 * @return
+	 */
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 	
 	
 	/**
@@ -139,7 +154,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 		if(usuario.getId() != null)
 			usuario.setRoles(null);///rever nao funciona
 		
-		String senhaCriptografada = passwordEncoder.encode(usuario.getPassword()); //solicitamos a criptografia da senha
+		String senhaCriptografada = encoder.encode(usuario.getPassword()); //solicitamos a criptografia da senha
 		usuario.setPassword(senhaCriptografada); //salvamos o usuario já com a senha criptografada
 		return Optional.of(usuarioRepository.save(usuario));
 	}

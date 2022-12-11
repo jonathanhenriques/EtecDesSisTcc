@@ -25,13 +25,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JwtService {
 
-	@Value("${security.jwt.expiracao}") // valor vindo do application.properties
-	private String expiracao;
-//	private String expiracao = "30";
+//	@Value("${security.jwt.expiracao}") // valor vindo do application.properties
+//	private String expiracao;
+	private String expiracao = "30";
 
-	@Value("${security.jwt.chave-assinatura}")
-	private String chaveAssinatura;
-//	private String chaveAssinatura = "bWV1IGdhdG8gc2UgY2hhbWEgbWFkcnVndWluaGE=";
+//	@Value("${security.jwt.chave-assinatura}")
+//	private String chaveAssinatura;
+	private String chaveAssinatura = "bWV1IGdhdG8gc2UgY2hhbWEgbWFkcnVndWluaGE=";
 
 	/**
 	 * Recebe o usuário, lê as informações e cria um token com: identificação do

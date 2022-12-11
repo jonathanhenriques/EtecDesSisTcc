@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -74,6 +75,7 @@ public class UsuarioController {
     
 
 
+    @PreAuthorize("permitAll()")
     @Operation(summary = "Logar um usuario")
     @PostMapping("/logar")
     public ResponseEntity<TokenDTO> autenticar( @RequestBody UsuarioLoginDTO usuarioLogin) {
