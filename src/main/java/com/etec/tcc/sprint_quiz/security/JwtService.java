@@ -25,7 +25,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JwtService {
 
-	@Value("${security.jwt.expiracao}") // valor vindo do application.properties
+//	@Value("${security.jwt.expiracao}") // valor vindo do application.properties
 	private String expiracao;
 //	private String expiracao = "30";
 
