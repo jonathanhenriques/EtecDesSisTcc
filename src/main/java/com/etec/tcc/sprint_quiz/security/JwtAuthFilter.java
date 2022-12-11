@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 /**
+ * Classe filtro para Interceptar as requisições e mandar um usuário autenticado
+ *caso o token esteja válido, para a sessão
  * 
  * @author hsjon
  *Classe filtro para Interceptar as requisições e mandar um usuário autenticado

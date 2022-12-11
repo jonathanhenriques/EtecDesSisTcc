@@ -9,7 +9,6 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.etec.tcc.sprint_quiz.model.RolesModel;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 
 import io.jsonwebtoken.Claims;
@@ -47,20 +46,24 @@ public class JwtService {
 	public String gerarToken(Usuario usuario) {
 		System.out.println(" getAuthority - " + usuario.getAuthorities());
 		System.out.println("getRole  - " + usuario.getRoles());
+		System.out.println("expiracao - " + expiracao);
 		long expiracaoString = Long.valueOf(expiracao);
+		System.out.println("espiracapString - " + expiracaoString);
 		LocalDateTime dataHoraExpiracao = LocalDateTime.now().plusMinutes(expiracaoString); // pega a data de agora e
 																							// acrescenta o tempo da
 																							// variavel "expiracao"
 		Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant(); // aqui pegamos o momento atual
 		Date data = Date.from(instant); // aqui temos a data gerada
-
+		System.out.println("data - " + data);
+		
 		HashMap<String, Object> claims = new HashMap<>();
-
 		claims.put("nome", usuario.getNome());
-		if (usuario.getFoto() != null)
-			claims.put("linkFoto", usuario.getFoto());
-		if (!usuario.getAuthorities().isEmpty())
-			claims.put("authorities", usuario.getAuthorities());
+		claims.put("sub", usuario.getUsername());
+		claims.put("exp", data);
+//		if (usuario.getFoto() != null)
+//			claims.put("linkFoto", usuario.getFoto());
+//		if (!usuario.getAuthorities().isEmpty())
+//			claims.put("authorities", usuario.getAuthorities());
 
 		// quebrando, arrumar depois
 //		int i = 0;
@@ -71,7 +74,8 @@ public class JwtService {
 //		if(usuario.getTipo() != null)
 //			claims.put("tipo de usuario", usuario.getTipo());
 		return Jwts.builder().setSubject(usuario.getUsername())// identificacao do usuario
-				.setExpiration(data).setClaims(claims) // informacoes diversas
+				.setExpiration(data)
+				.setClaims(claims) // informacoes diversas 
 				.signWith(SignatureAlgorithm.HS512, chaveAssinatura)// usa algoritmo escolhido HS512 e chave de
 																	// assinatura para codificar o token
 				.compact();
@@ -87,6 +91,7 @@ public class JwtService {
 	 * @throws ExpiredJwtException
 	 */
 	private Claims obterClaims(String token) throws ExpiredJwtException {
+		System.out.println(Jwts.parser().setSigningKey(chaveAssinatura).parseClaimsJws(token).getBody());
 		return Jwts.parser().setSigningKey(chaveAssinatura).parseClaimsJws(token).getBody();
 	}
 
@@ -99,9 +104,10 @@ public class JwtService {
 	 */
 	public boolean tokenValido(String token) {
 		try {
-//			System.out.println("tok - " + token);
+			
 			Claims claims = obterClaims(token);
 			Date dataExpiracao = claims.getExpiration();
+			System.out.println("getExpiration() - " + claims.getExpiration());
 			LocalDateTime data = dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(); // convertemos
 																												// de
 																												// Date

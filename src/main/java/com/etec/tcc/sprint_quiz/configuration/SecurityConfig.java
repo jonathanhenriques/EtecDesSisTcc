@@ -122,8 +122,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		.antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
 		
 //		.antMatchers("/questaoProva/**").authenticated()
-		.antMatchers(HttpMethod.OPTIONS).permitAll()
+//		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.anyRequest().authenticated()
+//        .anyRequest().permitAll()
 		//metodo and() volta para a raiz do objeto, no caso >> http << ,sempre depois de termos feito alguma configuracao 
 //		.formLogin();//habilita a tela de login do spring security
 //		.formLogin("/meu-login-customizado")//indicamos onde esta a tela de login customizada, normalmente fica em resources/public ou templates
