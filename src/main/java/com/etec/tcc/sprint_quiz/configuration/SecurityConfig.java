@@ -26,48 +26,44 @@ import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
 @EnableWebSecurity // permite configurar o security
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Autowired
 	private UsuarioServiceImpl usuarioService;
-	
+
 	@Autowired
 	private JwtService jwtService;
-	
-	
-	
+
 	/**
-	 * faz a criptografia da senha usando a lógica
-	 * do BCryptPasswordEncoder
+	 * faz a criptografia da senha usando a lógica do BCryptPasswordEncoder
+	 * 
 	 * @return
 	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-		
-	
+
 	/**
-	 * Responsavel por aplicar o filtro criado
-	 * para interceptar as requisições
+	 * Responsavel por aplicar o filtro criado para interceptar as requisições
+	 * 
 	 * @return
 	 */
 	@Bean
 	public OncePerRequestFilter jwtFilter() {
 		return new JwtAuthFilter(jwtService, usuarioService);
 	}
-	
 
 	/**
 	 * método responsavel pela autenticacao do usuario
+	 * 
+	 * @param AuthenticationManagerBuilder faz a autenticação do usuário e o coloca
+	 *                                     dentro do contexto do spring security
 	 */
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		auth.
-		userDetailsService(usuarioService)
-		.passwordEncoder(passwordEncoder());
-		
-		
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception { // método acaba sendo substituído
+																					// pelo jwtAuthFilter
+
+		auth.userDetailsService(usuarioService).passwordEncoder(passwordEncoder());
+
 //		//criacao de uma autenticacao em memória apenas para entendimento
 //		auth.inMemoryAuthentication()//sinalizando tipo de autenticacao em memoria
 //		.passwordEncoder(passwordEncoder())//sinalizando metodo de criptografia
@@ -78,33 +74,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * método responsavel pela autorizacao
-	 * das urls
+	 * método responsavel pela autorizacao das urls
 	 * 
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		//habilitando o h2 console no navegador*********************
-    	http.headers().frameOptions().disable();
-    	http.authorizeRequests().antMatchers("/h2-console/**")
-        .permitAll();
-    	//*************
-		
-		
-    	http.authorizeRequests()
-        .antMatchers("/usuarios/logar").permitAll()
-        .antMatchers("/usuarios/cadastrar").permitAll()
-    	
+
+		// habilitando o h2 console no navegador*********************
+		http.headers().frameOptions().disable();
+		http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+		// *************
+
+		http.authorizeRequests().antMatchers("/usuarios/logar").permitAll().antMatchers("/usuarios/cadastrar")
+				.permitAll()
+
 //		.antMatchers(HttpMethod.POST, "/usuarios/*").permitAll()
-		
+
 //		.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
-		
-		
 
 //		.antMatchers("/usuarios/*").permitAll()
 //		.antMatchers("/usuarios/**").permitAll()
-		
+
 //		.antMatchers("/questoes/**").authenticated() //para acessar esse endpoint e necessario estar logado
 //		.antMatchers("/questoes/**").hasRole("USER")//para acessar esse endpoint e necessario ter o perfil USER
 //		.antMatchers("/questoes/**").hasAnyRole("USER","ADMIN")//para acessar esse endpoint e necessario ter os perfis indicados
@@ -116,29 +106,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		.antMatchers("/categoriaProva/**").authenticated()
 //		.antMatchers("/categoriaProva/**").permitAll()
 //		.antMatchers("/alternativas/**").authenticated()
-		
+
 //		.antMatchers("/usuarios/cadastrar").permitAll()
 //		.antMatchers("/usuarios/logar").permitAll()
 //		.antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
-		
+
 //		.antMatchers("/questaoProva/**").authenticated()
 //		.antMatchers(HttpMethod.OPTIONS).permitAll()
-		.anyRequest().authenticated()
+				.anyRequest().authenticated()
 //        .anyRequest().permitAll()
-		//metodo and() volta para a raiz do objeto, no caso >> http << ,sempre depois de termos feito alguma configuracao 
+				// metodo and() volta para a raiz do objeto, no caso >> http << ,sempre depois
+				// de termos feito alguma configuracao
 //		.formLogin();//habilita a tela de login do spring security
 //		.formLogin("/meu-login-customizado")//indicamos onde esta a tela de login customizada, normalmente fica em resources/public ou templates
-		.and()
-//		.httpBasic() //para fazer requisicoes atraves do header,indicado para trabalhar stateless sem frontend, via postman... desativamos o formLogin ao usar
+				.and()
+
+				/**
+				 * Mantêm um usuário, após o login, na sessão para todas as requisições feitas,
+				 * desativamos o formLogin ao usar
+				 */
+//		.httpBasic() 
 //        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //definimos que o token será verificado em cada requisição e se n expirar, será negado
-        .and()
-        .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+				/**
+				 * definimos que o token será verificado em cada requisição, e se expirar, será
+				 * negado
+				 */
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+				/**
+				 * Adiciona um filtro que foi criado (jwtFilter, que coloca o usuário no
+				 * contexto "sessão") e depois executa o filtro padrão do security
+				 * (UsernamePasswordAuthenticationFilter)
+				 */
+				.and().addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
 //        .and()
-        .cors()
-        .and()
-        .csrf().disable();//talvez tenha que ser retirada caso front end nao funcione
-		
+				.cors().and().csrf().disable();// talvez tenha que ser retirada caso front end nao funcione
+
 	}
 
 }

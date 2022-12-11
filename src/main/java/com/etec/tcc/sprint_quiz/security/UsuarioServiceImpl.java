@@ -63,7 +63,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Usuario usuario = usuarioRepository.findByUsername(username)
-		.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dadosUSIMP!"));
+		.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 		
 		
 //		String[] roles = usuario.getRoles().equals("admin") ?  new String[] {"ADMIN", "USER"} :  new String[] {"USER"};//rever nao funciona

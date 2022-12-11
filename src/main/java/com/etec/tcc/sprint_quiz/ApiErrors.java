@@ -7,7 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
-//classe standart que monta o obj de erro a ser exibido
+/**
+ * classe standart que monta o obj de erro a ser exibido
+ * 
+ * @author hsjon
+ *
+ */
 @AllArgsConstructor
 @Getter
 @Hidden
@@ -21,12 +26,6 @@ public class ApiErrors {
     private String errors;
     private String path;
 
-//    public ApiErrors(List<String> errors) {
-//        this.errors = errors;
-//    }
 
-//    public ApiErrors(String mensagemErro){
-//        this.errors =Arrays.asList(mensagemErro);
-//    }
 
 }

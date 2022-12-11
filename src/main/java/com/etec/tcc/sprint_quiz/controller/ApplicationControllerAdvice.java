@@ -18,7 +18,13 @@ import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 
-//manipulador de erros
+/**
+ * Classe manipulador de erros que recebe os erros da aplicação
+ * que foram declarados aqui e os modifica 
+ * 
+ * @author hsjon
+ *
+ */
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
@@ -32,7 +38,7 @@ public class ApplicationControllerAdvice {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
-//	
+//	Exception padrão OLD
 //    @ExceptionHandler(CategoriaProvaNotFoundException.class)
 //    @ResponseStatus(HttpStatus.NOT_FOUND)
 //    public ApiErrors handleCategoriaProvaNotFoundException(CategoriaProvaNotFoundException ex) {
@@ -94,10 +100,11 @@ public class ApplicationControllerAdvice {
 //	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<ApiErrors> handleUsuarioJaCadastradoException(UsuarioJaCadastradoException ex,
 			HttpServletRequest request) {
-		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.CONFLICT.value(), ex.getMessage(),
 				request.getRequestURI());
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
 	}
 
 }
