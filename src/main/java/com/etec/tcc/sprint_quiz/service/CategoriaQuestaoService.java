@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 
-public interface CategoriaQuestaoService extends IDAO<CategoriaQuestao>{
+public interface CategoriaQuestaoService extends DAORepository<CategoriaQuestao, Long>{
 
     CategoriaQuestao getById(Long id);
     

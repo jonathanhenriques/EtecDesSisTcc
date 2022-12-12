@@ -18,9 +18,9 @@ import com.etec.tcc.sprint_quiz.security.JwtService;
 import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
 
 /**
- * 
- * @author hsjon 01/12/2022 Classe SecurityConfig que contêm toda a configuração
+ * Classe SecurityConfig que contêm toda a configuração
  *         do spring security
+ * @author hsjon 01/12/2022 
  */
 
 @EnableWebSecurity // permite configurar o security
@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtService jwtService;
 
+	
 	/**
 	 * faz a criptografia da senha usando a lógica do BCryptPasswordEncoder
 	 * 

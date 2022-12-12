@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 
-public interface CategoriaProvaService extends IDAO<CategoriaProva>{
+public interface CategoriaProvaService extends DAORepository<CategoriaProva, Long>{
 
 
 

@@ -12,17 +12,37 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
+import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
+import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;
+import com.etec.tcc.sprint_quiz.repository.RolesRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
+import com.etec.tcc.sprint_quiz.service.UsuarioService;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+
+/**
+ * Classe de implementação de UsuarioService e UserDetailsService
+ * Responsável pela autenticação, cadastro e validação de login e senha
+ * 
+ * @author hsjon
+ *@since 11/12/2022
+ */
+@Slf4j
 @Service
 @Transactional //aumenta o acesso da classe ao banco de dados, as vezes resolve 401,403
-public class UsuarioServiceImpl implements UserDetailsService{
+public class UsuarioServiceImpl implements UsuarioService ,UserDetailsService{
 
+	@Autowired
+	private RolesRepository rolesRepository;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -71,10 +91,10 @@ public class UsuarioServiceImpl implements UserDetailsService{
 		return new User(usuario.getUsername(), usuario.getPassword(), true, true, true, true, usuario.getAuthorities());	
 //		return User
 //				.builder()
-//				.username(usuario.getEmail())
-//				.password(usuario.getSenha()) //como a senha vem do banco, já estará criptografada
+//				.username(usuario.getUsername())
+//				.password(usuario.getPassword()) //como a senha vem do banco, já estará criptografada
 //				.authorities(usuario.getAuthorities())
-//				
+//		
 //				.build();
 		
 		//outro usuario em memoria
@@ -89,6 +109,27 @@ public class UsuarioServiceImpl implements UserDetailsService{
 //				.roles("USER", "ADMIN")
 //				.build();
 	}
+	
+	
+	@Override
+	public Optional<Role> cadastrarRole(Role cargo) {
+		log.info("Cadastrando novo cargo! | {}", cargo.getCargo());
+		if(rolesRepository.findByCargo(cargo.getCargo()).isPresent())
+			throw new CargoJaCadastradoException(cargo.getCargo());
+		return Optional.of(rolesRepository.save(cargo));
+	}
+
+
+
+	@Override
+	public void addRoleUsuario(String username, String cargo) {
+		
+		Usuario usuario = usuarioRepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException(username));
+		Role roles = rolesRepository.findByCargo(cargo).orElseThrow(() -> new CargoNotFoundException(cargo));
+		usuario.getRoles().add(roles);
+	}
+
 	
 	
 	
@@ -116,7 +157,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	 * @param id
 	 * @return Optional<usuario>
 	 */
-	public Optional<Usuario> findByEmail(String email){
+	public Optional<Usuario> findByUsername(String email){
 		return usuarioRepository.findByUsername(email);
 	}
 	
@@ -131,7 +172,7 @@ public class UsuarioServiceImpl implements UserDetailsService{
 	 */
 	@Transactional
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
-		
+		log.info("Cadastrando novo usuário | {}", usuario.getUsername());
 		if(usuarioRepository.findByUsername(usuario.getUsername()).isPresent())
 //			return Optional.empty();
 			 throw new UsuarioJaCadastradoException(usuario.getUsername());
@@ -143,6 +184,56 @@ public class UsuarioServiceImpl implements UserDetailsService{
 		usuario.setPassword(senhaCriptografada); //salvamos o usuario já com a senha criptografada
 		return Optional.of(usuarioRepository.save(usuario));
 	}
+
+
+
+	
+
+
+
+
+
+
+
+	
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
+
+	
+
+
+
+	
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+
 	
 
 }

@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
+import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;
 import com.etec.tcc.sprint_quiz.model.dto.TokenDTO;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.security.JwtService;
@@ -78,7 +81,7 @@ public class UsuarioController {
     @PostMapping("/logar")
     public ResponseEntity<TokenDTO> autenticar( @RequestBody UsuarioLoginDTO usuarioLogin) {
        
-    	Optional<Usuario> usuarioBD = Optional.ofNullable(usuarioService.findByEmail(usuarioLogin.getUsername()).orElseThrow(() -> new UsuarioNotFoundException(usuarioLogin.getUsername())));
+    	Optional<Usuario> usuarioBD = Optional.ofNullable(usuarioService.findByUsername(usuarioLogin.getUsername()).orElseThrow(() -> new UsuarioNotFoundException(usuarioLogin.getUsername())));
     	
     	try {
 //        	Usuario usuario = Usuario.builder()
@@ -102,8 +105,9 @@ public class UsuarioController {
     @Operation(summary = "Cadastrar um usuario")
     @PostMapping("/cadastrar")
     public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody Usuario usuario) {
+    	URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuario/cadastraUsuario").toUriString());
         return usuarioService.cadastrarUsuario(usuario)
-                .map(u -> ResponseEntity.status(HttpStatus.CREATED).body(u))
+                .map(u -> ResponseEntity.created(uri).body(u))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
@@ -124,6 +128,24 @@ public class UsuarioController {
                     return ResponseEntity.noContent().build();
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+    
+    @PostMapping("role/cargo")
+    public ResponseEntity<Role> cadastrarRole(@Valid @RequestBody Role role){
+    	return usuarioService.cadastrarRole(role)
+    			.map(r -> ResponseEntity.status(HttpStatus.CREATED).body(r))
+    			.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+    			
+    	
+    }
+    
+    @PostMapping("role/roleUsuario")
+    public ResponseEntity<?> adicionarRoleAoUsuario(@Valid @RequestBody RoleDTO role){
+    	usuarioService.addRoleUsuario(role.getUsername(), role.getCargo());
+    	return ResponseEntity.ok().build();
+    			
+    			
+    	
     }
 
 

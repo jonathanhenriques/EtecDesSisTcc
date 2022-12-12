@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.etec.tcc.sprint_quiz.ApiErrors;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
+import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
@@ -105,6 +107,26 @@ public class ApplicationControllerAdvice {
 
 //		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+	
+	@ExceptionHandler(CargoNotFoundException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleCargoNotFoundException(CargoNotFoundException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(CargoJaCadastradoException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleCargoJaCadastradoException(CargoJaCadastradoException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.CONFLICT.value(), ex.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 }

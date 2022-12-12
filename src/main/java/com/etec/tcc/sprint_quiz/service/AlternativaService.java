@@ -3,7 +3,7 @@ package com.etec.tcc.sprint_quiz.service;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import java.util.List;
 
-public interface AlternativaService extends IDAO<Alternativa> {
+public interface AlternativaService extends DAORepository<Alternativa, Long> {
 
 	List<Alternativa> getAll();
 

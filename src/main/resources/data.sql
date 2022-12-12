@@ -7,11 +7,12 @@
 INSERT INTO tb_usuario(foto, nome, password, username) VALUES ('foto', 'frodo','$2a$10$FBC36RE9lGsHbYiQfsEjZOe5eVyXOpkdKoelfBL2kcT8eb.iNS78m', 'frodo@email.com');
 
 --criando os cargos
-INSERT INTO tb_role(role_Tipo) VALUES('ROLE_ADMIN');
---INSERT INTO tb_role(role_Tipo) VALUES('ROLE_USER');
+INSERT INTO tb_role(cargo) VALUES('ROLE_ADMIN');
+INSERT INTO tb_role(cargo) VALUES('ROLE_GERENTE');
+INSERT INTO tb_role(cargo) VALUES('ROLE_USER');
 
---criando associação entre usuario e cargo
-INSERT INTO tb_usuario_role VALUES(1, 1);
+----criando associação entre usuario e cargo
+--INSERT INTO tb_usuario VALUES(1, 1);
 
 -- criando categoria de prova
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares Públicos');
