@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.etec.tcc.sprint_quiz.ApiErrors;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.ApiErrors;
 import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;

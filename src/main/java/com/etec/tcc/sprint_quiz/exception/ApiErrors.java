@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz;
+package com.etec.tcc.sprint_quiz.exception;
 
 import java.time.LocalDateTime;
 

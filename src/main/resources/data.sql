@@ -11,7 +11,7 @@ INSERT INTO tb_role(cargo) VALUES('ROLE_ADMIN');
 INSERT INTO tb_role(cargo) VALUES('ROLE_GERENTE');
 INSERT INTO tb_role(cargo) VALUES('ROLE_USER');
 
-----criando associação entre usuario e cargo
+----criando associacao entre usuario e cargo
 --INSERT INTO tb_usuario VALUES(1, 1);
 
 -- criando categoria de prova
@@ -34,7 +34,7 @@ INSERT INTO tb_questao(texto, imagem, instituicao,ano,  dificuldade,categoria_id
 
 
 
--- criando associação entre prova e questao
+-- criando associacao entre prova e questao
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (1, 1);
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (1, 2);
 INSERT INTO tb_questao_prova(prova_id, questao_id) VALUES (1, 3);
@@ -94,7 +94,7 @@ UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 9);
 --UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 3);
 
 
--- criando associação entre questao e alternativa
+-- criando associacao entre questao e alternativa
 --INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (1);
 --INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (2);
 --INSERT INTO tb_questao(alternativa_id) WHERE (id = 1) VALUES (3);
