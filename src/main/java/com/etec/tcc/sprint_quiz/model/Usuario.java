@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -83,13 +84,15 @@ public class Usuario implements UserDetails, Serializable {
 	private Collection<Role> roles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "criador")
-	@JsonIgnoreProperties({ "instituicao", "ano", "texto", "opcao_1", "opcao_2", "opcao_3", "opcao_4", "opcao_5",
-			"resposta", "categoria", "criador" })
+	@JsonIgnore
+//	@JsonIgnoreProperties({ "instituicao", "ano", "texto", "opcao_1", "opcao_2", "opcao_3", "opcao_4", "opcao_5",
+//			"resposta", "categoria", "criador" })
 	private List<Questao> questoes;
 
 	@OneToMany(mappedBy = "usuario")
-	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
-			"categoria" }, allowSetters = true)
+	@JsonIgnore
+//	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
+//			"categoria" }, allowSetters = true)
 	private List<Prova> provas;
 
 	@Override

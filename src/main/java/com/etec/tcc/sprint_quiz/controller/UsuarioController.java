@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,6 +34,8 @@ import com.etec.tcc.sprint_quiz.security.JwtService;
 import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.log4j.Log4j2;
+import org.slf4j.*;
 
 @RestController()
 @RequestMapping("/usuarios")
@@ -48,15 +51,19 @@ public class UsuarioController {
     @Autowired
     private JwtService jwtService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
+    
     @Operation(summary = "Obtem usuario pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+    	LOGGER.info("Chamando endpoint findById({})  em usuarioController", id);
         return ResponseEntity.ok(usuarioService.findById(id));
                 
     } 
 
     @Operation(summary = "Obtem usuario pelo email")
     @GetMapping("/email/{usuario}")
+    @ResponseStatus
     public ResponseEntity<Usuario> findByEmail(@PathVariable String usuario) {
         return usuarioRepository.findByUsername(usuario)
                 .map(u -> ResponseEntity.ok(u))
@@ -119,15 +126,26 @@ public class UsuarioController {
 //                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 //    }
 
+//    @Operation(summary = "deleta um usuário")
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteUsuario(@PathVariable Long id) {
+//        return usuarioRepository.findById(id)
+//                .map(u -> {
+//                    usuarioRepository.delete(u);
+//                    return ResponseEntity.noContent().build();
+//                })
+//                .orElse(ResponseEntity.notFound().build());
+//    }
+    
     @Operation(summary = "deleta um usuário")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUsuario(@PathVariable Long id) {
-        return usuarioRepository.findById(id)
+    public void deleteUsuario(@PathVariable Long id) {
+         usuarioRepository.findById(id)
                 .map(u -> {
                     usuarioRepository.delete(u);
-                    return ResponseEntity.noContent().build();
+                    return void.class;
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado! | " + id));
     }
     
     @PostMapping("role/cargo")

@@ -8,11 +8,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.sprint_quiz</groupId>
+	<artifactId>SprintQuizzApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<description>SprintQuizzApp projeto</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -99,6 +99,13 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+
 		</dependency>
 
 
