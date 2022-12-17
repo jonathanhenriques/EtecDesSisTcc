@@ -11,11 +11,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -61,8 +63,9 @@ public class SecurityConfig {
 		http.headers().frameOptions().disable();
 		http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
 		// *************
-
-		http.authorizeRequests().antMatchers(AUTH_LIST_SWAGGER).permitAll();
+//		return http.authorizeRequests(authorizeRequests -> authorizeRequests
+		http.authorizeRequests(authorizeRequests -> authorizeRequests.antMatchers(AUTH_LIST_SWAGGER).permitAll());
+//		http.authorizeRequests().antMatchers(AUTH_LIST_SWAGGER).permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.POST, AUTH_LIST_USUARIO).permitAll();
 		http.authorizeRequests().anyRequest().authenticated()
 //		http.authorizeRequests().anyRequest().permitAll()
@@ -74,6 +77,7 @@ public class SecurityConfig {
 				.and().authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).cors().and().csrf()
 				.disable();// talvez tenha que ser retirada caso front end nao funcione
+//		).build();
 
 		return http.build();
 
@@ -131,5 +135,29 @@ public class SecurityConfig {
 			}
 		};
 	}
+	
+	
+	
+//	 @Bean
+//	 UserDetailsService allUsers() {
+//	 InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//	 manager
+//	 .createUser(User.builder()
+//	 .passwordEncoder(password -> password)
+//	 .username("madruguinha")
+//	 .password("12345678")
+//	 .authorities("USER")
+//	 .roles("USER").build());
+//	 manager
+//	 .createUser(User.builder()
+//	 .passwordEncoder(password -> password)
+//	 .username("jonas")
+//	 .password("12345678")
+//	 .authorities("USER")
+//	 .roles("USER").build());
+//	 return manager;
+//	 }
+	
+	
 
 }
