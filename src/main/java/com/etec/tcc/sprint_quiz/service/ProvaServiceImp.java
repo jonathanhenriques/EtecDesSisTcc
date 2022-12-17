@@ -1,6 +1,9 @@
 package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
@@ -14,6 +17,7 @@ import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 
 @Service
+@Transactional
 public class ProvaServiceImp implements ProvaService {
 
     @Autowired

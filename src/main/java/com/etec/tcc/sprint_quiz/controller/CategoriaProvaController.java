@@ -20,7 +20,9 @@ import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaProvaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/categoriaProva")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -41,6 +43,7 @@ public class CategoriaProvaController {
     @Operation(summary = "Obtem  todas as categorias")
     @GetMapping
     public ResponseEntity<List<CategoriaProva>> getAll(){
+    	log.info("Obtendo todas as categoriaProva");
     	return ResponseEntity.ok(categoriaProvaService.getAll());
     }
     
@@ -53,6 +56,7 @@ public class CategoriaProvaController {
     @Operation(summary = "Cadastra uma nova categoria")
     @PostMapping
     public ResponseEntity<CategoriaProva> postCategoriaProva(@RequestBody CategoriaProva categoria){
+    	log.info("Cadastrando nova categoriaProva '{}'", categoria.getTitulo());
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaProvaService.post(categoria));
     }
 

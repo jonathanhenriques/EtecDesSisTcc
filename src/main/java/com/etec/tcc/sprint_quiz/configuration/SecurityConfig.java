@@ -2,147 +2,134 @@ package com.etec.tcc.sprint_quiz.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.security.JwtAuthFilter;
-import com.etec.tcc.sprint_quiz.security.JwtService;
-import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 /**
- * Classe SecurityConfig que contêm toda a configuração
- *         do spring security
- * @author hsjon 01/12/2022 
+ * Clase para configurar o Spring security camada de segurança da aplicação
+ * 
+ * @author hsjon
+ * @since 15/12/2022
+ *
  */
 
-@EnableWebSecurity // permite configurar o security
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity // indica para o spring considerar essa classe para configurar a segurança
+@RequiredArgsConstructor
+public class SecurityConfig {
 
 	@Autowired
-	private UsuarioServiceImpl usuarioService;
-
+	@Lazy
+	private JwtAuthFilter jwtAuthFilter;
 	@Autowired
-	private JwtService jwtService;
+	private UsuarioRepository usuarioRepository;
+	private final String[] AUTH_LIST_SWAGGER = { "/swagger-ui/**", "/v3/api-docs/**", "/configuration/ui",
+			"/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**",
+			"/swagger-resources/configuration/ui", "/swagge‌​r-ui.html", "/swagger-resources/configuration/security" };
+	private final String[] AUTH_LIST_USUARIO = { "/usuarios/cadastrar", "/usuarios/logar", "/usuarios/autenticar" };
 
-	
 	/**
-	 * faz a criptografia da senha usando a lógica do BCryptPasswordEncoder
+	 * Método será um Bean e substituirá o securityFilterChain, o filtro de
+	 * segurança padrão, do spring
 	 * 
+	 * @param http
 	 * @return
+	 * @throws Exception
 	 */
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	/**
-	 * Responsavel por aplicar o filtro criado para interceptar as requisições
-	 * 
-	 * @return
-	 */
-	@Bean
-	public OncePerRequestFilter jwtFilter() {
-		return new JwtAuthFilter(jwtService, usuarioService);
-	}
-
-	/**
-	 * método responsavel pela autenticacao do usuario
-	 * 
-	 * @param AuthenticationManagerBuilder faz a autenticação do usuário e o coloca
-	 *                                     dentro do contexto do spring security
-	 */
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception { // método acaba sendo substituído
-																					// pelo jwtAuthFilter
-
-		auth.userDetailsService(usuarioService).passwordEncoder(passwordEncoder());
-
-//		//criacao de uma autenticacao em memória apenas para entendimento
-//		auth.inMemoryAuthentication()//sinalizando tipo de autenticacao em memoria
-//		.passwordEncoder(passwordEncoder())//sinalizando metodo de criptografia
-//		.withUser("fulano")//login
-//		.password(passwordEncoder().encode("123"))//sinalizando a senha e ja criptografando
-//		.roles("USER");//perfil do usuario
-////		.roles("ADMIN");
-	}
-
-	/**
-	 * método responsavel pela autorizacao das urls
-	 * 
-	 */
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		// habilitando o h2 console no navegador*********************
 		http.headers().frameOptions().disable();
 		http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
 		// *************
 
-		http.authorizeRequests().antMatchers("/usuarios/logar").permitAll().antMatchers("/usuarios/cadastrar")
-				.permitAll()
-
-//		.antMatchers(HttpMethod.POST, "/usuarios/*").permitAll()
-
-//		.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
-
-//		.antMatchers("/usuarios/*").permitAll()
-//		.antMatchers("/usuarios/**").permitAll()
-
-//		.antMatchers("/questoes/**").authenticated() //para acessar esse endpoint e necessario estar logado
-//		.antMatchers("/questoes/**").hasRole("USER")//para acessar esse endpoint e necessario ter o perfil USER
-//		.antMatchers("/questoes/**").hasAnyRole("USER","ADMIN")//para acessar esse endpoint e necessario ter os perfis indicados
-//		.antMatchers("/questoes/**").hasAuthority("MANTER_USUARIO")//para acessar esse endpoint e necessario ter A AUTHORITY MANTER_USUARIO
-//		.antMatchers("/questoes/**").permitAll()//esse endpoint e de livre acesso para qualquer usuario
-//		.antMatchers("/provas/**").authenticated()
-//		.antMatchers("/categoriaQuestao/**").authenticated()
-//        .antMatchers("/categoriaProva").permitAll()
-//		.antMatchers("/categoriaProva/**").authenticated()
-//		.antMatchers("/categoriaProva/**").permitAll()
-//		.antMatchers("/alternativas/**").authenticated()
-
-//		.antMatchers("/usuarios/cadastrar").permitAll()
-//		.antMatchers("/usuarios/logar").permitAll()
-//		.antMatchers(HttpMethod.GET,"/usuarios/*").permitAll()
-
-//		.antMatchers("/questaoProva/**").authenticated()
-//		.antMatchers(HttpMethod.OPTIONS).permitAll()
-				.anyRequest().authenticated()
-//        .anyRequest().permitAll()
-				// metodo and() volta para a raiz do objeto, no caso >> http << ,sempre depois
-				// de termos feito alguma configuracao
-//		.formLogin();//habilita a tela de login do spring security
-//		.formLogin("/meu-login-customizado")//indicamos onde esta a tela de login customizada, normalmente fica em resources/public ou templates
-				.and()
-
+		http.authorizeRequests().antMatchers(AUTH_LIST_SWAGGER).permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, AUTH_LIST_USUARIO).permitAll();
+		http.authorizeRequests().anyRequest().authenticated()
+//		http.authorizeRequests().anyRequest().permitAll()
+		.and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				/**
-				 * Mantêm um usuário, após o login, na sessão para todas as requisições feitas,
-				 * desativamos o formLogin ao usar
+				 * Informando qual provedor de autenticacao usar
 				 */
-//		.httpBasic() 
-//        .and()
-				/**
-				 * definimos que o token será verificado em cada requisição, e se expirar, será
-				 * negado
-				 */
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().authenticationProvider(authenticationProvider())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).cors().and().csrf()
+				.disable();// talvez tenha que ser retirada caso front end nao funcione
 
-				/**
-				 * Adiciona um filtro que foi criado (jwtFilter, que coloca o usuário no
-				 * contexto "sessão") e depois executa o filtro padrão do security
-				 * (UsernamePasswordAuthenticationFilter)
-				 */
-				.and().addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
-//        .and()
-				.cors().and().csrf().disable();// talvez tenha que ser retirada caso front end nao funcione
+		return http.build();
 
+	}
+
+	/**
+	 * Indica quais classes usar para autenticação Substitui a chamada padrão do
+	 * userDetailsService pela implementação criada de userDetailsService
+	 * 
+	 * @return
+	 */
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService());
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
+	}
+
+	/**
+	 * injeta o gerenciador de autenticação em qualquer ponto da aplicação que
+	 * precise dele
+	 * 
+	 * @param config
+	 * @return
+	 * @throws Exception
+	 */
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	/**
+	 * carrega o usuario do banco de dados atraves do login implementação da
+	 * interface UserDetailsService e seu método loadUserByUsername
+	 * 
+	 * @param username
+	 * @return o usuario encontrado convertido em usuarioDetails
+	 */
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new UserDetailsService() {
+
+			@Override
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+				return usuarioRepository.findByUsername(username).orElseThrow(
+						() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
+
+//				return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
+			}
+		};
 	}
 
 }

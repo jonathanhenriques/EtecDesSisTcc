@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 
 @Service
+@Transactional
 public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
 
 

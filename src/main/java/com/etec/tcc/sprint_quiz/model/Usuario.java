@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,11 +19,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -81,19 +85,21 @@ public class Usuario implements UserDetails, Serializable {
 //	private List<RolesModel> roles;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
+//	@ManyToMany
 	private Collection<Role> roles = new ArrayList<>();
 
-	@OneToMany(mappedBy = "criador")
+	@OneToMany(mappedBy = "criador")@LazyCollection(LazyCollectionOption.FALSE)
+//	@OneToMany(mappedBy = "criador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 //	@JsonIgnoreProperties({ "instituicao", "ano", "texto", "opcao_1", "opcao_2", "opcao_3", "opcao_4", "opcao_5",
 //			"resposta", "categoria", "criador" })
-	private List<Questao> questoes;
+	private List<Questao> questoes = new ArrayList();
 
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario")@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
 //	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
 //			"categoria" }, allowSetters = true)
-	private List<Prova> provas;
+	private List<Prova> provas = new ArrayList();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

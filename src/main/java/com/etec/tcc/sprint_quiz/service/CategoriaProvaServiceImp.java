@@ -3,6 +3,7 @@ package com.etec.tcc.sprint_quiz.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,11 @@ import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
+@Transactional
 public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 	@Autowired
@@ -34,6 +39,7 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 	}
 
 	public List<CategoriaProva> getAll() { 
+		log.info("Obtendo todas as categoriaProva");
 		return categoriaProvaRepository.findAll(); 
 	}
 	
