@@ -80,6 +80,7 @@ public class SecurityConfig {
 //		).build();
 
 		return http.build();
+		
 
 	}
 
@@ -122,13 +123,13 @@ public class SecurityConfig {
 	 * @param username
 	 * @return o usuario encontrado convertido em usuarioDetails
 	 */
-	@Bean
+	@Bean //verificar se posso excluir esse método, possível duplicata
 	public UserDetailsService userDetailsService() {
 		return new UserDetailsService() {
 
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				return usuarioRepository.findByUsername(username).orElseThrow(
+				return usuarioRepository.findByUsernameFetchRoles(username).orElseThrow(
 						() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
 //				return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());

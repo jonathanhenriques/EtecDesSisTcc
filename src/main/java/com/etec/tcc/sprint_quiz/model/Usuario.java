@@ -84,7 +84,7 @@ public class Usuario implements UserDetails, Serializable {
 //	@JoinTable(name = "TB_USUARIO_ROLE", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 //	private List<RolesModel> roles;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 //	@ManyToMany
 	private Collection<Role> roles = new ArrayList<>();
 
@@ -100,6 +100,23 @@ public class Usuario implements UserDetails, Serializable {
 //	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
 //			"categoria" }, allowSetters = true)
 	private List<Prova> provas = new ArrayList();
+	
+	
+//	public UserPrincipal(User user) {
+//	    this.username = user.getUsername();
+//	    this.password = user.getPassword();
+//
+//	    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//
+//	    // ROLE_ADMIN , ROLE_USER ADMIN, USER ....
+//	    authorities = user.getRoles().stream().map(role -> {
+//	      return new SimpleGrantedAuthority(role.getName());
+//	    }).collect(Collectors.toList());
+//
+//	    this.authorities = authorities;
+//
+//	  }
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

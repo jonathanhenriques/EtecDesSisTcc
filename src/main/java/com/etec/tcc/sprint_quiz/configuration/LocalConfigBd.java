@@ -1,26 +1,43 @@
 package com.etec.tcc.sprint_quiz.configuration;
 
-import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
-import com.etec.tcc.sprint_quiz.model.*;
-import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
-import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
-import com.etec.tcc.sprint_quiz.service.QuestaoService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 
-//classe para povoar o banco h2
-@Configuration
-@Profile("Local")
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
+import com.etec.tcc.sprint_quiz.model.CategoriaProva;
+import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
+import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.QuestaoProva;
+import com.etec.tcc.sprint_quiz.model.Usuario;
+import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
+import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
+import com.etec.tcc.sprint_quiz.service.QuestaoService;
+
+import lombok.extern.slf4j.Slf4j;
+
+
+/**
+ * classe para povoar o banco h2
+ * quando em abiente local
+ * usando application-local.properties
+ * @author hsjon
+ * @since 20/12/2022
+ *
+ */
+@Slf4j
+@LocalDesenvolvimento
 public class LocalConfigBd {
+	
+	
 
 	
 	 @Autowired
@@ -32,6 +49,17 @@ public class LocalConfigBd {
 	    @Autowired
 	    private QuestaoService questaoService;
 	
+	    private static final Logger LOGGER = LoggerFactory.getLogger(LocalConfigBd.class);
+	    
+		@Bean
+		public CommandLineRunner commandLineRunner(/*@Autowired ProvaRepository provaRepository*/) {
+			return args -> {
+				LOGGER.info("*********************Rodando Ambiente Local***************************");
+			};
+	
+		}
+	    
+	    
 	
     @Bean
     public void startDb() {

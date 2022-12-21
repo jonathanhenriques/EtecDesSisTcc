@@ -77,31 +77,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Usuario usuario = usuarioRepository.findByUsername(username)
+		Usuario usuario = usuarioRepository.findByUsernameFetchRoles(username)
 				.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
-//		String[] roles = usuario.getRoles().equals("admin") ?  new String[] {"ADMIN", "USER"} :  new String[] {"USER"};//rever nao funciona
-
 		return new User(usuario.getUsername(), usuario.getPassword(), true, true, true, true, usuario.getAuthorities());
-//		return User
-//				.builder()
-//				.username(usuario.getUsername())
-//				.password(usuario.getPassword()) //como a senha vem do banco, já estará criptografada
-//				.authorities(usuario.getAuthorities())
-//		
-//				.build();
 
-		// outro usuario em memoria
-//		if(!username.equals("ciclano")) {
-//			throw new UsernameNotFoundException("Usuario nao encontrado na base.");
-//		}
-//		
-//		return User
-//				.builder()
-//				.username("ciclano")
-//				.password(encoder.encode("123"))
-//				.roles("USER", "ADMIN")
-//				.build();
 	}
 
 	@Override

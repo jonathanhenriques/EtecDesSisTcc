@@ -10,7 +10,7 @@
 
 	<groupId>com.sprint_quiz</groupId>
 	<artifactId>SprintQuizzApp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-addRolesUsuario</version>
 	<name>SprintQuizzApp</name>
 	<description>SprintQuizzApp projeto</description>
 	<properties>
