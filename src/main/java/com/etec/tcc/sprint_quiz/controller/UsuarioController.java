@@ -35,7 +35,7 @@ import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;
 import com.etec.tcc.sprint_quiz.model.dto.TokenDTO;
-import com.etec.tcc.sprint_quiz.security.UsuarioServiceImpl;
+import com.etec.tcc.sprint_quiz.service.UsuarioServiceImpl;
 import com.etec.tcc.sprint_quiz.util.JwtUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,10 +74,10 @@ public class UsuarioController {
 	public ResponseEntity<String> autentiar(@RequestBody UsuarioLoginDTO usuario) {
 		Authentication authenticationManager2 = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
-		 UserDetails user = usuarioService.findByUsername(usuario.getUsername())
+		Usuario user = usuarioService.findByUsername(usuario.getUsername())
 				.orElseThrow(() -> new UsuarioNotFoundException(usuario.getUsername()));///////// orElseThrow
 		if (user != null) {
-			return ResponseEntity.ok(jwtUtils.generateToken(user));
+			return ResponseEntity.ok(jwtUtils.generateToken((UserDetails) user));
 		}
 		throw new UsuarioNotFoundException("Usuário não cadastrado");
 
@@ -127,7 +127,7 @@ public class UsuarioController {
 //        	UserDetails usuarioAutenticado = 
 			usuarioService.autenticar(usuarioLogin);
 
-			String token = jwtUtils.generateToken(usuarioLogin);
+			String token = jwtUtils.generateToken((UserDetails) usuarioLogin);
 			return ResponseEntity.ok(new TokenDTO(usuarioBD.get().getId(), usuarioBD.get().getUsername(), token));
 
 		} catch (UsernameNotFoundException | SenhaInvalidaException e) {

@@ -45,6 +45,13 @@ public class Role implements GrantedAuthority{
 	public String getAuthority() {
 		return this.cargo.toString();
 	}
+
+	public Role(@NotBlank(message = "cargo {campo.texto.notBlank.obrigatorio}") String cargo) {
+		super();
+		this.cargo = cargo;
+	}
+	
+	
 	
 
 }

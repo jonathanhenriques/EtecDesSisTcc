@@ -3,6 +3,8 @@ package com.etec.tcc.sprint_quiz.configuration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,7 +19,9 @@ import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
+import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
+import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
@@ -67,8 +71,14 @@ public class LocalConfigBd {
         //Long id, String nome, String usuario, String senha, String foto, String tipo, List<Questao> questoes, List<Prova> provas
         List<Questao> lq = new ArrayList<>();
         List<Prova> lp = new ArrayList<>(); 
-        Usuario usuario1 = new Usuario(
-        		null, "Jonathan", "jonathan@email.com", "12345678", "", Arrays.asList(), new ArrayList<Questao>() , new ArrayList<Prova>());
+        Role role = new Role("ROLE_ADMIN");
+        Collection<Role> roles = new ArrayList<>();
+        roles.add(role);
+        
+        String permission = "ACCESS_TEST1";
+        Collection<String> permissions = new ArrayList<String>();
+        Usuario usuario1 = new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "" , roles, lq, lp);
+//        Usuario usuario1 = new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "", 0, permissions, roles, new ArrayList<Questao>(), new ArrayList<Prova>());
         //Long id, String titulo, String descricao, List<Prova> provas
 
         CategoriaProva cp = new CategoriaProva(null, "Categoria Prova teste", "Descrição categoriaProva", Arrays.asList(new Prova()));

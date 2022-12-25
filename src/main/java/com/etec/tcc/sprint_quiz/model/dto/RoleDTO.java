@@ -5,19 +5,21 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
+@RequiredArgsConstructor
 public class RoleDTO {
 	
 private Long id;
 	
 	
 	@NotBlank(message = "cargo {campo.texto.notBlank.obrigatorio}")
-	private String cargo;
+	private final String cargo;
 	
 	@NotBlank(message = "username {campo.texto.notBlank.obrigatorio}")
-	private String username;
+	private final String username;
 
 }

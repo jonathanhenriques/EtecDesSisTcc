@@ -18,7 +18,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
+import com.etec.tcc.sprint_quiz.service.UsuarioServiceImpl;
 import com.etec.tcc.sprint_quiz.util.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -60,10 +62,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		jwtToken = authHeader.substring(BEARER);
 		userEmail = jwtUtils.extractUsername(jwtToken);
 		if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = usuarioServiceImpl.findByUsername(userEmail)
+			Usuario userDetails = usuarioServiceImpl.findByUsername(userEmail)
 					.orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado!"));
 
-			if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
+			if (jwtUtils.isTokenValid(jwtToken, (UserDetails) userDetails)) {
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 						null, userDetails.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

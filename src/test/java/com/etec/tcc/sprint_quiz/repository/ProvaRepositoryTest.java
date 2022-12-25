@@ -30,9 +30,9 @@ class ProvaRepositoryTest {
 
 	@BeforeAll
 	void start() throws Exception {
-		Usuario usuario = new Usuario(1L, "jonathan", "joanthan@email.com", "12345678", "", Arrays.asList(), null, null);
-		usuarioRepository.save(usuario);
-		repository.save(new Prova(0L, NOME, DESCRICAO, 6, usuario, null, "instituicao", null));
+//		Usuario usuario = new Usuario(1L, "jonathan", "joanthan@email.com", "12345678", "", Arrays.asList(), null, null);
+//		usuarioRepository.save(usuario);
+//		repository.save(new Prova(0L, NOME, DESCRICAO, 6, usuario, null, "instituicao", null));
 
 	}
 

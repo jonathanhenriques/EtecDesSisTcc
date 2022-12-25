@@ -129,7 +129,7 @@ public class SecurityConfig {
 
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				return usuarioRepository.findByUsernameFetchRoles(username).orElseThrow(
+				return (UserDetails) usuarioRepository.findByUsernameFetchRoles(username).orElseThrow(
 						() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
 //				return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());

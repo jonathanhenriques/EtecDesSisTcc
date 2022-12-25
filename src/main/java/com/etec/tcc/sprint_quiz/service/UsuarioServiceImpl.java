@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.security;
+package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,6 @@ import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.repository.RolesRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
-import com.etec.tcc.sprint_quiz.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	 */
 	public UserDetails autenticar(UsuarioLoginDTO usuario) {
 		UserDetails user = loadUserByUsername(usuario.getUsername());
+//		UsuarioDetails user = loadUserByUsername(usuario.getUsername());
 		boolean senhasBatem = encoder.matches(usuario.getPassword(), user.getPassword());
 		if (senhasBatem) {
 			log.info("Usuário autenticado | '{}'", usuario.getUsername());
@@ -69,7 +69,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	}
 
 	/**
-	 * carrega o usuario do banco de dados atraves do login
+	 * carrega e retorna o usuario do banco de dados atraves do login
 	 * 
 	 * @param username
 	 * @return usuarioDetails
@@ -80,6 +80,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 		Usuario usuario = usuarioRepository.findByUsernameFetchRoles(username)
 				.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
+//		return new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "", 0, usuario.getPermissions(), usuario.getRoles(), new ArrayList<Questao>(), new ArrayList<Prova>());
 		return new User(usuario.getUsername(), usuario.getPassword(), true, true, true, true, usuario.getAuthorities());
 
 	}

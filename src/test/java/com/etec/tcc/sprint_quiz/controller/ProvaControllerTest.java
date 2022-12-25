@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -55,14 +56,16 @@ class ProvaControllerTest {
 	private Optional<CategoriaProva> optionalCategoriaProva;
 	private Usuario usuario;
 	private Optional<Usuario> optionalUsuario;
+	
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 //		MockitoAnnotations.openMocks(this); //corrigir depois da mudança para o java 8 erro
 		startCategoriaProva();
 	}
 
 	@Test
+	@DisplayName("GetAll Deveria Retornar Uma Lista De Prova")
 	void testGetAllDeveriaRetornarUmaListaDeProva() {
 		List<Prova> lista = new ArrayList<>();
 		lista.add(prova);
@@ -259,9 +262,10 @@ class ProvaControllerTest {
 	}
 
 	private void startCategoriaProva() {
+//		 Usuario us = new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "", 0, null, null, new ArrayList<Questao>(), new ArrayList<Prova>());
 		usuario = new Usuario(ID, NOME, "email@email.com", "12345678", "foto", Arrays.asList(), null, null);
-		optionalUsuario = Optional
-				.of(new Usuario(ID, NOME, "email@email.com", "12345678", "foto", Arrays.asList(), null, null));
+//		optionalUsuario = Optional
+//				.of(new Usuario(ID, NOME, "email@email.com", "12345678", "foto", Arrays.asList(), null, null));
 
 		prova = new Prova(ID, NOME, DESCRICAO, DURACAO, usuario, null, INSTITUICAO, categoriaProva);
 		optionalProva = Optional

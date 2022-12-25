@@ -3,8 +3,9 @@
 
 
 -- criando usuario
+--        Usuario usuario1 = new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "", 0, permissions, roles, new ArrayList<Questao>(), new ArrayList<Prova>());
 --INSERT INTO tb_usuario(foto, nome, senha, usuario) VALUES ('foto', 'jonathan','$2a$10$FBC36RE9lGsHbYiQfsEjZOe5eVyXOpkdKoelfBL2kcT8eb.iNS78m', 'jonathan@email.com');
-INSERT INTO tb_usuario(foto, nome, password, username) VALUES ('foto', 'frodo','$2a$10$FBC36RE9lGsHbYiQfsEjZOe5eVyXOpkdKoelfBL2kcT8eb.iNS78m', 'frodo@email.com');
+INSERT INTO tb_usuario( nome, username, password,foto) VALUES ('frodo','frodo@email.com','$2a$10$FBC36RE9lGsHbYiQfsEjZOe5eVyXOpkdKoelfBL2kcT8eb.iNS78m','foto');
 
 --criando os cargos
 INSERT INTO tb_role(cargo) VALUES('ROLE_ADMIN');
