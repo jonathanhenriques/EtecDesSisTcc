@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
 @Builder // permite construir obj com mais facilidade
 @Entity
 @Table(name = "TB_USUARIO")
-public class Usuario implements UserDetails, Serializable {
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -117,41 +117,5 @@ public class Usuario implements UserDetails, Serializable {
 //
 //	  }
 	
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
-	}
-
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
-
-	@Override
-	public String getUsername() {
-		return this.username;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-//		return this.enable;
-		return true;
-	}
 
 }

@@ -64,10 +64,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		jwtToken = authHeader.substring(BEARER);
 		userEmail = jwtUtils.extractUsername(jwtToken);
 		if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			Usuario userDetails = usuarioServiceImpl.findByUsername(userEmail)
-					.orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado!"));
+			UserDetails userDetails = usuarioServiceImpl.loadUserByUsername(userEmail);
+//					.orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado!"));
 
-			if (jwtUtils.isTokenValid(jwtToken, (UserDetails) userDetails)) {
+			if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 						null, userDetails.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -81,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
 //		return new Usuario(null, "Jonathan", "jonathan@email.com", "12345678", "", 0, usuario.getPermissions(), usuario.getRoles(), new ArrayList<Questao>(), new ArrayList<Prova>());
-		return new User(usuario.getUsername(), usuario.getPassword(), true, true, true, true, usuario.getAuthorities());
+		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getRoles());
 
 	}
 

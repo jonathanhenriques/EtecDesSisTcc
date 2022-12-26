@@ -74,10 +74,10 @@ public class UsuarioController {
 	public ResponseEntity<String> autentiar(@RequestBody UsuarioLoginDTO usuario) {
 		Authentication authenticationManager2 = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
-		Usuario user = usuarioService.findByUsername(usuario.getUsername())
-				.orElseThrow(() -> new UsuarioNotFoundException(usuario.getUsername()));///////// orElseThrow
+		UserDetails user = usuarioService.loadUserByUsername(usuario.getUsername());
+//				.orElseThrow(() -> new UsuarioNotFoundException(usuario.getUsername()));///////// orElseThrow
 		if (user != null) {
-			return ResponseEntity.ok(jwtUtils.generateToken((UserDetails) user));
+			return ResponseEntity.ok(jwtUtils.generateToken(user));
 		}
 		throw new UsuarioNotFoundException("Usuário não cadastrado");
 
@@ -124,10 +124,10 @@ public class UsuarioController {
 //        			.username(usuarioLogin.getUsername())
 //        			.password(usuarioLogin.getPassword()).build();
 
-//        	UserDetails usuarioAutenticado = 
+        	UserDetails usuarioAutenticado = 
 			usuarioService.autenticar(usuarioLogin);
 
-			String token = jwtUtils.generateToken((UserDetails) usuarioLogin);
+			String token = jwtUtils.generateToken(usuarioAutenticado);
 			return ResponseEntity.ok(new TokenDTO(usuarioBD.get().getId(), usuarioBD.get().getUsername(), token));
 
 		} catch (UsernameNotFoundException | SenhaInvalidaException e) {

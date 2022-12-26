@@ -46,7 +46,7 @@ public class JwtService {
 	 *         claims
 	 */
 	public String gerarToken(Usuario usuario) {
-		System.out.println(" getAuthority - " + usuario.getAuthorities());
+//		System.out.println(" getAuthority - " + usuario.getAuthorities());
 		System.out.println("getRole  - " + usuario.getRoles());
 		System.out.println("expiracao - " + expiracao);
 		long expiracaoString = Long.valueOf(expiracao);

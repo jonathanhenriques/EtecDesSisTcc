@@ -3,7 +3,6 @@ package com.etec.tcc.sprint_quiz.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,10 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.security.JwtAuthFilter;
 
@@ -119,10 +117,10 @@ public class DesSecurityConfig {
 
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				return (UserDetails) usuarioRepository.findByUsernameFetchRoles(username).orElseThrow(
+				Usuario usuario = usuarioRepository.findByUsernameFetchRoles(username).orElseThrow(
 						() -> new UsernameNotFoundException("Email de usuário não encontrado na base de dados!"));
 
-//				return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
+				return new User(usuario.getUsername(), usuario.getPassword(), usuario.getRoles());
 			}
 		};
 	}
