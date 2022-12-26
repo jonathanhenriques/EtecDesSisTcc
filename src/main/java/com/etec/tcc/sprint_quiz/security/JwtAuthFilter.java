@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.etec.tcc.sprint_quiz.configuration.ProdProducao;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author hsjon
  * @since 15/12/2022
  */
+//@ProdProducao
 @Slf4j
 @Component
 //@RequiredArgsConstructor

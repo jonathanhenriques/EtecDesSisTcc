@@ -1,9 +1,10 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.model.Alternativa;
 import java.util.List;
 
-public interface AlternativaService extends DAORepository<Alternativa, Long> {
+import com.etec.tcc.sprint_quiz.model.Alternativa;
+
+public interface AlternativaService {
 
 	List<Alternativa> getAll();
 

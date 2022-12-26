@@ -10,35 +10,30 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-
 public interface QuestaoService {
 
-    ResponseEntity<List<Questao>> getAll();
+	List<Questao> getAll();
 
-    ResponseEntity<Questao> getById(@PathVariable Long id);
+	Questao getById(@PathVariable Long id);
 
-    ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto);
+	List<Questao> getAllByTexto(@PathVariable String texto);
 
-    ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao);
+	List<Questao> getAllByInstituicao(@PathVariable String instituicao);
 
-    ResponseEntity<List<Questao>> findAllByAno(@PathVariable
-                                               @DateTimeFormat(
-                                                       iso = DateTimeFormat.ISO.DATE)
-                                                       LocalDate ano);
+	List<Questao> findAllByAno(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ano);
 
-    ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal);
+	List<Questao> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal);
 
-    ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano);
+	List<Questao> findAllByAntesAno(@PathVariable LocalDate ano);
 
-    ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long criadorId);
+	List<Questao> getQuestoesByCriadorId(@PathVariable Long criadorId);
 
+	Questao postQuestao(@Valid @RequestBody Questao questao);
 
-    public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao);
+	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
-    ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao);
+	Questao putQuestao(@Valid @RequestBody Questao questao);
 
-    ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao);
-
-    ResponseEntity<?> deleteQuestao(@PathVariable Long id);
+	void deleteQuestao(@PathVariable Long id);
 
 }

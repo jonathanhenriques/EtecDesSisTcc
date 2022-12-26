@@ -49,51 +49,49 @@ public class QuestaoServiceImp implements QuestaoService {
 	private AlternativaService alternativaService;
 
 	@Override
-	public ResponseEntity<List<Questao>> getAll() {
-		return ResponseEntity.ok(questaoRepository.findAll());
+	public List<Questao> getAll() {
+		return questaoRepository.findAll();
 	}
 
 	@Override
-	public ResponseEntity<Questao> getById(@PathVariable Long id) {
-		return questaoRepository.findById(id).map(q -> ResponseEntity.ok(q))
+	public Questao getById(@PathVariable Long id) {
+		return questaoRepository.findById(id).map(q -> q)
 				.orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto) {
-		return ResponseEntity.ok(questaoRepository.findAllByTextoContainingIgnoreCase(texto));
+	public List<Questao> getAllByTexto(@PathVariable String texto) {
+		return questaoRepository.findAllByTextoContainingIgnoreCase(texto);
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao) {
-		return ResponseEntity.ok(questaoRepository.findAllByInstituicaoContainingIgnoreCase(instituicao));
+	public List<Questao> getAllByInstituicao(@PathVariable String instituicao) {
+		return questaoRepository.findAllByInstituicaoContainingIgnoreCase(instituicao);
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> findAllByAno(
-			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ano) {
-		return ResponseEntity.ok(questaoRepository.findAllByAno(ano));
+	public List<Questao> findAllByAno(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ano) {
+		return questaoRepository.findAllByAno(ano);
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial,
-			LocalDate anoFinal) {
-		return ResponseEntity.ok(questaoRepository.findAllByAnoBetween(anoInicial, anoFinal));
+	public List<Questao> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
+		return questaoRepository.findAllByAnoBetween(anoInicial, anoFinal);
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano) {
-		return ResponseEntity.ok(questaoRepository.findAllByAnoBefore(ano));
+	public List<Questao> findAllByAntesAno(@PathVariable LocalDate ano) {
+		return questaoRepository.findAllByAnoBefore(ano);
 	}
 
 	@Override
-	public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long id) {
-		return usuarioRepository.findById(id).map(u -> ResponseEntity.ok(questaoRepository.findAllByCriadorId(id)))
+	public List<Questao> getQuestoesByCriadorId(@PathVariable Long id) {
+		return usuarioRepository.findById(id).map(u -> questaoRepository.findAllByCriadorId(id))
 				.orElseThrow(() -> new UsuarioNotFoundException(id.toString()));
 	}
 
 	@Override
-	public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao) {
+	public Questao postQuestao(@Valid @RequestBody Questao questao) {
 		if (usuarioRepository.existsById(questao.getCriador().getId())) {
 //            Questao q =  salvaQuestao(questao).getBody();
 			Alternativa a = questao.getResposta();
@@ -109,14 +107,14 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	}
 
-	private ResponseEntity<Questao> salvaQuestao(Questao questao) {
+	private Questao salvaQuestao(Questao questao) {
 		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
-				.map(c -> ResponseEntity.status(HttpStatus.CREATED).body(questaoRepository.save(questao)))
+				.map(c -> questaoRepository.save(questao))
 				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
 	}
 
 	@Transactional
-	public ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao) {
+	public Questao salvarQuestaoComAlternativa(@RequestBody Questao questao) {
 //        List<Alternativa> alternativas = questao.getAlternativas();
 //        questao.setAlternativas(new ArrayList<Alternativa>());
 //        postQuestao(questao);
@@ -128,21 +126,19 @@ public class QuestaoServiceImp implements QuestaoService {
 //
 //        alternativaService.postListaAlternativasComQuestaoSalva(listaAlternativasComQuestao);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(questao);
+		return questao;
 	}
 
 	@Override
-	public ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao) {
-		return questaoRepository.findById(questao.getId()).map(q -> ResponseEntity.ok(questaoRepository.save(questao)))
+	public Questao putQuestao(@Valid @RequestBody Questao questao) {
+		return questaoRepository.findById(questao.getId()).map(q -> questaoRepository.save(questao))
 				.orElseThrow(() -> new QuestaoNotFoundException(questao.getId().toString()));
 	}
 
 	@Override
-	public ResponseEntity<?> deleteQuestao(@PathVariable Long id) {
-		return questaoRepository.findById(id).map(q -> {
-			questaoRepository.delete(q);
-			return ResponseEntity.noContent().build();
-		}).orElseThrow(() -> new QuestaoNotFoundException(id.toString()));
+	public void deleteQuestao(@PathVariable Long id) {		
+		questaoRepository.delete(questaoRepository.findById(id).
+				orElseThrow(() -> new QuestaoNotFoundException(id.toString())));
 	}
 
 //    @Override

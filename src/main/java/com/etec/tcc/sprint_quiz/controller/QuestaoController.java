@@ -6,6 +6,7 @@ import com.etec.tcc.sprint_quiz.service.QuestaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,19 +35,19 @@ public class QuestaoController {
     @Operation(summary = "Obtem questoes por id")
     @GetMapping("/{id}")
     public ResponseEntity<Questao> getById(@PathVariable Long id) {
-        return questaoService.getById(id);
+    	return ResponseEntity.ok(questaoService.getById(id));
     }
 
     @Operation(summary = "Obtem questoes pelo texto da questao")
     @GetMapping("/texto/{texto}")
     public ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto) {
-        return questaoService.getAllByTexto(texto);
+        return ResponseEntity.ok(questaoService.getAllByTexto(texto));
     }
 
     @Operation(summary = "Obtem questoes  pela instituicao da questao")
     @GetMapping("/instituicao/{instituicao}")
     public ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao) {
-        return questaoService.getAllByInstituicao(instituicao);
+        return ResponseEntity.ok(questaoService.getAllByInstituicao(instituicao));
     }
 
     @Operation(summary = "Obtem questoes  pelo ano da questao")
@@ -55,13 +56,13 @@ public class QuestaoController {
                                                       @DateTimeFormat(
                                                               iso = DateTimeFormat.ISO.DATE)
                                                               LocalDate ano) {
-        return questaoService.findAllByAno(ano);
+        return ResponseEntity.ok(questaoService.findAllByAno(ano));
     }
 
     @Operation(summary = "Obtem questoes entre um periodo inicial e final")
     @GetMapping("/ano/entre/{anoInicial}/{anoFinal}")
     public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
-        return questaoService.findAllByAnoInicialFinal(anoInicial, anoFinal);
+        return ResponseEntity.ok(questaoService.findAllByAnoInicialFinal(anoInicial, anoFinal));
     }
 
     @Operation(summary = "Obtem questoes pelo anteriores a um periodo")
@@ -69,7 +70,7 @@ public class QuestaoController {
     public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable @DateTimeFormat(
             iso = DateTimeFormat.ISO.DATE)
             LocalDate ano) {
-        return questaoService.findAllByAntesAno(ano);
+        return ResponseEntity.ok(questaoService.findAllByAntesAno(ano));
     }
 
     @Operation(summary = "Obtem questoes pelo id do criador da questão")
@@ -85,25 +86,26 @@ public class QuestaoController {
 //                                                       @DateTimeFormat(
 //                                                                  iso = DateTimeFormat.ISO.DATE)
                                                        Questao questao) {
-        return questaoService.postQuestao(questao);
+        return ResponseEntity.status(HttpStatus.CREATED).body(questaoService.postQuestao(questao));
     }
 
     @Operation(summary = "Cadastra uma questao com alternativas")
     @PutMapping("/questaoComAlternativas")
     public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
-        return questaoService.salvarQuestaoComAlternativa(questao);
+        return ResponseEntity.ok(questaoService.salvarQuestaoComAlternativa(questao));
     }
 
     @Operation(summary = "Atualiza uma questao")
     @PutMapping
     public ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao) {
-        return questaoService.putQuestao(questao);
+        return ResponseEntity.ok(questaoService.putQuestao(questao));
     }
 
     @Operation(summary = "Deleta uma questao")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestao(@PathVariable Long id) {
-        return questaoService.deleteQuestao(id);
+    	questaoService.deleteQuestao(id);
+    	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.model;
+package com.etec.tcc.sprint_quiz.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

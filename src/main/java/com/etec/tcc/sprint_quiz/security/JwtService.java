@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.etec.tcc.sprint_quiz.configuration.ProdProducao;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 
 import io.jsonwebtoken.Claims;
@@ -22,6 +23,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * 
  * @author hsjon
  */
+//@ProdProducao
 @Service
 public class JwtService {
 

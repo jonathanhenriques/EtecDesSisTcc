@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 
 @Service
@@ -17,6 +19,9 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	@Autowired
 	private AlternativaRepository alternativaRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 //	@Autowired
 //	private QuestaoRepository questaoRepository;
@@ -78,7 +83,8 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	@Override
 	public void delete(Long id) {
-		Alternativa alternativa = alternativaRepository.findById(id).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
+		Alternativa alternativa = alternativaRepository.findById(id)
+				.orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 		alternativaRepository.delete(alternativa);
 
 	}

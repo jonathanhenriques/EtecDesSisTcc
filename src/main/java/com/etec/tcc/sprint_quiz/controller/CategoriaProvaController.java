@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaProvaService;
 
@@ -33,11 +35,17 @@ public class CategoriaProvaController {
 
     @Autowired
     private CategoriaProvaService categoriaProvaService;
+    
+    @Autowired
+	private ModelMapper modelMapper;
 
     @Operation(summary = "Obtem categorias pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaProva> getById(@PathVariable Long id) {
+//    	CategoriaProva cp = categoriaProvaService.getById(id);
+//    	CategoriaProvaDTO dto = modelMapper.map(cp, CategoriaProvaDTO.class);
         return ResponseEntity.ok(categoriaProvaService.getById(id));  
+//        return ResponseEntity.ok(dto);
     }
 
     @Operation(summary = "Obtem  todas as categorias")

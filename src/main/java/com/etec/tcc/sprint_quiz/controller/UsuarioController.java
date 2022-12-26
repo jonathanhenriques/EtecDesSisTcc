@@ -32,9 +32,9 @@ import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;
 import com.etec.tcc.sprint_quiz.model.dto.TokenDTO;
+import com.etec.tcc.sprint_quiz.model.dto.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.service.UsuarioServiceImpl;
 import com.etec.tcc.sprint_quiz.util.JwtUtils;
 

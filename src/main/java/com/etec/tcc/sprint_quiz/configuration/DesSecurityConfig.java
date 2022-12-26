@@ -34,20 +34,16 @@ import lombok.RequiredArgsConstructor;
  *
  */
 
-//@ProdProducao
+@DesDesenvolvimento
 @EnableWebSecurity // indica para o spring considerar essa classe para configurar a segurança
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class DesSecurityConfig {
 
 	@Autowired
 	@Lazy
 	private JwtAuthFilter jwtAuthFilter;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	private final String[] AUTH_LIST_SWAGGER = { "/swagger-ui/**", "/v3/api-docs/**", "/configuration/ui",
-			"/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**",
-			"/swagger-resources/configuration/ui", "/swagge‌​r-ui.html", "/swagger-resources/configuration/security" };
-	private final String[] AUTH_LIST_USUARIO = { "/usuarios/cadastrar", "/usuarios/logar", "/usuarios/autenticar" };
 
 	/**
 	 * Método será um Bean e substituirá o securityFilterChain, o filtro de
@@ -60,23 +56,16 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		// habilitando o h2 console no navegador*********************
-		http.headers().frameOptions().disable();
-		http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+		http.authorizeRequests().antMatchers("/**").permitAll();
+		http.authorizeRequests().antMatchers("**/**").permitAll()
 		// *************
-//		return http.authorizeRequests(authorizeRequests -> authorizeRequests
-		http.authorizeRequests(authorizeRequests -> authorizeRequests.antMatchers(AUTH_LIST_SWAGGER).permitAll());
-//		http.authorizeRequests().antMatchers(AUTH_LIST_SWAGGER).permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.POST, AUTH_LIST_USUARIO).permitAll();
-		http.authorizeRequests().anyRequest().authenticated()
-//		http.authorizeRequests().anyRequest().permitAll()
 		.and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				/**
 				 * Informando qual provedor de autenticacao usar
 				 */
-				.and().authenticationProvider(authenticationProvider())
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).cors().and().csrf()
+				.and()
+				.cors().and().csrf()
 				.disable();// talvez tenha que ser retirada caso front end nao funcione
 //		).build();
 

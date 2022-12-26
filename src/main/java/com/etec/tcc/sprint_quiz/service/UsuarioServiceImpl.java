@@ -22,7 +22,7 @@ import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.UsuarioLoginDTO;
+import com.etec.tcc.sprint_quiz.model.dto.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.repository.RolesRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 

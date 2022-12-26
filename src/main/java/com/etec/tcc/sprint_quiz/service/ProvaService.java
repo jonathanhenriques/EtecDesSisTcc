@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
 
-public interface ProvaService extends DAORepository<Prova, Long>{
+public interface ProvaService{
 
     List<Prova> getAll();
 

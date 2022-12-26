@@ -102,5 +102,9 @@ public class Questao {
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
 	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
+	
+	public String toString() {
+		return this.texto;
+	}
 
 }
