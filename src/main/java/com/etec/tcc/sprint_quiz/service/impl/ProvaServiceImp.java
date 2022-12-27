@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.service;
+package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
+import com.etec.tcc.sprint_quiz.service.ProvaService;
 
 @Service
 @Transactional

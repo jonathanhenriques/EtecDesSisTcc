@@ -26,7 +26,7 @@ import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.service.ProvaServiceImp;
+import com.etec.tcc.sprint_quiz.service.impl.ProvaServiceImp;
 
 class ProvaControllerTest {
 

@@ -43,7 +43,7 @@ public class AlternativaController {
 
     @Operation(summary = "Obtem todas as alternativas")
     @GetMapping
-    public ResponseEntity<List<Alternativa>> getAll() {
+    public ResponseEntity<List<Alternativa>> getAll() { 
         return ResponseEntity.ok(alternativaService.getAll());
     }
 
@@ -74,37 +74,7 @@ public class AlternativaController {
 //    }
     
     
-//    public AlternativaDTO paraDTO(Alternativa alternativa) {
-//		AlternativaDTO dto = new AlternativaDTO();
-//		dto.setId(alternativa.getId());
-//    	dto.setTexto(alternativa.getTexto());
-//    	dto.setFoto(alternativa.getFoto());		
-//    	dto.setQuestaoTexto(alternativa.getQuestao().getId());
-//    	return dto;
-//	}
     
-    
-    public Alternativa paraAlternativa(AlternativaDTO dto) {
-		var alternativa = new Alternativa();
-    	alternativa.setTexto(dto.getTexto());
-		alternativa.setFoto(dto.getFoto());
-		
-		var q = new Questao();
-		q.setId(dto.getId());
-		alternativa.setQuestao(q);
-		return alternativa;
-	}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     @Operation(summary = "Obtem alternativas pelo texto da alternativa")
     @GetMapping("/texto/{texto}")
     public ResponseEntity<List<Alternativa>> getAllByTexto(@PathVariable String texto) {
@@ -119,7 +89,7 @@ public class AlternativaController {
 
     @Operation(summary = "cria uma nova alternativa")
     @PostMapping
-    public ResponseEntity<Alternativa> post(@Valid @RequestBody Alternativa alternativa) {
+    public ResponseEntity<AlternativaDTO> post(@Valid @RequestBody AlternativaDTO alternativa) {
         return ResponseEntity.status(HttpStatus.CREATED).body(alternativaService.post(alternativa));
     }
 

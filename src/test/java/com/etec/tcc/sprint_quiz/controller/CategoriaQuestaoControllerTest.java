@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
-import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoServiceImp;
+import com.etec.tcc.sprint_quiz.service.impl.CategoriaQuestaoServiceImp;
 
 class CategoriaQuestaoControllerTest {
 

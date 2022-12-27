@@ -3,6 +3,7 @@ package com.etec.tcc.sprint_quiz.service;
 import java.util.List;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 
 public interface AlternativaService {
 
@@ -14,7 +15,7 @@ public interface AlternativaService {
 
 	List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas);
 
-	Alternativa post(Alternativa alternativa);
+	AlternativaDTO post(AlternativaDTO alternativa);
 
 	Alternativa put(Alternativa alternativa);
 

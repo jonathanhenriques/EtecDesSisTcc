@@ -14,19 +14,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+/**
+ * Classe DTO de Alternativa
+ * usada no envio das requisicoes e repostas
+ * dos endpoints
+ * @author hsjon
+ *@date 26/12/2022
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class AlternativaDTO {
-
+ 
 	private Long id;
 
 	@NotNull(message = "texto {campo.texto.notnull.obrigatorio}")
 	@Size(max = 1000)
 	private String texto;
 	private String foto;
-	private String questaoTexto;
+	private Long questaoId;
 
 //	public AlternativaDTO(Alternativa alternativa) {
 //		this.id = alternativa.getId();

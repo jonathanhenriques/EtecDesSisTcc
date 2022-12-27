@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.service;
+package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
+import com.etec.tcc.sprint_quiz.service.CategoriaProvaService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.service;
+package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +25,7 @@ import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.dto.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.repository.RolesRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
+import com.etec.tcc.sprint_quiz.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

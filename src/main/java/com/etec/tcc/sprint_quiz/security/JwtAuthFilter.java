@@ -21,7 +21,7 @@ import com.etec.tcc.sprint_quiz.configuration.ProdProducao;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
-import com.etec.tcc.sprint_quiz.service.UsuarioServiceImpl;
+import com.etec.tcc.sprint_quiz.service.impl.UsuarioServiceImpl;
 import com.etec.tcc.sprint_quiz.util.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
