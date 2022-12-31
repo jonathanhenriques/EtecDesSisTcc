@@ -24,6 +24,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -89,6 +90,7 @@ public class Questao {
 //    @Cascade(CascadeType.ALL)
 //	@OneToOne(cascade = javax.persistence.CascadeType.ALL, orphanRemoval = true)
 //	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
+//	@JsonProperty("respostaId")
 	@OneToOne()
 	private Alternativa resposta;
 
@@ -107,8 +109,5 @@ public class Questao {
 	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
 
-	public String toString() {
-		return this.texto;
-	}
 
 }

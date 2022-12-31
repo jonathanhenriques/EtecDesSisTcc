@@ -1,14 +1,16 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.model.Questao;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.List;
+import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
 
 public interface QuestaoService {
 
@@ -32,7 +34,7 @@ public interface QuestaoService {
 
 	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
-	Questao putQuestao(@Valid @RequestBody Questao questao);
+	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 
 	void deleteQuestao(@PathVariable Long id);
 

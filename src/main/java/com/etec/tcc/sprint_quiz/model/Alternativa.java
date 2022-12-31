@@ -55,6 +55,9 @@ public class Alternativa {
 //	private Questao questao;
 
 	public Alternativa(AlternativaDTO dto) {
+		if(dto.getId() != null)
+			this.id = dto.getId();
+		
 		this.texto = dto.getTexto();
 		this.foto = dto.getFoto();
 

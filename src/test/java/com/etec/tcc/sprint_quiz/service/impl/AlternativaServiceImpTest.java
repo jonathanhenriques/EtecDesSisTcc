@@ -210,8 +210,9 @@ class AlternativaServiceImpTest {
 				() -> assertNotNull(dto),
 				() -> assertEquals(alternativaDTO.getClass(), dto.getClass()),
 				() -> assertEquals(ID, dto.getId()),
-				() -> assertEquals("", dto.getFoto()),
-				() -> assertEquals(QUESTAO_ID, dto.getQuestaoId()));
+				() -> assertEquals("", dto.getFoto())
+//				() -> assertEquals(QUESTAO_ID, dto.getQuestaoId())
+				);
 
 	}
 
@@ -313,7 +314,8 @@ class AlternativaServiceImpTest {
 		questaoOptional = Optional.of(new Questao(QUESTAO_ID, null, null, null, null, null, null, null, null, null));
 		questaoOptional.get().setId(QUESTAO_ID);
 //		alternativa = new Alternativa(ID, TEXTO_ALTERNATIVA, "", questaoOptional.get());
-		alternativaDTO = new AlternativaDTO(ID, TEXTO_ALTERNATIVA, "", QUESTAO_ID);
+//		alternativaDTO = new AlternativaDTO(ID, TEXTO_ALTERNATIVA, "", QUESTAO_ID);
+		alternativaDTO = new AlternativaDTO(ID, TEXTO_ALTERNATIVA, "");
 //		alternativaOptional = Optional.of(new Alternativa(ID, TEXTO_ALTERNATIVA, "", questaoOptional.get()));
 	}
 

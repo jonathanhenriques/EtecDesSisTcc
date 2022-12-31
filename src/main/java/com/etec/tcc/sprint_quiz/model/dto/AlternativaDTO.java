@@ -34,14 +34,13 @@ public class AlternativaDTO {
 	@Size(max = 1000)
 	private String texto;
 	private String foto;
-	private Long questaoId;
 
-//	public AlternativaDTO(Alternativa alternativa) {
-//		this.id = alternativa.getId();
-//		this.texto = alternativa.getTexto();
-//		this.foto = alternativa.getFoto();
+	public AlternativaDTO(Alternativa alternativa) {
+		this.id = alternativa.getId();
+		this.texto = alternativa.getTexto();
+		this.foto = alternativa.getFoto();
 //		this.questaoTexto = alternativa.getQuestao().getId();
-//	}
+	}
 //
 //	public AlternativaDTO paraDTO(Alternativa alternativa) {
 //		AlternativaDTO dto = new AlternativaDTO();

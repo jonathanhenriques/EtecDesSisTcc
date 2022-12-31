@@ -1,10 +1,33 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
+import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
@@ -12,23 +35,7 @@ import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 //@RequiredArgsConstructor
@@ -49,6 +56,11 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Autowired
 	@Lazy
 	private AlternativaService alternativaService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
 	public List<Questao> getAll() {
@@ -94,16 +106,6 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	@Override
 	public Questao postQuestao(@Valid @RequestBody Questao questao) {
-//		if (usuarioRepository.existsById(questao.getCriador().getId())) {
-////            Questao q =  salvaQuestao(questao).getBody();
-//			Alternativa a = questao.getResposta();
-//			List<Alternativa> lista = new ArrayList<Alternativa>();
-////            lista.add(a);
-//			questao.setAlternativas(lista);
-//			questao.getAlternativas().add(a);
-//			return salvaQuestao(questao);
-//
-//		}
 		usuarioRepository.findById(questao.getCriador().getId())
 				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
 		return categoriaQuestaoRepository.findById(questao.getCategoria().getId()) 
@@ -112,13 +114,13 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	}
 
-	private Questao salvaQuestao(Questao questao) {
-		usuarioRepository.findById(questao.getCriador().getId())
-				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
-		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
-				.map(c -> questaoRepository.save(questao))
-				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
-	}
+//	private Questao salvaQuestao(Questao questao) {
+//		usuarioRepository.findById(questao.getCriador().getId())
+//				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
+//		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
+//				.map(c -> questaoRepository.save(questao))
+//				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
+//	}
 
 	@Transactional
 	public Questao salvarQuestaoComAlternativa(@RequestBody Questao questao) {
@@ -137,9 +139,43 @@ public class QuestaoServiceImp implements QuestaoService {
 	}
 
 	@Override
-	public Questao putQuestao(@Valid @RequestBody Questao questao) {
-		return questaoRepository.findById(questao.getId()).map(q -> questaoRepository.save(questao))
-				.orElseThrow(() -> new QuestaoNotFoundException(questao.getId().toString()));
+	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {
+		questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
+		for (AlternativaDTO a : dto.getAlternativas()) {
+			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
+		}
+//		Alternativa resposta =  alternativaRepository.findById(dto.getRespostaId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
+//		LOGGER.info("respostaId - " + dto.getRespostaId());
+//		Set<AlternativaDTO> listaAlternativas = dto.getAlternativas();
+//		Set<Alternativa> listaAlternativas = converteListaAlternativaDTOParaListaAlternativa(dto.getAlternativas());
+		Set<Alternativa> listaAlternativas = new HashSet<Alternativa>();
+		for (AlternativaDTO a : dto.getAlternativas()) {
+			Alternativa alternativa = alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
+			LOGGER.info("texto alternativa - " + alternativa.getTexto());
+			listaAlternativas.add(alternativa);
+			
+		}
+		
+		Questao questaoSalvar = modelMapper.map(dto, Questao.class);
+		questaoSalvar.setAlternativas(listaAlternativas);
+//		Alternativa respo = alternativaRepository.findById(questaoSalvar.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(questaoSalvar.getId().toString()));
+//		questaoSalvar.setResposta(respo);
+		Questao qSalva = questaoRepository.save(questaoSalvar);
+//		qSalva.getResposta().setId(resposta.getId());
+		QuestaoDTO dtoRes = modelMapper.map(qSalva, QuestaoDTO.class);
+		Set<AlternativaDTO> listaDTO = converteListaAlternativaParaListaAlternativaDTO(listaAlternativas);
+		dtoRes.setAlternativas(listaDTO);
+//		dtoRes.setRespostaId(resposta.getId());
+		return dtoRes;
+		
+	}
+	
+	public Set<AlternativaDTO> converteListaAlternativaParaListaAlternativaDTO(Set<Alternativa> alternativas) {
+		return alternativas.stream().map(a -> new AlternativaDTO(a)).collect(Collectors.toSet());
+	}
+	
+	public Set<Alternativa> converteListaAlternativaDTOParaListaAlternativa(Set<AlternativaDTO> alternativas) {
+		return alternativas.stream().map(a -> new Alternativa(a)).collect(Collectors.toSet());
 	}
 
 	@Override

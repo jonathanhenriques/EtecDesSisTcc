@@ -54,8 +54,8 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	@Override
 	public AlternativaDTO post(AlternativaDTO alternativaDto) {
-		questaoRepository.findById(alternativaDto.getQuestaoId()).orElseThrow(
-				() -> new QuestaoNotFoundException("Questão não encontrada | " + alternativaDto.getQuestaoId()));
+//		questaoRepository.findById(alternativaDto.getQuestaoId()).orElseThrow(
+//				() -> new QuestaoNotFoundException("Questão não encontrada | " + alternativaDto.getQuestaoId()));
 
 		Alternativa alternativa = modelMapper.map(alternativaDto, Alternativa.class);
 		alternativa = alternativaRepository.save(alternativa);
