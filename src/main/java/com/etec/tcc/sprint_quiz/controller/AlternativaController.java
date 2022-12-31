@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/alternativas")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -39,6 +43,8 @@ public class AlternativaController {
     
     @Autowired
 	private ModelMapper modelMapper;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 
     @Operation(summary = "Obtem todas as alternativas")
@@ -78,7 +84,7 @@ public class AlternativaController {
     @Operation(summary = "Obtem alternativas pelo texto da alternativa")
     @GetMapping("/texto/{texto}")
     public ResponseEntity<List<Alternativa>> getAllByTexto(@PathVariable String texto) {
-    	return ResponseEntity.ok(alternativaRepository.findAllByTextoContainingIgnoreCase(texto));
+    	return ResponseEntity.ok(alternativaService.getAllByTexto(texto));
     }
 
     @Operation(summary = "cria várias alternativas")
@@ -102,8 +108,14 @@ public class AlternativaController {
     @Operation(summary = "deleta uma alternativa pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-    	alternativaService.delete(id); 
+    	alternativaService.deleteById(id); 
     	return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/questaoId/{questaoId}/alternativAId/{alternativAId}")
+    public void deleteAlternativa(@PathVariable Long questaoId,@PathVariable Long alternativAId) {
+    	alternativaService.deletaAlternativaDeQuestao(questaoId, alternativAId);
+    	LOGGER.info("excluindo relacionamento e alternativa...excluido!");
     }
     
     

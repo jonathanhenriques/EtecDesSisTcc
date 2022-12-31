@@ -1,13 +1,17 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
@@ -17,6 +21,9 @@ import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional
 public class AlternativaServiceImp implements AlternativaService {
@@ -32,6 +39,8 @@ public class AlternativaServiceImp implements AlternativaService {
 
 //	@Autowired
 //	private QuestaoService questaoService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
 	public List<Alternativa> getAll() {
@@ -40,30 +49,19 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	@Override
 	public Alternativa getById(Long id) {
-		return alternativaRepository.findById(id)
-				.orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
+		return alternativaRepository.findById(id).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 	}
-
-	
 
 	@Override
 	public AlternativaDTO post(AlternativaDTO alternativaDto) {
-		Questao questao = questaoRepository.findById(alternativaDto.getQuestaoId())
-				.orElseThrow(() -> new QuestaoNotFoundException("Questão não encontrada | " + alternativaDto.getQuestaoId()));
-		
+		questaoRepository.findById(alternativaDto.getQuestaoId()).orElseThrow(
+				() -> new QuestaoNotFoundException("Questão não encontrada | " + alternativaDto.getQuestaoId()));
+
 		Alternativa alternativa = modelMapper.map(alternativaDto, Alternativa.class);
 		alternativa = alternativaRepository.save(alternativa);
 		AlternativaDTO dto = modelMapper.map(alternativa, AlternativaDTO.class);
 		return dto;
 	}
-	
-//	@Override
-//	public AlternativaDTO post(AlternativaDTO alternativaDto) {
-//		Alternativa alternativa = modelMapper.map(alternativaDto, Alternativa.class);
-//		alternativa = alternativaRepository.save(alternativa);
-//		AlternativaDTO dto = modelMapper.map(alternativa, AlternativaDTO.class);
-//		return dto;
-//	}
 
 	@Override
 	public Alternativa put(Alternativa alternativa) {
@@ -74,13 +72,13 @@ public class AlternativaServiceImp implements AlternativaService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		Alternativa alternativa = alternativaRepository.findById(id)
+	public void deleteById(Long id) {
+		alternativaRepository.findById(id)
 				.orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
-		alternativaRepository.delete(alternativa);
+		alternativaRepository.deleteById(id);
 
 	}
-	
+
 	@Override
 	public List<Alternativa> postListaAlternativa(List<Alternativa> alternativas) {
 //		Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
@@ -108,6 +106,27 @@ public class AlternativaServiceImp implements AlternativaService {
 //
 //		questaoService.putQuestao(questao);
 		return alternativas;
+	}
+
+	@Override
+	 public List<Alternativa> getAllByTexto(String texto) {
+    	return alternativaRepository.findAllByTextoContainingIgnoreCase(texto);
+    }
+	
+	public void deletaAlternativaDeQuestao(Long questaoId, Long alternativaId){
+		Questao questao = questaoRepository.findById(questaoId).orElseThrow(() -> new QuestaoNotFoundException(questaoId.toString()));
+		
+		alternativaRepository.findById(alternativaId).orElseThrow(() -> new AlternativaNotFoundException(alternativaId.toString()));
+		
+		if(questao.getResposta().getId() == alternativaId)
+			questao.setResposta(null);
+		
+		LOGGER.info("questaoId - " + questaoId + "alternativaId" + alternativaId);
+		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
+		LOGGER.info("aexcluindo relacionamento alternativa e questao lista");
+		alternativaRepository.deleteById(alternativaId);
+		LOGGER.info("aexcluindo  alternativa - " + alternativaId);
+		
 	}
 
 }

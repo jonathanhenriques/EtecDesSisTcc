@@ -11,6 +11,8 @@ public interface AlternativaService {
 
 	Alternativa getById(Long id);
 
+	List<Alternativa> getAllByTexto(String texto);
+
 	List<Alternativa> postListaAlternativa(List<Alternativa> alternativas);
 
 	List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas);
@@ -18,6 +20,8 @@ public interface AlternativaService {
 	AlternativaDTO post(AlternativaDTO alternativa);
 
 	Alternativa put(Alternativa alternativa);
+	
+	void deletaAlternativaDeQuestao(Long questaoId, Long alternativaId);
 
-	void delete(Long id);
+	void deleteById(Long id);
 }

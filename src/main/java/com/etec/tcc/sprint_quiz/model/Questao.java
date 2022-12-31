@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -73,9 +74,9 @@ public class Questao {
 //	@JoinColumn
 
 	@OneToMany(orphanRemoval = true)
-	@Cascade(CascadeType.REFRESH)
-	@JoinColumn(name = "questao_id")
-	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
+	@Cascade(CascadeType.ALL)
+	@JoinTable(name = "tb_questao_alternativas1", joinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "alternativa_id", referencedColumnName = "id"))
+//	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
 	private List<Alternativa> alternativas;
 //    private Alternativa alternativas;
 
@@ -84,8 +85,9 @@ public class Questao {
 //    @OneToOne(cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "respostaid")
 //    @Cascade(CascadeType.ALL)
-	@OneToOne(cascade = javax.persistence.CascadeType.ALL)
-	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
+//	@OneToOne(cascade = javax.persistence.CascadeType.ALL, orphanRemoval = true)
+//	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
+	@OneToOne
 	private Alternativa resposta;
 
 //    private String resposta;
@@ -102,7 +104,7 @@ public class Questao {
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
 	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
-	
+
 	public String toString() {
 		return this.texto;
 	}

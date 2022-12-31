@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Configuration
-@Profile("devmysql")
-public @interface ProdProducao {
+@Profile("producao")
+public @interface Producao {
 
 }

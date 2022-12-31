@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
  *
  */
 
-@DesDesenvolvimento
+@Desenvolvimento
 @EnableWebSecurity // indica para o spring considerar essa classe para configurar a segurança
 @RequiredArgsConstructor
 public class DesSecurityConfig {

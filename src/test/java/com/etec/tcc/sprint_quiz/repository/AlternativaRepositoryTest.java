@@ -27,7 +27,7 @@ class AlternativaRepositoryTest {
 	@BeforeAll
 	 void start() throws Exception {
 //		repository.deleteAll();
-		repository.save(new Alternativa(0L,"Verde", "", null)); //com questao
+		repository.save(new Alternativa(0L,"Verde", "")); //com questao
 	}
 
 	@AfterAll

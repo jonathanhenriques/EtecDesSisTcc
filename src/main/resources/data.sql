@@ -16,7 +16,7 @@ INSERT INTO tb_role(cargo) VALUES('ROLE_USER');
 --INSERT INTO tb_usuario VALUES(1, 1);
 
 -- criando categoria de prova
-INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares Públicos');
+INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares publicos');
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Particulares', 'Provas de Vestibulares Particulares');
 
 -- criando prova
@@ -24,9 +24,9 @@ INSERT INTO tb_prova(nome, descricao, instituicao, duracao, categoria_id, usuari
 INSERT INTO tb_prova(nome, descricao, instituicao, duracao, categoria_id, usuario_id) VALUES('UFRJ Vestibular','Vestibular da UFRJ 2021','UFRJ', 6, 2, 1);
 
 -- criando categoria de questao
-INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('Fácil', 'Questões de nível fácil');
-INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('Médio', 'Questões de nível médio');
-INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('Difícel', 'Questões de nível difícil');
+INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('facil', 'questao de nivel facil');
+INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('Medio', 'questao de nivel medio');
+INSERT INTO tb_categoria_questao(titulo, descricao) VALUES('Dificio', 'questao de nivel dificil');
 
 -- criando questao
 INSERT INTO tb_questao(texto, imagem, instituicao,ano, dificuldade,categoria_id, criador_id) VALUES('Qual a cor da neve?','https://i.imgur.com/r98IEMu.png', 'Etec', curdate(),1, 1, 1);
@@ -73,22 +73,22 @@ INSERT INTO tb_alternativa(texto, foto) VALUES('Roxo', '');
 
 
 -- atualizando respostas das questoes
-UPDATE tb_questao SET resposta_id = 1 WHERE (id = 1);
-UPDATE tb_questao SET resposta_id = 4 WHERE (id = 2);
-UPDATE tb_questao SET resposta_id = 7 WHERE (id = 3);
+--UPDATE tb_questao SET resposta_id = 1 WHERE (id = 1);
+--UPDATE tb_questao SET resposta_id = 4 WHERE (id = 2);
+--UPDATE tb_questao SET resposta_id = 7 WHERE (id = 3);
 
 -- atualizando lista de alternativas das questoes
-UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 1);
-UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 2);
-UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 3);
-
-UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 4);
-UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 5);
-UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 6);
+--UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 1);
+--UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 2);
+--UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 3);
 --
-UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 7);
-UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 8);
-UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 9);
+--UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 4);
+--UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 5);
+--UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 6);
+----
+--UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 7);
+--UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 8);
+--UPDATE tb_alternativa SET questao_id = 3 WHERE (id = 9);
 
 --UPDATE tb_alternativa SET questao_id = 1 WHERE (id = 4);
 --UPDATE tb_alternativa SET questao_id = 2 WHERE (id = 7);

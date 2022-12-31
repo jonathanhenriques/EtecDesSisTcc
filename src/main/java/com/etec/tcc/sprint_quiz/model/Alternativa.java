@@ -46,19 +46,19 @@ public class Alternativa {
 //    @Schema(name = "https://imgur.com/9q3tXhG")
 	private String foto;
 
-	@ManyToOne
-//    @OneToOne
-	@JoinColumn(name = "questao_id")
-//    @Cascade(CascadeType.SAVE_UPDATE)
-////    @JsonIgnoreProperties("alternativas")
-	@JsonIgnoreProperties(value = { "resposta", "alternativas" }, allowSetters = true)
-	private Questao questao;
+//	@ManyToOne
+////    @OneToOne
+//	@JoinColumn(name = "questao_id")
+////    @Cascade(CascadeType.SAVE_UPDATE)
+//////    @JsonIgnoreProperties("alternativas")
+//	@JsonIgnoreProperties(value = { "resposta", "alternativas" }, allowSetters = true)
+//	private Questao questao;
 
 	public Alternativa(AlternativaDTO dto) {
 		this.texto = dto.getTexto();
 		this.foto = dto.getFoto();
 
-		this.questao = questao;
+//		this.questao = questao;
 	}
 	
 	public Alternativa paraAlternativa(AlternativaDTO dto) {
@@ -68,7 +68,7 @@ public class Alternativa {
 		
 		var q = new Questao();
 		q.setId(dto.getId());
-		alternativa.setQuestao(q);
+//		alternativa.setQuestao(q);
 		return alternativa;
 	}
 
