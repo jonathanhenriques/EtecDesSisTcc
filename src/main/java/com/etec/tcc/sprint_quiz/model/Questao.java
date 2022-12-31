@@ -1,7 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 //import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,12 +18,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -73,11 +74,12 @@ public class Questao {
 //	@JoinColumn(name = "alternativa_id")
 //	@JoinColumn
 
-	@OneToMany(orphanRemoval = true)
-	@Cascade(CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
+//	@OneToMany(orphanRemoval = true)
+	@Cascade(CascadeType.MERGE)
 	@JoinTable(name = "tb_questao_alternativas1", joinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "alternativa_id", referencedColumnName = "id"))
 //	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
-	private List<Alternativa> alternativas;
+	private Set<Alternativa> alternativas;
 //    private Alternativa alternativas;
 
 	// @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
@@ -87,7 +89,7 @@ public class Questao {
 //    @Cascade(CascadeType.ALL)
 //	@OneToOne(cascade = javax.persistence.CascadeType.ALL, orphanRemoval = true)
 //	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
-	@OneToOne
+	@OneToOne()
 	private Alternativa resposta;
 
 //    private String resposta;

@@ -1,19 +1,18 @@
 package com.etec.tcc.sprint_quiz.configuration;
 
-import static org.mockito.ArgumentMatchers.longThat;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
@@ -35,7 +34,6 @@ import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
-import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -100,7 +98,7 @@ public class TesteConfigBd {
 //			System.out.println("valor - " + v);
 //			alternativaTesteRepository.deleteAlternativaTesteFromQuestaoTeste(v);
 //			LOGGER.info("deletando questao_alternativaTeste");
-			
+
 //			remover.stream().forEach(System.out::print);
 //			AlternativaTeste a1 = alternativaTesteRepository.findById(remover.get(0).getId()).get();
 //			LOGGER.info("aalternativa a ser removida - " + a1.getId());
@@ -152,9 +150,14 @@ public class TesteConfigBd {
 
 		log.info("#######CARGA QUESTAO#######");
 		Alternativa resposta = new Alternativa(null, "texto alternativa alpha", "");
+		alternativaRepository.save(resposta);
+		Set<Alternativa> alternativas = new HashSet<>();
+		Alternativa a7 = new Alternativa(null, "texto alternativa y", "");
+		alternativaRepository.save(a7);
+		alternativas.add(a7);
 //		alternativaRepository.save(resposta);
 		Questao questao1 = new Questao(null, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
-				DificuldadeQuestao.FACIL, Arrays.asList(new Alternativa(null, "texto alternativa y", ""), resposta), resposta, cq1, usuario1);
+				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
 		Questao questao2 = new Questao(null, "instituicao ", LocalDate.now(), "imagem", "Texto questao2 teste",
 				DificuldadeQuestao.INTERMEDIARIO, null, null, cq1, usuario1);
 		Questao q = new Questao(null, null, null, null, null, null, null, null, cq1, usuario1);

@@ -94,22 +94,27 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	@Override
 	public Questao postQuestao(@Valid @RequestBody Questao questao) {
-		if (usuarioRepository.existsById(questao.getCriador().getId())) {
-//            Questao q =  salvaQuestao(questao).getBody();
-			Alternativa a = questao.getResposta();
-			List<Alternativa> lista = new ArrayList<Alternativa>();
-//            lista.add(a);
-			questao.setAlternativas(lista);
-			questao.getAlternativas().add(a);
-			return salvaQuestao(questao);
-
-		}
-
-		throw new UsuarioNotFoundException(questao.getCriador().getId().toString());
+//		if (usuarioRepository.existsById(questao.getCriador().getId())) {
+////            Questao q =  salvaQuestao(questao).getBody();
+//			Alternativa a = questao.getResposta();
+//			List<Alternativa> lista = new ArrayList<Alternativa>();
+////            lista.add(a);
+//			questao.setAlternativas(lista);
+//			questao.getAlternativas().add(a);
+//			return salvaQuestao(questao);
+//
+//		}
+		usuarioRepository.findById(questao.getCriador().getId())
+				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
+		return categoriaQuestaoRepository.findById(questao.getCategoria().getId()) 
+				.map(c -> questaoRepository.save(questao))
+				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
 
 	}
 
 	private Questao salvaQuestao(Questao questao) {
+		usuarioRepository.findById(questao.getCriador().getId())
+				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
 		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
 				.map(c -> questaoRepository.save(questao))
 				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
@@ -138,9 +143,9 @@ public class QuestaoServiceImp implements QuestaoService {
 	}
 
 	@Override
-	public void deleteQuestao(@PathVariable Long id) {		
-		questaoRepository.delete(questaoRepository.findById(id).
-				orElseThrow(() -> new QuestaoNotFoundException(id.toString())));
+	public void deleteQuestao(@PathVariable Long id) {
+		questaoRepository
+				.delete(questaoRepository.findById(id).orElseThrow(() -> new QuestaoNotFoundException(id.toString())));
 	}
 
 //    @Override
