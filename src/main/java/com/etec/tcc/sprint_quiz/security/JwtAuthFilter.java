@@ -58,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 		if (authHeader == null || !authHeader.startsWith("Bearer")) {
 			filterChain.doFilter(request, response);
-			log.info("Usuário não autenticado/autorizado");
+			log.info("Usuário não autorizado");
 			return;
 		}
 		jwtToken = authHeader.substring(BEARER);

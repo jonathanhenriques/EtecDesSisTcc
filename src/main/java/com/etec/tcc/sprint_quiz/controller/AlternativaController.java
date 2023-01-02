@@ -53,18 +53,18 @@ public class AlternativaController {
         return ResponseEntity.ok(alternativaService.getAll());
     }
 
-    @Operation(summary = "Obtem uma alternativa pelo id")
-    @GetMapping("/{id}")
-    public ResponseEntity<AlternativaDTO> getById(@PathVariable Long id) {
-    	
-    	Alternativa a = alternativaService.getById(id);
-    	return ResponseEntity.ok(modelMapper.map(a, AlternativaDTO.class));
-//    	AlternativaDTO dto = modelMapper.map(a, AlternativaDTO.class);
-//    	paraDTO(a);
-//    	return ResponseEntity.ok(paraDTO(a));
-//    	return ResponseEntity.ok(new AlternativaDTO(a));
-//    	return ResponseEntity.ok(alternativaService.getById(id));
-    }
+//    @Operation(summary = "Obtem uma alternativa pelo id")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<AlternativaDTO> getById(@PathVariable Long id) {
+//    	
+//    	Alternativa a = alternativaService.getById(id);
+//    	return ResponseEntity.ok(modelMapper.map(a, AlternativaDTO.class));
+////    	AlternativaDTO dto = modelMapper.map(a, AlternativaDTO.class);
+////    	paraDTO(a);
+////    	return ResponseEntity.ok(paraDTO(a));
+////    	return ResponseEntity.ok(new AlternativaDTO(a));
+////    	return ResponseEntity.ok(alternativaService.getById(id));
+//    }
     
     
     

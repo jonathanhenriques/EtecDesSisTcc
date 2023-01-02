@@ -41,6 +41,11 @@ public class AlternativaDTO {
 		this.foto = alternativa.getFoto();
 //		this.questaoTexto = alternativa.getQuestao().getId();
 	}
+
+	@Override
+	public String toString() {
+		return "AlternativaDTO [id=" + id + ", texto=" + texto + ", foto=" + foto + "]";
+	}
 //
 //	public AlternativaDTO paraDTO(Alternativa alternativa) {
 //		AlternativaDTO dto = new AlternativaDTO();
@@ -64,5 +69,7 @@ public class AlternativaDTO {
 //	public static List<AlternativaDTO> converteLista(List<Alternativa> alternativas){
 //		return alternativas.stream().map(AternativaDTO::new).C
 //	}
+	
+	
 
 }

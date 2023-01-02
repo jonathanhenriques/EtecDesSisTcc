@@ -14,7 +14,7 @@ import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
 
 public interface QuestaoService {
 
-	List<Questao> getAll();
+	List<QuestaoDTO> getAll();
 
 	Questao getById(@PathVariable Long id);
 

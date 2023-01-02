@@ -117,5 +117,9 @@ public class Usuario implements Serializable {
 //
 //	  }
 	
+	
+	public boolean isRolesAdmin() {
+		return this.roles.stream().anyMatch(r -> r.getAuthority().equalsIgnoreCase("ROLE_ADMIN"));
+	}
 
 }

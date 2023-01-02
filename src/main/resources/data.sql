@@ -16,7 +16,7 @@ INSERT INTO tb_role(cargo) VALUES('ROLE_USER');
 --INSERT INTO tb_usuario VALUES(1, 1);
 
 -- criando categoria de prova
-INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Públicos', 'Provas de Vestibulares publicos');
+INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares publicos', 'Provas de Vestibulares publicos');
 INSERT INTO tb_categoria_prova(titulo, descricao) VALUES('Vestibulares Particulares', 'Provas de Vestibulares Particulares');
 
 -- criando prova

@@ -87,26 +87,6 @@ public class TesteConfigBd {
 		return args -> {
 			LOGGER.info("*********************Rodando Ambiente Local***************************");
 
-//			QuestaoTeste qt = new QuestaoTeste(null, Arrays.asList(new AlternativaTeste(), new AlternativaTeste()));
-//			questaoTesteRepository.save(qt);
-//			LOGGER.info("questaoTeste criada e adicionado duas alternativaTeste e salvado em cascade!");
-//
-//			AlternativaTeste atRetorno = alternativaTesteRepository.findById(2L).get();
-//			LOGGER.info(" id de alternativaTeste - " + atRetorno);
-//			LOGGER.info("tamanho da lista de alternativaTeste em questaoTeste - " + qt.getAlternativaTesteLista().size());
-//			long v = qt.getAlternativaTesteLista().get(0).getId();
-//			System.out.println("valor - " + v);
-//			alternativaTesteRepository.deleteAlternativaTesteFromQuestaoTeste(v);
-//			LOGGER.info("deletando questao_alternativaTeste");
-
-//			remover.stream().forEach(System.out::print);
-//			AlternativaTeste a1 = alternativaTesteRepository.findById(remover.get(0).getId()).get();
-//			LOGGER.info("aalternativa a ser removida - " + a1.getId());
-//			alternativaTesteRepository.deleteById(a1.getId());
-//			qt.getAlternativaTesteLista().remove(remover);
-//			LOGGER.info(" id de alternativaTeste removida de questaoTesteLista - " + atRemovida);
-//			alternativaTesteRepository.delete(atRetorno);
-
 		};
 
 	}

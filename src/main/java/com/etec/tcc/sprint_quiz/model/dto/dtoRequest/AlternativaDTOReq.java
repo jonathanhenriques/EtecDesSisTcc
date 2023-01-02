@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.model.dtorequisicao;
+package com.etec.tcc.sprint_quiz.model.dto.dtoRequest;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

@@ -76,10 +76,11 @@ public class UsuarioController {
 				.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
 		UserDetails user = usuarioService.loadUserByUsername(usuario.getUsername());
 //				.orElseThrow(() -> new UsuarioNotFoundException(usuario.getUsername()));///////// orElseThrow
-		if (user != null) {
-			return ResponseEntity.ok(jwtUtils.generateToken(user));
+		if (user.getUsername() == null) {
+			throw new UsuarioNotFoundException("Usuário não cadastrado");
 		}
-		throw new UsuarioNotFoundException("Usuário não cadastrado");
+		
+		return ResponseEntity.ok(jwtUtils.generateToken(user));
 
 	}
 

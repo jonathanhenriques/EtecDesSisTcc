@@ -1,6 +1,8 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
@@ -55,8 +57,9 @@ public class Alternativa {
 //	private Questao questao;
 
 	public Alternativa(AlternativaDTO dto) {
-		if(dto.getId() != null)
-			this.id = dto.getId();
+//		if(dto.getId() != null)
+//			this.id = dto.getId();
+		this.id = Objects.isNull(dto.getId()) ?  null :  dto.getId();
 		
 		this.texto = dto.getTexto();
 		this.foto = dto.getFoto();
@@ -64,16 +67,24 @@ public class Alternativa {
 //		this.questao = questao;
 	}
 	
-	public Alternativa paraAlternativa(AlternativaDTO dto) {
-		var alternativa = new Alternativa();
-    	alternativa.setTexto(dto.getTexto());
-		alternativa.setFoto(dto.getFoto());
-		
-		var q = new Questao();
-		q.setId(dto.getId());
-//		alternativa.setQuestao(q);
-		return alternativa;
-	}
+//	public Set<Alternativa> converteListaAlternativaDTOParaListaAlternativa(Set<AlternativaDTO> alternativas) {
+//		//versão de lambda mais legivel
+////		return alternativas.stream().map(a -> paraAlternativa(a)).collect(Collectors.toSet());
+//		//versão mais direta de lambda com method Reference
+//		return alternativas.stream().filter(Objects::nonNull).map(this::paraAlternativa).collect(Collectors.toSet());
+//	}
+	
+//	public Alternativa paraAlternativa(AlternativaDTO dto) {
+//		var alternativa = new Alternativa();
+//    	alternativa.setTexto(dto.getTexto());
+//		alternativa.setFoto(dto.getFoto());
+//		
+//		var q = new Questao();
+//		q.setId(dto.getId());
+////		alternativa.setQuestao(q);
+//		return alternativa;
+//	}
+
 
 	
 

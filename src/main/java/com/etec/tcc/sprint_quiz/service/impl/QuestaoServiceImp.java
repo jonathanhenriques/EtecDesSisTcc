@@ -34,6 +34,7 @@ import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
+import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,8 +64,10 @@ public class QuestaoServiceImp implements QuestaoService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
-	public List<Questao> getAll() {
-		return questaoRepository.findAll();
+	public List<QuestaoDTO> getAll() {
+		List<Questao> lista = questaoRepository.findAll();
+		List<QuestaoDTO> listaDTO = (List<QuestaoDTO>) modelMapper.map(lista, QuestaoDTO.class);
+		return listaDTO;
 	}
 
 	@Override
@@ -137,46 +140,84 @@ public class QuestaoServiceImp implements QuestaoService {
 
 		return questao;
 	}
-
+	
 	@Override
 	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {
 		questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
 		for (AlternativaDTO a : dto.getAlternativas()) {
 			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
 		}
-//		Alternativa resposta =  alternativaRepository.findById(dto.getRespostaId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
-//		LOGGER.info("respostaId - " + dto.getRespostaId());
-//		Set<AlternativaDTO> listaAlternativas = dto.getAlternativas();
-//		Set<Alternativa> listaAlternativas = converteListaAlternativaDTOParaListaAlternativa(dto.getAlternativas());
-		Set<Alternativa> listaAlternativas = new HashSet<Alternativa>();
-		for (AlternativaDTO a : dto.getAlternativas()) {
-			Alternativa alternativa = alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
-			LOGGER.info("texto alternativa - " + alternativa.getTexto());
-			listaAlternativas.add(alternativa);
-			
-		}
 		
-		Questao questaoSalvar = modelMapper.map(dto, Questao.class);
-		questaoSalvar.setAlternativas(listaAlternativas);
-//		Alternativa respo = alternativaRepository.findById(questaoSalvar.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(questaoSalvar.getId().toString()));
-//		questaoSalvar.setResposta(respo);
-		Questao qSalva = questaoRepository.save(questaoSalvar);
-//		qSalva.getResposta().setId(resposta.getId());
-		QuestaoDTO dtoRes = modelMapper.map(qSalva, QuestaoDTO.class);
-		Set<AlternativaDTO> listaDTO = converteListaAlternativaParaListaAlternativaDTO(listaAlternativas);
-		dtoRes.setAlternativas(listaDTO);
-//		dtoRes.setRespostaId(resposta.getId());
-		return dtoRes;
+		Alternativa resposta =  alternativaRepository.findById(dto.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
+//		Questao questaoRequest = modelMapper.map(dto, Questao.class);
+		Questao questaoRequest = ObjectMapperUtils.map(dto, Questao.class);////////
+		questaoRequest.setResposta(resposta);
+//		questaoRepository.save(questaoRequest);
+		QuestaoDTO dtoResponse = modelMapper.map(questaoRequest, QuestaoDTO.class);
+//		dtoResponse.setResposta(modelMapper.map(resposta, AlternativaDTO.class));
+		
+		return dtoResponse;
 		
 	}
+
+//	@Override
+//	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {
+//		questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
+//		for (AlternativaDTO a : dto.getAlternativas()) {
+//			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
+//		}
+//		
+//		Alternativa resposta =  alternativaRepository.findById(dto.getIdCategoriaQuestao()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
+////		LOGGER.info("respostaId - " + dto.getRespostaId());
+////		Set<AlternativaDTO> listaAlternativas = dto.getAlternativas();
+////		Set<Alternativa> listaAlternativas = converteListaAlternativaDTOParaListaAlternativa(dto.getAlternativas());
+//		
+//		
+//		Set<Alternativa> listaAlternativas = new HashSet<Alternativa>();
+//		for (AlternativaDTO a : dto.getAlternativas()) {
+//			Alternativa alternativa = alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
+//			LOGGER.info("texto alternativa - " + alternativa.getTexto());
+//			listaAlternativas.add(alternativa);
+//			
+//		}
+//		
+//		Questao questaoRequest = modelMapper.map(dto, Questao.class);
+//		questaoRequest.setAlternativas(listaAlternativas);
+//		questaoRequest.setResposta(resposta);
+//		questaoRepository.save(questaoRequest);
+//		QuestaoDTO dtoResponse = modelMapper.map(questaoRequest, QuestaoDTO.class);
+//		dtoResponse.setAlternativas(converteListaAlternativaParaListaAlternativaDTO(listaAlternativas));
+////		dtoResponse.setIdCategoriaQuestao(resposta.getId());
+////		questaoSalvar.setAlternativas(questaoRequest);
+//		dtoResponse.setIdResposta(modelMapper.map(resposta, AlternativaDTO.class));
+//		
+//		
+////		Alternativa respo = alternativaRepository.findById(questaoSalvar.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(questaoSalvar.getId().toString()));
+////		questaoSalvar.setResposta(respo);
+//		
+////		Questao qSalva = questaoRepository.save(questaoSalvar);
+//		
+////		qSalva.getResposta().setId(resposta.getId());
+//		
+//		
+////		QuestaoDTO dtoRes = modelMapper.map(qSalva, QuestaoDTO.class);
+////		Set<AlternativaDTO> listaDTO = converteListaAlternativaParaListaAlternativaDTO(listaAlternativas);
+////		dtoRes.setAlternativas(listaDTO);
+//		
+//		
+////		dtoRes.setRespostaId(resposta.getId());
+//		
+//		return dtoResponse;
+//		
+//	}
 	
-	public Set<AlternativaDTO> converteListaAlternativaParaListaAlternativaDTO(Set<Alternativa> alternativas) {
-		return alternativas.stream().map(a -> new AlternativaDTO(a)).collect(Collectors.toSet());
-	}
-	
-	public Set<Alternativa> converteListaAlternativaDTOParaListaAlternativa(Set<AlternativaDTO> alternativas) {
-		return alternativas.stream().map(a -> new Alternativa(a)).collect(Collectors.toSet());
-	}
+//	public Set<AlternativaDTO> converteListaAlternativaParaListaAlternativaDTO(Set<Alternativa> alternativas) {
+//		return alternativas.stream().map(a -> new AlternativaDTO(a)).collect(Collectors.toSet());
+//	}
+//	
+//	public Set<Alternativa> converteListaAlternativaDTOParaListaAlternativa(Set<AlternativaDTO> alternativas) {
+//		return alternativas.stream().map(a -> new Alternativa(a)).collect(Collectors.toSet());
+//	}
 
 	@Override
 	public void deleteQuestao(@PathVariable Long id) {
