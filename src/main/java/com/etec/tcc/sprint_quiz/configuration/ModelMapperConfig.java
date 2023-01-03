@@ -81,17 +81,61 @@ public class ModelMapperConfig {
 		};
 		
 
+//		modelMapper.createTypeMap(QuestaoDTO.class, Questao.class)
+////				.addMappings(mapper -> mapper.using(alternativaDTOParaAlternativa).map(QuestaoDTO::getResposta, Questao::setResposta))
+//				.addMappings((mapper -> mapper.using(ListAlternativaParaSetAlternativaDTO).map(QuestaoDTO::getAlternativas, Questao::setAlternativas))
+//						);
+		
+		
+		
+		
+		
+		Converter<HashSet<AlternativaDTO>, HashSet<Alternativa>> setAlternativaDTOParaSetAlternativaConverter = obj -> {
+			return obj.getSource().stream().map(dto -> {
+
+				Alternativa alternativa = alternativaRepository.findById(dto.getId())
+						.orElseThrow(() -> new AlternativaNotFoundException(obj.toString()));
+				return alternativa;
+//				
+
+			}).collect(Collectors.toCollection(HashSet::new));
+//			}).collect(Collectors.toSet());
+
+		};
+		
+		
+		
+		
 		modelMapper.createTypeMap(QuestaoDTO.class, Questao.class)
-//				.addMappings(mapper -> mapper.using(alternativaDTOParaAlternativa).map(QuestaoDTO::getResposta, Questao::setResposta))
-				.addMappings((mapper -> mapper.using(ListAlternativaParaSetAlternativaDTO).map(QuestaoDTO::getAlternativas, Questao::setAlternativas))
-						);
+		.addMappings(mapper -> mapper.using(setAlternativaDTOParaSetAlternativaConverter)
+				.map(QuestaoDTO::getAlternativas, Questao::setAlternativas));
 
 		return modelMapper;
 
 	}
 	
 	private Set<AlternativaDTO> converteSetAlternativaParaSetAlternativaDTO(Set<Alternativa> alternativas) {
-		return alternativas.stream().map(a -> new AlternativaDTO(a)).collect(Collectors.toSet());
+		return alternativas.stream().map(a ->  converteParaAlternativaDTO(a)).collect(Collectors.toSet());
+	}
+	
+	private Set<Alternativa> converteSetAlternativaDTOParaSetAlternativa(Set<AlternativaDTO> dtos) {
+		return dtos.stream().map(a ->  converteParaAlternativa(a)).collect(Collectors.toSet());
+	}
+	
+	private Alternativa converteParaAlternativa(AlternativaDTO dto) {
+		Alternativa a = new Alternativa();
+		a.setId(dto.getId());
+		a.setFoto(dto.getFoto());
+		a.setTexto(dto.getTexto());
+		return a;
+	}
+	
+	private AlternativaDTO converteParaAlternativaDTO(Alternativa alternativa) {
+		AlternativaDTO dto = new AlternativaDTO();
+		dto.setId(alternativa.getId());
+		dto.setFoto(alternativa.getFoto());
+		dto.setTexto(alternativa.getTexto());
+		return dto;
 	}
 	
 	

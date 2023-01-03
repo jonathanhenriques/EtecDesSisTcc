@@ -2,10 +2,19 @@ package com.etec.tcc.sprint_quiz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 @SpringBootApplication
 public class SprintQuizApplication {
 
+	
+
+	@Bean
+	public ObjectMapperUtils ot() {
+		return new ObjectMapperUtils();
+	}
 	
 
 	public static void main(String[] args) {

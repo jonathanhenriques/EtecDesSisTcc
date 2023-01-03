@@ -61,6 +61,9 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ObjectMapperUtils objectMapperUtils;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
@@ -148,12 +151,12 @@ public class QuestaoServiceImp implements QuestaoService {
 			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
 		}
 		
-		Alternativa resposta =  alternativaRepository.findById(dto.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
+//		Alternativa resposta =  alternativaRepository.findById(dto.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
 //		Questao questaoRequest = modelMapper.map(dto, Questao.class);
-		Questao questaoRequest = ObjectMapperUtils.map(dto, Questao.class);////////
-		questaoRequest.setResposta(resposta);
+		Questao questaoRequest = objectMapperUtils.map(dto, Questao.class);////////
+//		questaoRequest.setResposta(resposta);
 //		questaoRepository.save(questaoRequest);
-		QuestaoDTO dtoResponse = modelMapper.map(questaoRequest, QuestaoDTO.class);
+		QuestaoDTO dtoResponse = objectMapperUtils.map(questaoRepository.save(questaoRequest), QuestaoDTO.class);
 //		dtoResponse.setResposta(modelMapper.map(resposta, AlternativaDTO.class));
 		
 		return dtoResponse;

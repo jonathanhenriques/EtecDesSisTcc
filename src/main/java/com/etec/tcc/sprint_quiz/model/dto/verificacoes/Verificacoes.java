@@ -45,7 +45,7 @@ public class Verificacoes {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@Bean
+//	@Bean
 	public CommandLineRunner commandLineRunnerTestesLivres() {
 		
 		return args -> {
@@ -83,12 +83,12 @@ public class Verificacoes {
 		LOGGER.info("*********************ObjectModelMapper TESTES livres***************************");
 		Questao questao2 = new Questao(1L, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
 				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
-		LOGGER.info("\nquestaoOriginal - \n"+questao2);
-		QuestaoDTO questaoDTO2 = ObjectMapperUtils.map(questao2, QuestaoDTO.class);
-		LOGGER.info("\nquestaoDTOMapper - \n"+questaoDTO2);
-		
-		
-		LOGGER.info("*********************FIM códigos de TESTES livres***************************");
+//		LOGGER.info("\nquestaoOriginal - \n"+questao2);
+//		QuestaoDTO questaoDTO2 = ObjectMapperUtils.map(questao2, QuestaoDTO.class);
+//		LOGGER.info("\nquestaoDTOMapper - \n"+questaoDTO2);
+//		Questao questaoVolta = ObjectMapperUtils.map(questaoDTO2, Questao.class);
+//		LOGGER.info("\nquestaoVolta - \n"+questaoVolta);
+//		LOGGER.info("*********************FIM códigos de TESTES livres***************************");
 		
 		};
 	}

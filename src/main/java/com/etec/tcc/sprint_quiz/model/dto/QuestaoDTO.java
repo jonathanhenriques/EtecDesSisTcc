@@ -1,5 +1,6 @@
 package com.etec.tcc.sprint_quiz.model.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
