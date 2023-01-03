@@ -1,11 +1,9 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
+import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +31,8 @@ public class AlternativaServiceImp implements AlternativaService {
 	private AlternativaRepository alternativaRepository;
 
 	@Autowired
-	private ModelMapper modelMapper;
+	private ObjectMapperUtils objectMapperUtils;
+	
 
 	@Autowired
 	private QuestaoRepository questaoRepository;
@@ -52,14 +52,15 @@ public class AlternativaServiceImp implements AlternativaService {
 		return alternativaRepository.findById(id).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 	}
 
+	//verificar se funciona
 	@Override
 	public AlternativaDTO post(AlternativaDTO alternativaDto) {
 //		questaoRepository.findById(alternativaDto.getQuestaoId()).orElseThrow(
 //				() -> new QuestaoNotFoundException("Questão não encontrada | " + alternativaDto.getQuestaoId()));
 
-		Alternativa alternativa = modelMapper.map(alternativaDto, Alternativa.class);
+		Alternativa alternativa = objectMapperUtils.map(alternativaDto, Alternativa.class);
 		alternativa = alternativaRepository.save(alternativa);
-		AlternativaDTO dto = modelMapper.map(alternativa, AlternativaDTO.class);
+		AlternativaDTO dto = objectMapperUtils.map(alternativa, AlternativaDTO.class);
 		return dto;
 	}
 

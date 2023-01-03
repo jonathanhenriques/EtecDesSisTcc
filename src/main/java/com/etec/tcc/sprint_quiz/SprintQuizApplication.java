@@ -11,10 +11,10 @@ public class SprintQuizApplication {
 
 	
 
-	@Bean
-	public ObjectMapperUtils ot() {
-		return new ObjectMapperUtils();
-	}
+//	@Bean
+//	public ObjectMapperUtils ot() {
+//		return new ObjectMapperUtils();
+//	}
 	
 
 	public static void main(String[] args) {

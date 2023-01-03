@@ -1,14 +1,10 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +20,6 @@ import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
-import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
@@ -58,8 +53,6 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Lazy
 	private AlternativaService alternativaService;
 	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	@Autowired
 	private ObjectMapperUtils objectMapperUtils;
@@ -69,7 +62,7 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Override
 	public List<QuestaoDTO> getAll() {
 		List<Questao> lista = questaoRepository.findAll();
-		List<QuestaoDTO> listaDTO = (List<QuestaoDTO>) modelMapper.map(lista, QuestaoDTO.class);
+		List<QuestaoDTO> listaDTO = (List<QuestaoDTO>) objectMapperUtils.map(lista, QuestaoDTO.class);//VERIFICAR SE FUNCIONA
 		return listaDTO;
 	}
 

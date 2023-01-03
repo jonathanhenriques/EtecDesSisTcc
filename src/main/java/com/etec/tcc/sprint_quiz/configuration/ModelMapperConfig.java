@@ -28,10 +28,6 @@ import lombok.Data;
 @Configuration
 public class ModelMapperConfig {
 	
-//	@Bean
-//	public ModelMapper modelMapper() {
-//		return new ModelMapper();
-//	}
 
 	@Autowired
 	@Lazy
@@ -43,51 +39,6 @@ public class ModelMapperConfig {
 		
 		
 		
-//		modelMapper.getConfiguration()
-//		  .setFieldMatchingEnabled(true);
-//		  .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE); //verificar por que não funciona
-		
-		
-
-//		/**
-//		 * Converter do ModelMapper
-//		 * para converter AlternativaDTO
-//		 * para Alternativa
-//		 */
-//		Converter<AlternativaDTO, Alternativa> alternativaDTOParaAlternativa = obj -> {
-//			Alternativa a = null; 
-//			a = alternativaRepository.findById(obj.getSource().getId())
-//					.orElseThrow(() -> new AlternativaNotFoundException(obj.getSource().toString()));
-//			 
-//			 return a;
-//		};
-		
-		
-		
-		/**
-		 * Converter do ModelMapper
-		 * para converter List<Alternativa>
-		 * para Set<AlternativaDTO>
-		 * 
-		 */
-		Converter<List<Alternativa>, Set<AlternativaDTO>> ListAlternativaParaSetAlternativaDTO = lista -> {
-			
-			Set<Alternativa> listaSet = new HashSet<>(lista.getSource());
-//			Set<AlternativaDTO> setDTO = new HashSet<>();
-//			set = lista.getSource().stream().collect(Collectors.toSet());
-			
-			return converteSetAlternativaParaSetAlternativaDTO(listaSet);
-			
-		};
-		
-
-//		modelMapper.createTypeMap(QuestaoDTO.class, Questao.class)
-////				.addMappings(mapper -> mapper.using(alternativaDTOParaAlternativa).map(QuestaoDTO::getResposta, Questao::setResposta))
-//				.addMappings((mapper -> mapper.using(ListAlternativaParaSetAlternativaDTO).map(QuestaoDTO::getAlternativas, Questao::setAlternativas))
-//						);
-		
-		
-		
 		
 		
 		Converter<HashSet<AlternativaDTO>, HashSet<Alternativa>> setAlternativaDTOParaSetAlternativaConverter = obj -> {
@@ -96,7 +47,6 @@ public class ModelMapperConfig {
 				Alternativa alternativa = alternativaRepository.findById(dto.getId())
 						.orElseThrow(() -> new AlternativaNotFoundException(obj.toString()));
 				return alternativa;
-//				
 
 			}).collect(Collectors.toCollection(HashSet::new));
 //			}).collect(Collectors.toSet());
@@ -114,30 +64,75 @@ public class ModelMapperConfig {
 
 	}
 	
-	private Set<AlternativaDTO> converteSetAlternativaParaSetAlternativaDTO(Set<Alternativa> alternativas) {
-		return alternativas.stream().map(a ->  converteParaAlternativaDTO(a)).collect(Collectors.toSet());
-	}
-	
-	private Set<Alternativa> converteSetAlternativaDTOParaSetAlternativa(Set<AlternativaDTO> dtos) {
-		return dtos.stream().map(a ->  converteParaAlternativa(a)).collect(Collectors.toSet());
-	}
-	
-	private Alternativa converteParaAlternativa(AlternativaDTO dto) {
-		Alternativa a = new Alternativa();
-		a.setId(dto.getId());
-		a.setFoto(dto.getFoto());
-		a.setTexto(dto.getTexto());
-		return a;
-	}
-	
-	private AlternativaDTO converteParaAlternativaDTO(Alternativa alternativa) {
-		AlternativaDTO dto = new AlternativaDTO();
-		dto.setId(alternativa.getId());
-		dto.setFoto(alternativa.getFoto());
-		dto.setTexto(alternativa.getTexto());
-		return dto;
-	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+//	private Set<AlternativaDTO> converteSetAlternativaParaSetAlternativaDTO(Set<Alternativa> alternativas) {
+//		return alternativas.stream().map(a ->  converteParaAlternativaDTO(a)).collect(Collectors.toSet());
+//	}
+//	
+//	private Set<Alternativa> converteSetAlternativaDTOParaSetAlternativa(Set<AlternativaDTO> dtos) {
+//		return dtos.stream().map(a ->  converteParaAlternativa(a)).collect(Collectors.toSet());
+//	}
+//	
+//	private Alternativa converteParaAlternativa(AlternativaDTO dto) {
+//		Alternativa a = new Alternativa();
+//		a.setId(dto.getId());
+//		a.setFoto(dto.getFoto());
+//		a.setTexto(dto.getTexto());
+//		return a;
+//	}
+//	
+//	private AlternativaDTO converteParaAlternativaDTO(Alternativa alternativa) {
+//		AlternativaDTO dto = new AlternativaDTO();
+//		dto.setId(alternativa.getId());
+//		dto.setFoto(alternativa.getFoto());
+//		dto.setTexto(alternativa.getTexto());
+//		return dto;
+//	}
+//	
+//	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	/**
+//	 * Converter do ModelMapper para converter AlternativaDTO para Alternativa
+//	 */
+//	Converter<Long, CategoriaQuestao> longCategoriaParaCategoriaQuestao = obj -> {
+//		CategoriaQuestao categoria = null;
+//		categoria = categoriaQuestaoRepository.findById(obj.getSource())
+//				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(obj.toString()));
+//
+//		return categoria;
+//	};
+
+
+//		/**
+//		 * Conversor que ensina o ModelMapper a mapear de um atributo para outro. Long
+//		 * resposta(contêm id de uma alternativa), para Alternativa resposta. De
+//		 * QuestaoDTO para Questao
+//		 */
+//		Converter<Long, Alternativa> LongParaAlternativaConverter = obj -> {
+//			Alternativa alternativa = null;
+//			alternativa = alternativaRepository.findById(obj.getSource())
+//					.orElseThrow(() -> new AlternativaNotFoundException(obj.toString()));
+//
+//			return alternativa;
+//		};
 
 }

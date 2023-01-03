@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,7 @@ import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
+import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +41,8 @@ public class AlternativaController {
     @Autowired
     private AlternativaService alternativaService;
     
-    @Autowired
-	private ModelMapper modelMapper;
+//    @Autowired
+//	private ObjectMapperUtils objectMapperUtils;
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
@@ -68,16 +68,11 @@ public class AlternativaController {
     
     
     
-//    @Operation(summary = "Obtem uma alternativa pelo id")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<AlternativaDTO> getById(@PathVariable Long id) {
-//    	Alternativa a = alternativaService.getById(id);
-////    	AlternativaDTO dto = modelMapper.map(a, AlternativaDTO.class);
-//    	paraDTO(a);
-////    	return ResponseEntity.ok(paraDTO(a));
-//    	return ResponseEntity.ok(new AlternativaDTO(a));
-////    	return ResponseEntity.ok(alternativaService.getById(id));
-//    }
+    @Operation(summary = "Obtem uma alternativa pelo id")
+    @GetMapping("/{id}")
+    public ResponseEntity<Alternativa> getById(@PathVariable Long id) {
+    	return ResponseEntity.ok(alternativaService.getById(id));
+    }
     
     
     

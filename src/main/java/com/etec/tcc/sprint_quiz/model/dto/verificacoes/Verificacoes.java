@@ -43,7 +43,7 @@ public class Verificacoes {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 	
 	@Autowired
-	private ModelMapper modelMapper;
+	private ObjectMapperUtils objectMapperUtils;
 
 //	@Bean
 	public CommandLineRunner commandLineRunnerTestesLivres() {
@@ -74,7 +74,7 @@ public class Verificacoes {
 		Questao questao1 = new Questao(1L, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
 				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
 		LOGGER.info("\nquestaoOriginal - \n"+questao1);
-		QuestaoDTO questaoDTO = modelMapper.map(questao1, QuestaoDTO.class);
+		QuestaoDTO questaoDTO = objectMapperUtils.map(questao1, QuestaoDTO.class);
 		LOGGER.info("\nquestaoDTOMapper - \n"+questaoDTO);
 //		Questao q = modelMapper.map(questaoDTO, Questao.class);
 //		ObjectMapperUtils.map(questaoDTO, Questao.class);
