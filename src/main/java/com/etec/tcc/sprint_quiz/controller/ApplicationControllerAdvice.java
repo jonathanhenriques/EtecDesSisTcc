@@ -4,22 +4,29 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.assertj.core.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.etec.tcc.sprint_quiz.ApiErrors;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.ApiErrors;
+import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
+import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
 import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 
-//manipulador de erros
+/**
+ * Classe manipulador de erros que recebe os erros da aplicação
+ * que foram declarados aqui e os modifica 
+ * 
+ * @author hsjon
+ *
+ */
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
@@ -27,13 +34,13 @@ public class ApplicationControllerAdvice {
 //	 @ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<ApiErrors> handleCategoriaProvaNotFoundException(CategoriaProvaNotFoundException ex,
 			HttpServletRequest request) {
-		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(), 
 				request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
-//	
+//	Exception padrão OLD
 //    @ExceptionHandler(CategoriaProvaNotFoundException.class)
 //    @ResponseStatus(HttpStatus.NOT_FOUND)
 //    public ApiErrors handleCategoriaProvaNotFoundException(CategoriaProvaNotFoundException ex) {
@@ -41,9 +48,9 @@ public class ApplicationControllerAdvice {
 //        return new ApiErrors(mensagemErro);
 //    }
 
-	@ExceptionHandler(CategoriaQuestaoNaoEncontradaException.class)
+	@ExceptionHandler(CategoriaQuestaoNotFoundException.class)
 //	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<ApiErrors> handleCategoriaQuestaoNotFound(CategoriaQuestaoNaoEncontradaException ex,
+	public ResponseEntity<ApiErrors> handleCategoriaQuestaoNotFoundException(CategoriaQuestaoNotFoundException ex,
 			HttpServletRequest request) {
 		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
 				request.getRequestURI());
@@ -89,6 +96,37 @@ public class ApplicationControllerAdvice {
 				request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(UsuarioJaCadastradoException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleUsuarioJaCadastradoException(UsuarioJaCadastradoException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.CONFLICT.value(), ex.getMessage(),
+				request.getRequestURI());
+
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+	
+	@ExceptionHandler(CargoNotFoundException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleCargoNotFoundException(CargoNotFoundException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(CargoJaCadastradoException.class)
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<ApiErrors> handleCargoJaCadastradoException(CargoJaCadastradoException ex,
+			HttpServletRequest request) {
+		ApiErrors error = new ApiErrors(LocalDateTime.now(), HttpStatus.CONFLICT.value(), ex.getMessage(),
+				request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 }

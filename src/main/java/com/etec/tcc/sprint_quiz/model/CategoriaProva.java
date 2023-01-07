@@ -22,17 +22,18 @@ public class CategoriaProva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O atributo titulo não pode ser vazio nem nulo!")
-    @Size(max = 400, message = "O atributo titulo deve ter no máximo 400 caracteres")
+    @NotBlank(message = "titulo {campo.texto.notBlank.obrigatorio}")
+    @Size(max = 400, message = "titulo {campo.texto.sizeMax} 400")
 //    @Schema(name = "Provas de vestibulares")
     private String titulo;
 
-    @Size(max = 1000 ,message = "O atributo descricao deve ter no máximo 1000 caracteres")
+    @Size(max = 1000 ,message = "descricao {campo.texto.sizeMax} 1000")
 //    @Schema(name = "Vestibulares públicos")
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria")
-    @JsonIgnoreProperties("categoria")
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "categoria")
+    @JsonIgnoreProperties(value = "categoria", allowSetters = true)
     private List<Prova> provas;
 
 

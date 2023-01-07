@@ -1,57 +1,125 @@
 package com.etec.tcc.sprint_quiz.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.List;
-import javax.validation.constraints.Email;
-
+/**
+ * classe representando os usuarios no Banco
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder // permite construir obj com mais facilidade
 @Entity
-@Table(name = "tb_usuario")
-public class Usuario {
+@Table(name = "TB_USUARIO")
+public class Usuario implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
-    @Size(min = 3, max = 75, message = "O nome deve ter no mínimo 3 caracteres")
-    private String nome;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "usuario_id")
+	private Long id;
 
+//	@NotBlank(message = "O atributo nome não pode ser nullo nem vazio!")
+	@NotBlank(message = "nome {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 3, max = 75, message = "nome {campo.texto.sizeMin} 3")
+	private String nome;
 
-    @Schema(example = "email@email.com.br")
-    @NotBlank(message = "O atributo email não pode ser nullo nem vazio")
-    @Email(message = "Deve ser um email válido (email@email.com)")
-    private String usuario;
+// necessario na antiga implementacao de security pois login é feito com email
+//    @Schema(example = "email@email.com.br")
+//    @NotBlank(message = "O atributo email não pode ser nullo nem vazio")
+//    @Email(message = "Deve ser um email válido (email@email.com)")
+//    private String usuario;
 
-    @NotBlank(message = "O atributo senha não pode ser nullo nem vazio!")
-    @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
-    private String senha;
+	@Schema(example = "email@email.com.br")
+	@NotBlank(message = "email {campo.texto.notBlank.obrigatori}")
+	@Column(unique = true)
+	@Email(message = "{campo.email}")
+	private String username; // campo de login
+
+	@NotBlank(message = "senha {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 8, message = "senha {campo.texto.sizeMin} 8")
+	private String password;
 
 //    @Schema(name = "link da foto")
-    private String foto;
+	private String foto;
 
-    @Schema(example = "admin / usuario")
-    private String tipo;
+//	private boolean enable;
 
-    @OneToMany(mappedBy = "criador")
-    @JsonIgnoreProperties({"instituicao",
-            "ano", "texto", "opcao_1", "opcao_2", "opcao_3" ,"opcao_4" ,"opcao_5",
-            "resposta", "categoria", "criador"})
-    private List<Questao> questoes;
+//	@Schema(example = "admin / user")
+//	private String tipo;
+//	@ManyToMany //declaracao gera uma nova tabela para associar usuario com a role
+//	@JoinTable(name = "TB_USUARIO_ROLE", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+//	private List<RolesModel> roles;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//	@ManyToMany
+	private Collection<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
-    @JsonIgnoreProperties({"questoes", "descricao", "duracao", "usuario", "instituicao", "categoria"})
-    private List<Prova> provas;
+	@OneToMany(mappedBy = "criador")@LazyCollection(LazyCollectionOption.FALSE)
+//	@OneToMany(mappedBy = "criador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+//	@JsonIgnoreProperties({ "instituicao", "ano", "texto", "opcao_1", "opcao_2", "opcao_3", "opcao_4", "opcao_5",
+//			"resposta", "categoria", "criador" })
+	private List<Questao> questoes = new ArrayList();
 
+	@OneToMany(mappedBy = "usuario")@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
+//	@JsonIgnoreProperties(value = { "questoes", "descricao", "duracao", "usuario", "instituicao",
+//			"categoria" }, allowSetters = true)
+	private List<Prova> provas = new ArrayList();
+	
+	
+//	public UserPrincipal(User user) {
+//	    this.username = user.getUsername();
+//	    this.password = user.getPassword();
+//
+//	    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//
+//	    // ROLE_ADMIN , ROLE_USER ADMIN, USER ....
+//	    authorities = user.getRoles().stream().map(role -> {
+//	      return new SimpleGrantedAuthority(role.getName());
+//	    }).collect(Collectors.toList());
+//
+//	    this.authorities = authorities;
+//
+//	  }
+	
+	
+	public boolean isRolesAdmin() {
+		return this.roles.stream().anyMatch(r -> r.getAuthority().equalsIgnoreCase("ROLE_ADMIN"));
+	}
 
 }

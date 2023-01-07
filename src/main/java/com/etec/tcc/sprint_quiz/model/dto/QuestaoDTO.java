@@ -1,60 +1,58 @@
-//package com.etec.tcc.sprint_quiz.model.dto;
-//
-//import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
-//import com.etec.tcc.sprint_quiz.model.Questao;
-//import com.etec.tcc.sprint_quiz.model.Usuario;
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-//import org.hibernate.annotations.CreationTimestamp;
-//import org.springframework.web.bind.annotation.RequestBody;
-//
-//import javax.persistence.*;
-//import javax.validation.constraints.NotBlank;
-//import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Positive;
-//import javax.validation.constraints.Size;
-//import java.time.LocalDate;
-//import java.time.format.DateTimeFormatter;
-//
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//public class QuestaoDTO {
-//
-//    private Long id;
-//    private String instituicao;
-//    private String ano;
-//    private String texto;
-//    private String opcao_1;
-//    private String opcao_2;
-//    private String opcao_3;
-//    private String opcao_4;
-//    private String opcao_5;
-//    private int resposta;
-//    private Long categoria;
-//    private Long criador;
-//
-//    public QuestaoDTO(@RequestBody Questao questao){
-//        this.id = questao.getId();
-//        this.instituicao = questao.getInstituicao();
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        String lds = questao.getAno().format(formatter);
-//        this.ano = lds;
-//
-//        this.texto = questao.getTexto();
-//        this.opcao_1 = questao.getOpcao_1();
-//        this.opcao_2 = questao.getOpcao_2();
-//        this.opcao_3 = questao.getOpcao_3();
-//        this.opcao_4 = questao.getOpcao_4();
-//        this.opcao_5 = questao.getOpcao_5();
-//        this.resposta = questao.getResposta();
-//
-//        this.categoria = questao.getCategoria().getId();
-//        this.criador = questao.getCriador().getId();
-//
-//    }
-//
-//}
+package com.etec.tcc.sprint_quiz.model.dto;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
+import com.etec.tcc.sprint_quiz.model.Alternativa;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class QuestaoDTO {
+
+//	private Long id;
+//	private String instituicao;
+//	@CreationTimestamp
+//	private LocalDate ano;
+//	private String imagem;
+//	@NotBlank(message = "texto {campo.texto.notBlank.obrigatorio}")
+//	@Size(min = 1, max = 1000, message = "texto {campo.texto.sizeMax} 1000")
+//	private String texto;
+//	private DificuldadeQuestao dificuldade;
+//	private Set<AlternativaDTO> alternativas;
+//	private Alternativa resposta;
+//	private CategoriaQuestao categoria;
+//	private Usuario criador;
+	
+	private Long id;
+	private String instituicao;
+	private String imagem;
+	@NotBlank(message = "texto {campo.texto.notBlank.obrigatorio}")
+	@Size(min = 1, max = 1000, message = "texto {campo.texto.sizeMax} 1000")
+	private String texto;
+	private DificuldadeQuestao dificuldade;
+	private Set<AlternativaDTO> alternativas;
+	private AlternativaDTO resposta;
+	private Long idCategoriaQuestao;
+	private Long criadorId;
+	@Override
+	public String toString() {
+		return "QuestaoDTO [id=" + id + ", instituicao=" + instituicao + ", imagem=" + imagem + ", texto=" + texto
+				+ ", dificuldade=" + dificuldade + ", alternativas=" + alternativas.toString() + ", resposta=" + resposta
+				+ ", idCategoriaQuestao=" + idCategoriaQuestao + ", criadorId=" + criadorId + "]";
+	}
+
+	
+	
+
+}

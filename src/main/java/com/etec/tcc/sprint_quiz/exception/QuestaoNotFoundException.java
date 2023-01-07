@@ -2,7 +2,12 @@ package com.etec.tcc.sprint_quiz.exception;
 
 public class QuestaoNotFoundException extends RuntimeException{
 
-    public QuestaoNotFoundException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public QuestaoNotFoundException(String message) {
         super("Questão não encontrada | " + message);
     }
 

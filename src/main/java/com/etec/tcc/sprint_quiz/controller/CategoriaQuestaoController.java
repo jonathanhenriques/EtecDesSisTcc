@@ -1,6 +1,6 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNaoEncontradaException;
+import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;
@@ -27,31 +27,31 @@ public class CategoriaQuestaoController {
     @Operation(summary = "Obtem categoria pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaQuestao> getById(@PathVariable Long id) {
-        return categoriaQuestaoService.getById(id);
+        return ResponseEntity.ok(categoriaQuestaoService.getById(id));
     }
 
     @Operation(summary = "Obtem categorias pela descricao da categoria")
     @GetMapping("/descricao/{descricao}")
-    public ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao){
-        return categoriaQuestaoService.getByDescricao(descricao);
+    public ResponseEntity<List<CategoriaQuestao>> getAllByDescricao(@PathVariable("descricao") String descricao){
+        return ResponseEntity.ok(categoriaQuestaoService.getAllByDescricao(descricao));
     }
 
     @Operation(summary = "Obtem todas as  categorias")
     @GetMapping
     public ResponseEntity<List<CategoriaQuestao>> getAll(){
-        return ResponseEntity.ok(categoriaQuestaoRepository.findAll());
+        return ResponseEntity.ok(categoriaQuestaoService.getAll());
     }
 
     @Operation(summary = "Cadastra uma categoria")
     @PostMapping
     public ResponseEntity<CategoriaQuestao> postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return categoriaQuestaoService.postCategoriaQuestao(categoria);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaQuestaoService.post(categoria));
     }
 
     @Operation(summary = "Atualiza uma categoria")
     @PutMapping
     public ResponseEntity<CategoriaQuestao> putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-        return categoriaQuestaoService.putCategoriaQuestao(categoria);
+        return ResponseEntity.ok(categoriaQuestaoService.put(categoria));
     }
 
     @PatchMapping(path = "/patch")
@@ -60,13 +60,14 @@ public class CategoriaQuestaoController {
                 .map(c -> {
                     c.setTitulo(categoria.getTitulo());
                     return ResponseEntity.ok(categoriaQuestaoRepository.save(c));
-                }).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException());
+                }).orElseThrow(() -> new CategoriaQuestaoNotFoundException());
     }
 
     @Operation(summary = "Deleta uma categoria pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id){
-        return categoriaQuestaoService.deleteCategoriaQuestao(id);
+    	categoriaQuestaoService.delete(id);
+    	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 }

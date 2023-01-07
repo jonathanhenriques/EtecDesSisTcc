@@ -1,45 +1,41 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.QuestaoProva;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
 
 public interface QuestaoService {
 
-    ResponseEntity<List<Questao>> getAll();
+	List<QuestaoDTO> getAll();
 
-    ResponseEntity<Questao> getById(@PathVariable Long id);
+	Questao getById(@PathVariable Long id);
 
-    ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto);
+	List<Questao> getAllByTexto(@PathVariable String texto);
 
-    ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao);
+	List<Questao> getAllByInstituicao(@PathVariable String instituicao);
 
-    ResponseEntity<List<Questao>> findAllByAno(@PathVariable
-                                               @DateTimeFormat(
-                                                       iso = DateTimeFormat.ISO.DATE)
-                                                       LocalDate ano);
+	List<Questao> findAllByAno(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ano);
 
-    ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal);
+	List<Questao> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal);
 
-    ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable LocalDate ano);
+	List<Questao> findAllByAntesAno(@PathVariable LocalDate ano);
 
-    ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long criadorId);
+	List<Questao> getQuestoesByCriadorId(@PathVariable Long criadorId);
 
+	Questao postQuestao(@Valid @RequestBody Questao questao);
 
-    public ResponseEntity<Questao> postQuestao(@Valid @RequestBody Questao questao);
+	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
-    ResponseEntity<Questao> salvarQuestaoComAlternativa(@RequestBody Questao questao);
+	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 
-    ResponseEntity<Questao> putQuestao(@Valid @RequestBody Questao questao);
-
-    ResponseEntity<?> deleteQuestao(@PathVariable Long id);
+	void deleteQuestao(@PathVariable Long id);
 
 }

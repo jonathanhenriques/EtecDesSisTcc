@@ -1,21 +1,25 @@
 package com.etec.tcc.sprint_quiz.repository;
 
-import com.etec.tcc.sprint_quiz.model.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.etec.tcc.sprint_quiz.model.Usuario;
+
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    public Optional<Usuario> findByUsuario(String usuario);
 
-//    Optional<Usuario> findByEmail(String email);
+	Optional<Usuario> findByUsername(String username);
 
-    List<Usuario> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
+	List<Usuario> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 
-    Optional<Usuario> findByNome(@Param("nome") String nome);
+	Optional<Usuario> findByNome(@Param("nome") String nome);
+	
+	@Query("SELECT u FROM Usuario u JOIN FETCH u.roles WHERE u.username = :username")
+	Optional<Usuario> findByUsernameFetchRoles(@Param("username") String username);
 }

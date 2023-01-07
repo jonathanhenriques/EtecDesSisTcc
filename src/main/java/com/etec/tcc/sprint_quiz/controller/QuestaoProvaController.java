@@ -1,13 +1,11 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.service.QuestaoProvaService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +29,12 @@ public class QuestaoProvaController {
     @GetMapping
     public ResponseEntity<List<QuestaoProva>> findAll() {
         return ResponseEntity.ok(questaoProvaRepository.findAll());
+    }
+    
+    @Operation(summary = "Obtem todas as questoesProva por prova id")
+    @GetMapping("/listaprovas/{id}")
+    public ResponseEntity<List<QuestaoProva>> findAllByProvaId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(questaoProvaRepository.findAllByProvaId(id));
     }
 
     @Operation(summary = "Cadastra uma questaoProva")

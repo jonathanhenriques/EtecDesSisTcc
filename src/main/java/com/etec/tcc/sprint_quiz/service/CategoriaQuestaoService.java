@@ -1,24 +1,29 @@
 package com.etec.tcc.sprint_quiz.service;
 
-import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 
-public interface CategoriaQuestaoService {
+public interface CategoriaQuestaoService{
 
-    ResponseEntity<CategoriaQuestao> getById(@PathVariable Long id);
+    CategoriaQuestao getById(Long id);
+    
+    List<CategoriaQuestao> getAll();
 
-    ResponseEntity<List<CategoriaQuestao>> getByTitutlo(@PathVariable("titulo") String titulo);
+    List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo);
 
-    ResponseEntity<List<CategoriaQuestao>> getByDescricao(@PathVariable("descricao") String descricao);
+    List<CategoriaQuestao> getAllByDescricao(@PathVariable("descricao") String descricao);
 
-    ResponseEntity<CategoriaQuestao> postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria);
+    CategoriaQuestao post(@Valid @RequestBody CategoriaQuestao categoria);
 
-    ResponseEntity<CategoriaQuestao> putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria);
+    CategoriaQuestao put(@Valid @RequestBody CategoriaQuestao categoria);
 
-    ResponseEntity<?> deleteCategoriaQuestao(@PathVariable Long id);
+    void delete(@PathVariable Long id);
+
+	
 }
