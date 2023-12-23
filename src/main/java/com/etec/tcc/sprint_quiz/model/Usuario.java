@@ -83,7 +83,11 @@ public class Usuario implements Serializable {
 //	@ManyToMany //declaracao gera uma nova tabela para associar usuario com a role
 //	@JoinTable(name = "TB_USUARIO_ROLE", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 //	private List<RolesModel> roles;
-	
+
+
+	//estaria indicando que deseja persistir (criar) novos roles 
+	//sempre que persistir um novo usuario.
+	//descrevendo um role no json de usuario
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 //	@ManyToMany
 	private Collection<Role> roles = new ArrayList<>();
