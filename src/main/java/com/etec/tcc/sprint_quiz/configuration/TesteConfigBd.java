@@ -47,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-@Teste
+//@Teste //TEM ERRO AQUI, DESCOMENTAR E RESOLVER!!!!!TODO
 public class TesteConfigBd {
 
 	@Autowired
