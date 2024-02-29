@@ -74,7 +74,7 @@ public class Verificacoes {
 //		alternativaRepository.save(resposta);
 		
 		Questao questao1 = new Questao(1L, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
-				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
+				DificuldadeQuestao.FACIL, alternativas, 1L, cq1, usuario1);
 		LOGGER.info("\nquestaoOriginal - \n"+questao1);
 		QuestaoDTO questaoDTO = objectMapperUtils.map(questao1, QuestaoDTO.class);
 		LOGGER.info("\nquestaoDTOMapper - \n"+questaoDTO);
@@ -84,7 +84,7 @@ public class Verificacoes {
 		
 		LOGGER.info("*********************ObjectModelMapper TESTES livres***************************");
 		Questao questao2 = new Questao(1L, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
-				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
+				DificuldadeQuestao.FACIL, alternativas, 1L, cq1, usuario1);
 //		LOGGER.info("\nquestaoOriginal - \n"+questao2);
 //		QuestaoDTO questaoDTO2 = ObjectMapperUtils.map(questao2, QuestaoDTO.class);
 //		LOGGER.info("\nquestaoDTOMapper - \n"+questaoDTO2);

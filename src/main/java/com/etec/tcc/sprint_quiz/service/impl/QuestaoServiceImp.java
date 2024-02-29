@@ -1,10 +1,12 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.Alternativa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +54,11 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Autowired
 	@Lazy
 	private AlternativaService alternativaService;
-	
-	
+
+
 	@Autowired
 	private ObjectMapperUtils objectMapperUtils;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
@@ -106,8 +108,49 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Override
 	public Questao postQuestao(@Valid @RequestBody Questao questao) {
 		usuarioRepository.findById(questao.getCriador().getId())
-				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));
-		return categoriaQuestaoRepository.findById(questao.getCategoria().getId()) 
+				.orElseThrow(() -> new UsuarioNotFoundException());
+//						questao.getCriador().getId().toString()));
+
+//		AlternativaDTO respostaDTO = alternativaService.getById(questao.getResposta().getId());
+//		Alternativa resposta = new Alternativa();
+//		resposta.setId(questao.getResposta().getId());
+//		resposta.setTexto(respostaDTO.getTexto());
+//		resposta.setFoto(respostaDTO.getFoto());
+//		Optional<Alternativa> f = alternativaRepository.findById(questao.getResposta().getId());
+//		questao.setResposta(f.get());
+
+		List<Long> idsAlternativas = new ArrayList<>();
+		idsAlternativas = questao.getAlternativas().stream().map(a -> {
+			long id;
+			id = a.getId();
+			return id;
+		}).collect(Collectors.toList());
+
+		Set<AlternativaDTO> setAlternativas = new HashSet<>();
+		for (int j = 0; j < idsAlternativas.size(); j++){
+			setAlternativas.add(alternativaService.getById(idsAlternativas.get(j)));
+		}
+
+		Set<AlternativaDTO> listaDTO = setAlternativas;
+
+		questao.setAlternativas(null);
+		Set<Alternativa>listaAlternativasConvertidas = listaDTO.stream().map(dto -> {
+			Alternativa a = new Alternativa();
+			a.setId(dto.getId());
+			a.setTexto(dto.getTexto());
+			a.setFoto(dto.getFoto());
+			return a;
+
+		}).collect(Collectors.toSet());
+
+		Set<Alternativa> setAlternativas2 = new HashSet<>();
+		for (int j = 0; j < idsAlternativas.size(); j++){
+			setAlternativas2.add(alternativaRepository.findById(idsAlternativas.get(j)).get());
+		}
+
+		questao.setAlternativas(setAlternativas2);
+
+		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
 				.map(c -> questaoRepository.save(questao))
 				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
 
@@ -136,14 +179,14 @@ public class QuestaoServiceImp implements QuestaoService {
 
 		return questao;
 	}
-	
+
 	@Override
 	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {
 		questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
 		for (AlternativaDTO a : dto.getAlternativas()) {
 			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
 		}
-		
+
 //		Alternativa resposta =  alternativaRepository.findById(dto.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
 //		Questao questaoRequest = modelMapper.map(dto, Questao.class);
 		Questao questaoRequest = objectMapperUtils.map(dto, Questao.class);////////
@@ -151,9 +194,9 @@ public class QuestaoServiceImp implements QuestaoService {
 //		questaoRepository.save(questaoRequest);
 		QuestaoDTO dtoResponse = objectMapperUtils.map(questaoRepository.save(questaoRequest), QuestaoDTO.class);
 //		dtoResponse.setResposta(modelMapper.map(resposta, AlternativaDTO.class));
-		
+
 		return dtoResponse;
-		
+
 	}
 
 //	@Override
@@ -206,7 +249,7 @@ public class QuestaoServiceImp implements QuestaoService {
 //		return dtoResponse;
 //		
 //	}
-	
+
 //	public Set<AlternativaDTO> converteListaAlternativaParaListaAlternativaDTO(Set<Alternativa> alternativas) {
 //		return alternativas.stream().map(a -> new AlternativaDTO(a)).collect(Collectors.toSet());
 //	}

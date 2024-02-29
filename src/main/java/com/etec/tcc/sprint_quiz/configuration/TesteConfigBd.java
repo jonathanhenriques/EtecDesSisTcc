@@ -137,7 +137,7 @@ public class TesteConfigBd {
 		alternativas.add(a7);
 //		alternativaRepository.save(resposta);
 		Questao questao1 = new Questao(null, "instituicao ", LocalDate.now(), "imagem", "Texto questão teste",
-				DificuldadeQuestao.FACIL, alternativas, resposta, cq1, usuario1);
+				DificuldadeQuestao.FACIL, alternativas, 1L, cq1, usuario1);
 		Questao questao2 = new Questao(null, "instituicao ", LocalDate.now(), "imagem", "Texto questao2 teste",
 				DificuldadeQuestao.INTERMEDIARIO, null, null, cq1, usuario1);
 		Questao q = new Questao(null, null, null, null, null, null, null, null, cq1, usuario1);

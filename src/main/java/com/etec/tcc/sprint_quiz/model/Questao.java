@@ -90,8 +90,9 @@ public class Questao {
 //	@OneToOne(cascade = javax.persistence.CascadeType.ALL, orphanRemoval = true)
 //	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
 //	@JsonProperty("respostaId")
-	@OneToOne()
-	private Alternativa resposta;
+//	@OneToOne()
+//	private Alternativa resposta;
+	private Long resposta;
 
 //    private String resposta;
 

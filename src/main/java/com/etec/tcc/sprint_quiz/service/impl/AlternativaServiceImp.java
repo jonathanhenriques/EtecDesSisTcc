@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -40,7 +41,16 @@ public class AlternativaServiceImp implements AlternativaService {
 	 */
 	@Override
 	public List<AlternativaDTO> getAll() {
-		return ObjectMapperUtils.mapAll(alternativaRepository.findAll(), AlternativaDTO.class);
+		List<Alternativa> listaAlternativas = alternativaRepository.findAll();
+		List<AlternativaDTO> listaAlternativasDTO = listaAlternativas.stream().map(a -> {
+			AlternativaDTO dto = new AlternativaDTO();
+			dto.setId(a.getId());
+			dto.setTexto(a.getTexto());
+			dto.setFoto(a.getFoto());
+			return dto;
+		}).collect(Collectors.toList());
+
+		return listaAlternativasDTO;
 	}
 
 	/**
@@ -49,8 +59,12 @@ public class AlternativaServiceImp implements AlternativaService {
 	 */
 	@Override
 	public AlternativaDTO getById(Long id) {
+
+
 		return alternativaRepository.findById(id).map(a -> {
-			AlternativaDTO dto = ObjectMapperUtils.map(a, AlternativaDTO.class);
+			AlternativaDTO dto = new AlternativaDTO();
+			dto.setTexto(a.getTexto());
+			dto.setFoto(a.getFoto());
 			return dto;
 		}).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 
@@ -68,6 +82,7 @@ public class AlternativaServiceImp implements AlternativaService {
 		alternativaRepository.save(alternativa);
 
 		AlternativaDTO dto = new AlternativaDTO();
+		dto.setId(alternativa.getId());
 		dto.setTexto(alternativa.getTexto());
 		dto.setFoto(alternativa.getFoto());
 
@@ -89,8 +104,7 @@ public class AlternativaServiceImp implements AlternativaService {
 		return ObjectMapperUtils.map(alternativaRepository.save(a), AlternativaDTO.class);
 
 	}
-	
-	
+
 
 	/**
 	 * @see AlternativaService#deleteById(Long)
@@ -122,8 +136,8 @@ public class AlternativaServiceImp implements AlternativaService {
 		alternativaRepository.findById(alternativaId)
 				.orElseThrow(() -> new AlternativaNotFoundException(alternativaId.toString()));
 
-		if (questao.getResposta().getId() == alternativaId)
-			questao.setResposta(null);
+//		if (questao.getResposta().getId() == alternativaId)
+//			questao.setResposta(null);
 
 		LOGGER.info("deletando da questaoId - " + questaoId + " a alternativaId" + alternativaId);
 		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
@@ -132,7 +146,7 @@ public class AlternativaServiceImp implements AlternativaService {
 		LOGGER.info("excluindo  alternativa - " + alternativaId);
 
 	}
-	
+
 
 //	@Override
 //	public List<Alternativa> postListaAlternativa(List<Alternativa> alternativas) {
