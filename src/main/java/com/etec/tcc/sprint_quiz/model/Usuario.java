@@ -83,7 +83,7 @@ public class Usuario implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 //	@ManyToMany
-	@Pattern(regexp="^(ROLE_ADMIN|ROLE_USER)$",message="{campo.padroes.role}")
+//	@Pattern(regexp="^(ROLE_ADMIN|ROLE_USER)$",message="{campo.padroes.role}")
 	private Collection<Role> roles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "criador")@LazyCollection(LazyCollectionOption.FALSE)

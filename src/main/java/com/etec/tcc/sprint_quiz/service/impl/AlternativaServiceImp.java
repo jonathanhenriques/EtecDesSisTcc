@@ -62,9 +62,19 @@ public class AlternativaServiceImp implements AlternativaService {
 	// verificar se funciona
 	@Override
 	public AlternativaDTO post(AlternativaDTO alternativaDto) {
-		return ObjectMapperUtils.map(
-				alternativaRepository.save(ObjectMapperUtils.map(alternativaDto, Alternativa.class)),
-				AlternativaDTO.class);
+		Alternativa alternativa = new Alternativa();
+		alternativa.setTexto(alternativaDto.getTexto());
+		alternativa.setFoto(alternativaDto.getFoto());
+		alternativaRepository.save(alternativa);
+
+		AlternativaDTO dto = new AlternativaDTO();
+		dto.setTexto(alternativa.getTexto());
+		dto.setFoto(alternativa.getFoto());
+
+		return dto;
+//		return ObjectMapperUtils.map(
+//				alternativaRepository.save(ObjectMapperUtils.map(alternativaDto, Alternativa.class)),
+//				AlternativaDTO.class);
 	}
 
 	/**
