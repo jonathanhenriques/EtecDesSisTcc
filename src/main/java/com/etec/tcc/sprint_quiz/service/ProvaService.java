@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
 
+import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
@@ -23,6 +24,8 @@ public interface ProvaService{
     Prova adicionarQuestaoEmProva(Prova prova);
 
     Prova put(Prova prova);
+
+    Prova converteDTOToProva(ProvaComQuestaoDTO dto);
 
 //    ResponseEntity<?> deleteProva(Long id);
 //    <Object> Object deleteProva(Long id);

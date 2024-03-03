@@ -5,6 +5,7 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
@@ -169,7 +170,14 @@ public class ProvaServiceImp implements ProvaService {
 //                }).collect(Collectors.toList());
 //    }
 
+    public Prova converteDTOToProva(ProvaComQuestaoDTO dto){
+        Set<Questao> questoes = dto.questoes();
 
+        Prova prova = provaRepository.findAllFetch(dto.id()).get();
+        prova.setQuestoes(null);
+        prova.setQuestoes(questoes);
+        return prova;
+    }
 
 
 }

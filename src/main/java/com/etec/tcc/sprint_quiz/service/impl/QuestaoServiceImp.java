@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Prova;
+import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -337,4 +339,13 @@ public class QuestaoServiceImp implements QuestaoService {
 //        q.setCriador(u);
 //        return q;
 //    }
+
+	public Questao converteDTOToQuestao(QuestaoComAlternativaDTO dto){
+		Set<Alternativa> alternativas = dto.alternativas();
+
+		Questao questao = questaoRepository.findAllFetch(dto.id()).get();
+		questao.setAlternativas(null);
+		questao.setAlternativas(alternativas);
+		return questao;
+	}
 }

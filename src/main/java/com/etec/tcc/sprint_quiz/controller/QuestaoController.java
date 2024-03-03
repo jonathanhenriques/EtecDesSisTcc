@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -101,9 +102,10 @@ public class QuestaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(questaoService.postQuestao(questao));
     }
 
-    @PostMapping("/questaoAlternativa")
-    public Questao adicionarAlternativaEmQuestao(@RequestBody Questao questao) {
-        return questaoService.adicionarAlternativaEmQuestao(questao);
+    @PutMapping("/questaoAlternativa")
+    public Questao adicionarAlternativaEmQuestao(@RequestBody QuestaoComAlternativaDTO questao) {
+        Questao questaoRecuperada = questaoService.converteDTOToQuestao(questao);
+        return questaoService.adicionarAlternativaEmQuestao(questaoRecuperada);
     }
 
 //    @Operation(summary = "Cadastra uma questao com alternativas")

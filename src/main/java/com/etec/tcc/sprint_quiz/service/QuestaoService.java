@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,8 @@ public interface QuestaoService {
 //	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
 	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
+
+	Questao converteDTOToQuestao(QuestaoComAlternativaDTO dto);
 
 	void deleteQuestao(@PathVariable Long id);
 

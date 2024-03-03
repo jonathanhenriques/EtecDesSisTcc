@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,9 +76,11 @@ public class ProvaController {
         return ResponseEntity.ok(provaService.post(prova));
     }
 
-    @PostMapping("/questaoProva")
-    public Prova adicionandoQuestaoEmProva(@RequestBody Prova prova) {
-        return provaService.adicionarQuestaoEmProva(prova);
+    @PutMapping("/questaoProva")
+    public Prova adicionandoQuestaoEmProva(@RequestBody ProvaComQuestaoDTO prova) {
+
+        Prova provaRecuperada = provaService.converteDTOToProva(prova);
+        return provaService.adicionarQuestaoEmProva(provaRecuperada);
     }
 
     @Operation(summary = "atualiza uma prova")
@@ -94,6 +97,8 @@ public class ProvaController {
     	provaService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
 
 
 }
