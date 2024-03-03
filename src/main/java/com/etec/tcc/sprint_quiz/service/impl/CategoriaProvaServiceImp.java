@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
-import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaProvaService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +27,7 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 	@Autowired
 	private CategoriaProvaRepository categoriaProvaRepository;
 	
-	@Autowired
-	private QuestaoProvaRepository questaoProvaRepository;
 
-	
 	
 
 	public CategoriaProva getById(@PathVariable Long id) {
@@ -75,15 +70,7 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 			lista.add(p.getId());
 		}
 		
-		List<QuestaoProva> listaQuestaoProva = new ArrayList<>();
-		
-		for(Long l : lista) {
-			listaQuestaoProva.addAll(questaoProvaRepository.findAllByProvaId(l));
-		}
-		
-		questaoProvaRepository.deleteAll(listaQuestaoProva);
-		
-		
+
 		categoriaProvaRepository.delete(cp);
 	}
 	

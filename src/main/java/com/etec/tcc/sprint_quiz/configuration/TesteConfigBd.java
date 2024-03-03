@@ -20,7 +20,6 @@ import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 //import com.etec.tcc.sprint_quiz.model.testemodels.AlternativaTeste;
@@ -31,7 +30,6 @@ import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
@@ -68,8 +66,6 @@ public class TesteConfigBd {
 	@Autowired
 	private CategoriaQuestaoRepository categoriaQuestaoRepository;
 
-	@Autowired
-	private QuestaoProvaRepository questaoProvaRepository;
 
 	@Autowired
 	private QuestaoService questaoService;

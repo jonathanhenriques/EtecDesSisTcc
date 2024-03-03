@@ -157,15 +157,15 @@ public class QuestaoServiceImp implements QuestaoService {
 	public Questao adicionarAlternativaEmQuestao(Questao questao) {
 
 		List<Alternativa> listaAlternativas = new ArrayList<>(questao.getAlternativas());
-		Questao questaoEnviada = questaoRepository.findById(questao.getId()).orElseThrow(QuestaoNotFoundException::new);
-		List<Alternativa> converteAlternativasQuestao = new ArrayList<>(questaoEnviada.getAlternativas());
-		int quantidadeAlternativas = listaAlternativas.size() + converteAlternativasQuestao.size();
-
-		if(!questaoEnviada.getAlternativas().isEmpty()) {
-			for(int j = 0; j < quantidadeAlternativas; j++) {
-				listaAlternativas.add(converteAlternativasQuestao.get(j));
-			}
-		}
+		Questao questaoDoBanco = questaoRepository.findById(questao.getId()).orElseThrow(QuestaoNotFoundException::new);
+//		List<Alternativa> converteAlternativasQuestao = new ArrayList<>(questaoDoBanco.getAlternativas());
+//		int quantidadeAlternativas = listaAlternativas.size() + converteAlternativasQuestao.size();
+//
+//		if(!questaoDoBanco.getAlternativas().isEmpty()) {
+//			for(int j = 0; j < converteAlternativasQuestao.size(); j++) {
+//				listaAlternativas.add(converteAlternativasQuestao.get(j));
+//			}
+//		}
 
 		List<Alternativa> novasAlternativas = new ArrayList<>();
 		for(int j = 0; j < listaAlternativas.size();j++) {

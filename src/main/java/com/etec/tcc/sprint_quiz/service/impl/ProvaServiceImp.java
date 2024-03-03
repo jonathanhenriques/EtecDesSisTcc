@@ -5,7 +5,6 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
@@ -14,7 +13,6 @@ import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.repository.QuestaoProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.ProvaService;
@@ -32,8 +30,6 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private QuestaoProvaRepository questaoProvaRepository;
 
     @Autowired 
     private QuestaoRepository questaoRepository;

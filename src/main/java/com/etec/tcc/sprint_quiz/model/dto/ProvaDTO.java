@@ -21,7 +21,6 @@ public class ProvaDTO {
     private Long usuario;
     private String instituicao;
     private Long categoria;
-    private List<QuestaoProvaDTO> questoes;
 
     public ProvaDTO(Prova prova) {
         this.id = prova.getId();
