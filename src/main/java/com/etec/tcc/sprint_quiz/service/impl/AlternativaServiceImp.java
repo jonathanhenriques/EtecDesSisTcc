@@ -79,12 +79,12 @@ public class AlternativaServiceImp implements AlternativaService {
 		Alternativa alternativa = new Alternativa();
 		alternativa.setTexto(alternativaDto.getTexto());
 		alternativa.setFoto(alternativaDto.getFoto());
-		alternativaRepository.save(alternativa);
+		Alternativa retorno = alternativaRepository.save(alternativa);
 
 		AlternativaDTO dto = new AlternativaDTO();
-		dto.setId(alternativa.getId());
-		dto.setTexto(alternativa.getTexto());
-		dto.setFoto(alternativa.getFoto());
+		dto.setId(retorno.getId());
+		dto.setTexto(retorno.getTexto());
+		dto.setFoto(retorno.getFoto());
 
 		return dto;
 //		return ObjectMapperUtils.map(

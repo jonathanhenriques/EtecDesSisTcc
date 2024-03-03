@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.model.Prova;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,44 +112,32 @@ public class QuestaoServiceImp implements QuestaoService {
 				.orElseThrow(() -> new UsuarioNotFoundException());
 //						questao.getCriador().getId().toString()));
 
-//		AlternativaDTO respostaDTO = alternativaService.getById(questao.getResposta().getId());
-//		Alternativa resposta = new Alternativa();
-//		resposta.setId(questao.getResposta().getId());
-//		resposta.setTexto(respostaDTO.getTexto());
-//		resposta.setFoto(respostaDTO.getFoto());
-//		Optional<Alternativa> f = alternativaRepository.findById(questao.getResposta().getId());
-//		questao.setResposta(f.get());
 
-		List<Long> idsAlternativas = new ArrayList<>();
-		idsAlternativas = questao.getAlternativas().stream().map(a -> {
-			long id;
-			id = a.getId();
-			return id;
-		}).collect(Collectors.toList());
-
-		Set<AlternativaDTO> setAlternativas = new HashSet<>();
-		for (int j = 0; j < idsAlternativas.size(); j++){
-			setAlternativas.add(alternativaService.getById(idsAlternativas.get(j)));
-		}
-
-		Set<AlternativaDTO> listaDTO = setAlternativas;
-
-		questao.setAlternativas(null);
-		Set<Alternativa>listaAlternativasConvertidas = listaDTO.stream().map(dto -> {
-			Alternativa a = new Alternativa();
-			a.setId(dto.getId());
-			a.setTexto(dto.getTexto());
-			a.setFoto(dto.getFoto());
-			return a;
-
-		}).collect(Collectors.toSet());
-
-		Set<Alternativa> setAlternativas2 = new HashSet<>();
-		for (int j = 0; j < idsAlternativas.size(); j++){
-			setAlternativas2.add(alternativaRepository.findById(idsAlternativas.get(j)).get());
-		}
-
-		questao.setAlternativas(setAlternativas2);
+//		List<Long> idsAlternativas = new ArrayList<>();
+//		idsAlternativas = questao.getAlternativas().stream().map(a -> {
+//			long id;
+//			id = a.getId();
+//			return id;
+//		}).collect(Collectors.toList());
+//
+//		Set<AlternativaDTO> setAlternativas = new HashSet<>();
+//		for (int j = 0; j < idsAlternativas.size(); j++){
+//			setAlternativas.add(alternativaService.getById(idsAlternativas.get(j)));
+//		}
+//
+//		Set<AlternativaDTO> listaDTO = setAlternativas;
+//
+//		questao.setAlternativas(null);
+//		Set<Alternativa>listaAlternativasConvertidas = listaDTO.stream().map(dto -> {
+//			Alternativa a = new Alternativa();
+//			a.setId(dto.getId());
+//			a.setTexto(dto.getTexto());
+//			a.setFoto(dto.getFoto());
+//			return a;
+//
+//		}).collect(Collectors.toSet());
+//
+//		questao.setAlternativas(listaAlternativasConvertidas);
 
 		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
 				.map(c -> questaoRepository.save(questao))
@@ -165,20 +154,35 @@ public class QuestaoServiceImp implements QuestaoService {
 //	}
 
 	@Transactional
-	public Questao salvarQuestaoComAlternativa(@RequestBody Questao questao) {
-//        List<Alternativa> alternativas = questao.getAlternativas();
-//        questao.setAlternativas(new ArrayList<Alternativa>());
-//        postQuestao(questao);
-//
-//        List<Alternativa> listaAlternativasComQuestao = alternativas.stream().map(a -> {
-//            a.setQuestao(questao);
-//            return a;
-//        }).collect(Collectors.toList());
-//
-//        alternativaService.postListaAlternativasComQuestaoSalva(listaAlternativasComQuestao);
+	public Questao adicionarAlternativaEmQuestao(Questao questao) {
 
-		return questao;
+		List<Alternativa> listaAlternativas = new ArrayList<>(questao.getAlternativas());
+		Questao questaoEnviada = questaoRepository.findById(questao.getId()).orElseThrow(QuestaoNotFoundException::new);
+		List<Alternativa> converteAlternativasQuestao = new ArrayList<>(questaoEnviada.getAlternativas());
+		int quantidadeAlternativas = listaAlternativas.size() + converteAlternativasQuestao.size();
+
+		if(!questaoEnviada.getAlternativas().isEmpty()) {
+			for(int j = 0; j < quantidadeAlternativas; j++) {
+				listaAlternativas.add(converteAlternativasQuestao.get(j));
+			}
+		}
+
+		List<Alternativa> novasAlternativas = new ArrayList<>();
+		for(int j = 0; j < listaAlternativas.size();j++) {
+			Optional<Alternativa> alternativa = Optional.ofNullable(listaAlternativas.get(j));
+			alternativa = alternativaRepository.findById(alternativa.get().getId());
+			novasAlternativas.add(alternativa.get());
+		}
+		questao.setAlternativas(null);
+		Set<Alternativa> listaAlternativasSalvar = new HashSet<>(novasAlternativas);
+		questao.setAlternativas(listaAlternativasSalvar);
+
+		String textoQuestao = questaoRepository.findById(questao.getId()).get().getTexto();
+		questao.setTexto(textoQuestao);
+
+		return postQuestao(questao);
 	}
+
 
 	@Override
 	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {

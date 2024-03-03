@@ -153,14 +153,22 @@ public class TesteConfigBd {
 
 		provaRepository.save(prova1);
 
-		log.info("#######CARGA QUESTAOPROVA#######");
-		QuestaoProva qp1 = new QuestaoProva(null, questao1, prova1);
-		QuestaoProva qp2 = new QuestaoProva(null, questao2, prova1);
+//		log.info("#######CARGA QUESTAOPROVA#######");
+//		QuestaoProva qp1 = new QuestaoProva(null, questao1, prova1);
+//		QuestaoProva qp2 = new QuestaoProva(null, questao2, prova1);
 
-		questaoProvaRepository.save(qp1);
-		questaoProvaRepository.save(qp2);
 
-		prova1.setQuestoes(Arrays.asList(qp1, qp2));
+//		questaoProvaRepository.save(questao1);
+//		questaoProvaRepository.save(qp2);
+
+		Set<Questao> conjunto = new HashSet<>();
+//		QuestaoProva questaoProva1 = new QuestaoProva(null,new Questao(),new Prova());
+//		QuestaoProva questaoProva2 = new QuestaoProva(null,new Questao(),new Prova());
+		// Adicionando elementos ao Set
+		conjunto.add(questao1);
+		conjunto.add(questao2);
+
+		prova1.setQuestoes(conjunto);
 		provaRepository.save(prova1);
 //
 		log.info("#######CARGA CATEGORIAPROVA#######");

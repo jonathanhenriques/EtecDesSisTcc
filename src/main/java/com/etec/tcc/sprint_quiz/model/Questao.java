@@ -74,13 +74,18 @@ public class Questao {
 //	@JoinColumn(name = "alternativa_id")
 //	@JoinColumn
 
-	@OneToMany(fetch = FetchType.EAGER)
-//	@OneToMany(orphanRemoval = true)
-	@Cascade(CascadeType.MERGE)
-	@JoinTable(name = "tb_questao_alternativas", joinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "alternativa_id", referencedColumnName = "id"))
-//	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
-	private Set<Alternativa> alternativas;
+//	@OneToMany(fetch = FetchType.EAGER)
+////	@OneToMany(orphanRemoval = true)
+//	@Cascade(CascadeType.MERGE)
+//	@JoinTable(name = "tb_questao_alternativas", joinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "alternativa_id", referencedColumnName = "id"))
+////	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
+//	private Set<Alternativa> alternativas;
 //    private Alternativa alternativas;
+
+
+
+	@OneToMany
+	private Set<Alternativa> alternativas;
 
 	// @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)
@@ -92,6 +97,10 @@ public class Questao {
 //	@JsonProperty("respostaId")
 //	@OneToOne()
 //	private Alternativa resposta;
+
+
+
+
 	private Long resposta;
 
 //    private String resposta;

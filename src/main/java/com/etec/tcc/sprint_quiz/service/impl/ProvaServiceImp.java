@@ -1,9 +1,11 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
-import java.util.List;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.etec.tcc.sprint_quiz.model.Questao;
+import com.etec.tcc.sprint_quiz.model.QuestaoProva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
@@ -68,23 +70,50 @@ public class ProvaServiceImp implements ProvaService {
 //    @Transactional
     public Prova post(Prova prova) {
     	
-//    	usuarioRepository.findById(prova.getUsuario().getId())
-//    	.orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
+    	usuarioRepository.findById(prova.getUsuario().getId())
+    	.orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
     	
 //      return categoriaProvaRepository.findById(prova.getCategoria().getId())
 //      .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
 //      .orElseThrow(() -> new CategoriaProvaNotFoundException());
+
+
+        categoriaProvaRepository.findById(prova.getCategoria().getId()).orElseThrow(CategoriaProvaNotFoundException::new);
+//        if(!prova.getQuestoes().isEmpty()) {
+//            Set<QuestaoProva> listaQuestaoProva = prova.getQuestoes();
+//            questaoProvaRepository.saveAll(listaQuestaoProva);
+//        }
+
+        return provaRepository.save(prova);
     	
-    	
-    	if(usuarioRepository.existsById(prova.getUsuario().getId())) {
-    		
-    		return categoriaProvaRepository.findById(prova.getCategoria().getId())
-                    .map(c -> provaRepository.save(prova))
-                    .orElseThrow(() -> new CategoriaProvaNotFoundException());
-    		
-    	} else 
-    		throw new UsuarioNotFoundException(prova.getUsuario().getId().toString());
+//    	if(usuarioRepository.existsById(prova.getUsuario().getId())) {
+//
+//    		return categoriaProvaRepository.findById(prova.getCategoria().getId())
+//                    .map(c -> provaRepository.save(prova))
+//                    .orElseThrow(() -> new CategoriaProvaNotFoundException());
+//
+//    	} else
+//    		throw new UsuarioNotFoundException(prova.getUsuario().getId().toString());
     	 
+    }
+
+    public Prova adicionarQuestaoEmProva(Prova prova) {
+
+        List<Questao> listaQuestoes = new ArrayList<>(prova.getQuestoes());
+        List<Questao> novasQuestoes = new ArrayList<>();
+        for(int j = 0; j < prova.getQuestoes().size();j++) {
+            Optional<Questao> questao = Optional.ofNullable(listaQuestoes.get(j));
+            questao = questaoRepository.findById(questao.get().getId());
+            novasQuestoes.add(questao.get());
+        }
+        prova.setQuestoes(null);
+        Set<Questao> listaQuestoesSalvar = new HashSet<>(novasQuestoes);
+        prova.setQuestoes(listaQuestoesSalvar);
+
+        String nomeProva = provaRepository.findById(prova.getId()).get().getNome();
+        prova.setNome(nomeProva);
+
+        return post(prova);
     }
 
     @Override
@@ -143,4 +172,8 @@ public class ProvaServiceImp implements ProvaService {
 //                    return questaoProva;
 //                }).collect(Collectors.toList());
 //    }
+
+
+
+
 }

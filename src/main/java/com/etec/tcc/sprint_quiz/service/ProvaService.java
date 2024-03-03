@@ -20,6 +20,8 @@ public interface ProvaService{
 
     Prova post( Prova prova);
 
+    Prova adicionarQuestaoEmProva(Prova prova);
+
     Prova put(Prova prova);
 
 //    ResponseEntity<?> deleteProva(Long id);

@@ -32,7 +32,9 @@ public interface QuestaoService {
 
 	Questao postQuestao(@Valid @RequestBody Questao questao);
 
-	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
+	Questao adicionarAlternativaEmQuestao(Questao questao);
+
+//	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
 	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 

@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Representa prova no banco
@@ -48,9 +50,24 @@ public class Prova {
     private Usuario usuario;
 
 
-    @OneToMany(mappedBy = "prova")
+//    @OneToMany(mappedBy = "prova")
+//    @JsonIgnoreProperties("prova")
+//    private List<QuestaoProva> questoes;
+
+    @OneToMany()
     @JsonIgnoreProperties("prova")
-    private List<QuestaoProva> questoes;
+    private Set<Questao> questoes;
+
+
+
+
+//    @OneToMany(fetch = FetchType.EAGER)
+////	@OneToMany(orphanRemoval = true)
+//    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+//    @JoinTable(name = "tb_questao_prova", joinColumns = @JoinColumn(name = "prova_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"))
+////	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
+//    private Set<Questao> questoes;
+
 
 //    @Schema(name = "Etec JK")
     private String instituicao;

@@ -75,6 +75,11 @@ public class ProvaController {
         return ResponseEntity.ok(provaService.post(prova));
     }
 
+    @PostMapping("/questaoProva")
+    public Prova adicionandoQuestaoEmProva(@RequestBody Prova prova) {
+        return provaService.adicionarQuestaoEmProva(prova);
+    }
+
     @Operation(summary = "atualiza uma prova")
     @PutMapping
     public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){

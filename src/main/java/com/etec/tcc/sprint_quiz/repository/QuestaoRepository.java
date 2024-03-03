@@ -23,4 +23,6 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long> {
 
     List<Questao> findAllByCriadorId(Long criadorId);
 
+
+
 }

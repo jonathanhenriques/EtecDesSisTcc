@@ -101,11 +101,16 @@ public class QuestaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(questaoService.postQuestao(questao));
     }
 
-    @Operation(summary = "Cadastra uma questao com alternativas")
-    @PutMapping("/questaoComAlternativas")
-    public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
-        return ResponseEntity.ok(questaoService.salvarQuestaoComAlternativa(questao));
+    @PostMapping("/questaoAlternativa")
+    public Questao adicionarAlternativaEmQuestao(@RequestBody Questao questao) {
+        return questaoService.adicionarAlternativaEmQuestao(questao);
     }
+
+//    @Operation(summary = "Cadastra uma questao com alternativas")
+//    @PutMapping("/questaoComAlternativas")
+//    public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
+//        return ResponseEntity.ok(questaoService.salvarQuestaoComAlternativa(questao));
+//    }
 
     @Operation(summary = "Atualiza uma questao")
     @PutMapping
