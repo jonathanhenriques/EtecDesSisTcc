@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
@@ -78,5 +79,9 @@ public interface AlternativaService {
 	 */
 	void deleteById(Long id);
 
+	Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas);
+
+
+	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa);
 	
 }

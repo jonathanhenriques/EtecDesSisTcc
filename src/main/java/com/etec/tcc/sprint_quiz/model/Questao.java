@@ -1,23 +1,15 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 //import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CreationTimestamp;
@@ -115,8 +107,11 @@ public class Questao {
 	@ManyToOne
 	@JoinColumn(name = "criador_id")
 //    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
-	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
+//	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
+
+	@ManyToMany(mappedBy = "questoes")
+	private Set<Prova> provas = new HashSet<>();
 
 
 }

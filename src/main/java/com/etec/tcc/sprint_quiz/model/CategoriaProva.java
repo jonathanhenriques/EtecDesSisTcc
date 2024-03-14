@@ -33,7 +33,7 @@ public class CategoriaProva {
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @OneToMany(mappedBy = "categoria")
-    @JsonIgnoreProperties(value = "categoria", allowSetters = true)
+//    @JsonIgnoreProperties(value = "categoria", allowSetters = true, allowGetters = true)
     private List<Prova> provas;
 
 

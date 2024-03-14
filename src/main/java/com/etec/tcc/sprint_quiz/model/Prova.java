@@ -1,16 +1,17 @@
 package com.etec.tcc.sprint_quiz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 //import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -19,7 +20,9 @@ import java.util.Set;
  * @author hsjon
  *
  */
-@Data
+//@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -54,9 +57,17 @@ public class Prova {
 //    @JsonIgnoreProperties("prova")
 //    private List<QuestaoProva> questoes;
 
-    @OneToMany()
-    @JsonIgnoreProperties("prova")
-    private Set<Questao> questoes;
+//    @OneToMany()
+//    @JsonIgnoreProperties("prova")
+//    private Set<Questao> questoes;
+
+    @JsonIgnoreProperties({"provas"})
+    @ManyToMany
+    @JoinTable(
+            name = "tb_prova_questao",
+            joinColumns = @JoinColumn(name = "prova_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"))
+    private Set<Questao> questoes = new HashSet<>();
 
 
 
@@ -74,9 +85,15 @@ public class Prova {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-//    @JsonIgnoreProperties({"descritivo", "provas"})
-    @JsonIgnoreProperties(value = "provas", allowSetters = true, allowGetters = true)
+    @JsonIgnoreProperties({"descritivo", "provas"})
+//    @JsonIgnoreProperties(value = "provas", allowSetters = true, allowGetters = true)
     private CategoriaProva categoria;
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 
 }

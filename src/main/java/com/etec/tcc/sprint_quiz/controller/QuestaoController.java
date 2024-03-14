@@ -104,7 +104,7 @@ public class QuestaoController {
 
     @PutMapping("/questaoAlternativa")
     public Questao adicionarAlternativaEmQuestao(@RequestBody QuestaoComAlternativaDTO questao) {
-        Questao questaoRecuperada = questaoService.converteDTOToQuestao(questao);
+        Questao questaoRecuperada = questaoService.converteQuestaoComAlternativaDTOToQuestao(questao);
         return questaoService.adicionarAlternativaEmQuestao(questaoRecuperada);
     }
 

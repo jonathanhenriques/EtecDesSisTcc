@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
+//import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
@@ -45,7 +45,7 @@ public class AlternativaController {
 //    @Autowired
 //	private ObjectMapperUtils objectMapperUtils;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
+//	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	/**
 	 * Método que busca Todas as Alternativas.
@@ -197,7 +197,7 @@ public class AlternativaController {
 	@DeleteMapping("/questaoId/{questaoId}/alternativAId/{alternativAId}")
 	public ResponseEntity<?> deleteAlternativa(@PathVariable Long questaoId, @PathVariable Long alternativAId) {
 		alternativaService.removeAlternativaDeQuestao(questaoId, alternativAId);
-		LOGGER.info("excluindo relacionamento e alternativa...excluido!");
+//		LOGGER.info("excluindo relacionamento e alternativa...excluido!");
 		return ResponseEntity.noContent().build();
 	}
 

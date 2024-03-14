@@ -39,7 +39,9 @@ public interface QuestaoService {
 
 	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 
-	Questao converteDTOToQuestao(QuestaoComAlternativaDTO dto);
+	Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto);
+
+	QuestaoDTO converteQuestaoParaDTO(Questao questao);
 
 	void deleteQuestao(@PathVariable Long id);
 

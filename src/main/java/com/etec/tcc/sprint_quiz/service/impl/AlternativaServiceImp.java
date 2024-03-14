@@ -1,6 +1,8 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -10,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
+//import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
@@ -34,7 +36,7 @@ public class AlternativaServiceImp implements AlternativaService {
 	@Autowired
 	private QuestaoRepository questaoRepository;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
+//	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	/**
 	 * @see AlternativaService#getAll()
@@ -139,11 +141,11 @@ public class AlternativaServiceImp implements AlternativaService {
 //		if (questao.getResposta().getId() == alternativaId)
 //			questao.setResposta(null);
 
-		LOGGER.info("deletando da questaoId - " + questaoId + " a alternativaId" + alternativaId);
+//		LOGGER.info("deletando da questaoId - " + questaoId + " a alternativaId" + alternativaId);
 		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
-		LOGGER.info("excluindo relacionamento alternativa e questao lista...");
+//		LOGGER.info("excluindo relacionamento alternativa e questao lista...");
 		alternativaRepository.deleteById(alternativaId);
-		LOGGER.info("excluindo  alternativa - " + alternativaId);
+//		LOGGER.info("excluindo  alternativa - " + alternativaId);
 
 	}
 
@@ -177,5 +179,22 @@ public class AlternativaServiceImp implements AlternativaService {
 //		return alternativas;
 //	}
 
+	public Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas){
+		Set<AlternativaDTO> listaAlternativasDTO = alternativas
+				.stream()
+				.map(a -> {
+					return converteAlternativaParaAlternativaDTO(a);
+				}).collect(Collectors.toSet());
+
+		return listaAlternativasDTO;
+	}
+
+	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
+		AlternativaDTO dto = new AlternativaDTO();
+		dto.setId(alternativa.getId());
+		dto.setFoto(alternativa.getFoto());
+		dto.setTexto(alternativa.getTexto());
+		return dto;
+	}
 
 }

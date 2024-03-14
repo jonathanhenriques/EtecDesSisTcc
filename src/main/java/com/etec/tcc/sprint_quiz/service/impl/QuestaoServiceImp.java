@@ -2,16 +2,11 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
+//import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
@@ -62,7 +57,7 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Autowired
 	private ObjectMapperUtils objectMapperUtils;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
+//	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
 	public List<QuestaoDTO> getAll() {
@@ -340,12 +335,63 @@ public class QuestaoServiceImp implements QuestaoService {
 //        return q;
 //    }
 
-	public Questao converteDTOToQuestao(QuestaoComAlternativaDTO dto){
+	public Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto){
 		Set<Alternativa> alternativas = dto.alternativas();
 
-		Questao questao = questaoRepository.findAllFetch(dto.id()).get();
-		questao.setAlternativas(null);
+		Questao questao = questaoRepository.findById(dto.id()).orElseThrow(QuestaoNotFoundException::new);
+		if(!questao.getAlternativas().isEmpty()){
+			return colocaAlternativasEmQuestao(alternativas, dto);
+		}
+
+		if(questao.getAlternativas().isEmpty() && !alternativas.isEmpty()) {
+			return adicionarAlternativasAQuestao(questao, alternativas);
+		}
+
+		return questao;
+	}
+
+	public Questao colocaAlternativasEmQuestao(Set<Alternativa> alternativas, QuestaoComAlternativaDTO dto){
+		Questao questaoComAlternativas = questaoRepository.findAllFetch(dto.id()).get();
+		questaoComAlternativas.setAlternativas(alternativas);
+		return questaoComAlternativas;
+	}
+
+	public Questao adicionarAlternativasAQuestao(Questao questao, Set<Alternativa> alternativas){
 		questao.setAlternativas(alternativas);
 		return questao;
+	}
+
+	public QuestaoDTO converteQuestaoParaDTO(Questao questao){
+		Set<AlternativaDTO> alternativasDTO = new HashSet<>();
+		if(!questao.getAlternativas().isEmpty()){
+			 alternativasDTO = alternativaService.
+					converteSetDeAlternativasParaSetDeAlternativasDTO(questao.getAlternativas());
+		}else {
+			alternativasDTO = null;
+		}
+
+		AlternativaDTO alternativaDTO = new AlternativaDTO();
+		if(questao.getResposta() != null){
+			Alternativa alternativa = alternativaRepository
+					.findById(questao.getResposta())
+					.orElseThrow(AlternativaNotFoundException::new);
+			alternativaDTO = alternativaService.converteAlternativaParaAlternativaDTO(alternativa);
+		}else{
+			alternativaDTO = null;
+		}
+
+		return new QuestaoDTO(
+				questao.getId(),
+				questao.getInstituicao(),
+				questao.getImagem(),
+				questao.getTexto(),
+				questao.getDificuldade(),
+				alternativasDTO,
+				alternativaDTO,
+				questao.getCategoria().getId(),
+				questao.getCriador().getId()
+
+		);
+
 	}
 }
