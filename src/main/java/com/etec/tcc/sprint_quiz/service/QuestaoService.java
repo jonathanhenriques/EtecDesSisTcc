@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -39,9 +40,13 @@ public interface QuestaoService {
 
 	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 
-	Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto);
-
-	QuestaoDTO converteQuestaoParaDTO(Questao questao);
+//	Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto);
+//
+//	QuestaoDTO converteQuestaoParaQuestaoDTO(Questao questao);
+//
+//	Set<QuestaoDTO> converteSetDeQuestoesParaSetDequestoesDTO(Set<Questao> questoes);
+//
+//	List<QuestaoDTO> converteListDeQuestoesParaListDequestoesDTO(List<Questao> questoes);
 
 	void deleteQuestao(@PathVariable Long id);
 

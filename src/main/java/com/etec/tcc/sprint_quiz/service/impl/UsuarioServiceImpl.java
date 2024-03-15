@@ -2,9 +2,18 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.etec.tcc.sprint_quiz.exception.*;
+import com.etec.tcc.sprint_quiz.model.*;
+import com.etec.tcc.sprint_quiz.model.dto.*;
+import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
+import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
+import com.etec.tcc.sprint_quiz.service.ProvaService;
+import com.etec.tcc.sprint_quiz.service.QuestaoService;
+import com.etec.tcc.sprint_quiz.util.MapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
@@ -15,14 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
-import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
-import com.etec.tcc.sprint_quiz.model.Role;
-import com.etec.tcc.sprint_quiz.model.Usuario;
-import com.etec.tcc.sprint_quiz.model.dto.UsuarioLoginDTO;
 import com.etec.tcc.sprint_quiz.repository.RolesRepository;
 import com.etec.tcc.sprint_quiz.repository.UsuarioRepository;
 import com.etec.tcc.sprint_quiz.service.UsuarioService;
@@ -51,10 +52,18 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+//	private final QuestaoService questaoService;
+//
+	private final ProvaRepository provaRepository;
+
+	private final CategoriaProvaRepository categoriaProvaRepository;
+
+	private final MapperService mapperService;
+
 	/**
 	 * Busca o usuário no banco e verifica se a senha passada e a do banco são
 	 * iguais ou não
-	 * 
+	 *
 	 * @param usuario
 	 * @return usuarioDetails
 	 */
@@ -71,7 +80,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	/**
 	 * carrega e retorna o usuario do banco de dados atraves do login
-	 * 
+	 *
 	 * @param username
 	 * @return usuarioDetails
 	 */
@@ -107,7 +116,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	/**
 	 * Busca o usuário específico no banco através de um id
-	 * 
+	 *
 	 * @param id
 	 * @return usuario
 	 */
@@ -121,7 +130,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	/**
 	 * Busca o usuário específico no banco através de um email
-	 * 
+	 *
 	 * @param id
 	 * @return Optional<usuario>
 	 */
@@ -131,7 +140,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	/**
 	 * Busca uma lista de usuários com o nome passado
-	 * 
+	 *
 	 * @param nome do usuários
 	 * @return Lista com usuários
 	 */
@@ -141,7 +150,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	/**
 	 * Cadastra um novo usuário no banco
-	 * 
+	 *
 	 * @param usuario
 	 * @return Optional<usuario>
 	 */
@@ -171,5 +180,46 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 //			return void.class;
 //		}).orElseThrow(() -> new UsuarioNotFoundException("com id | " + id));
 //	}
+
+	public Optional<UsuarioDTO> findByIdWithQuestoesEProvas(Long id){
+		Usuario usuarioComQuestoes = findByIdWithQuestoes(id).orElseThrow(() -> new UsuarioNotFoundException(id));
+		Usuario usuarioComProvas = findByIdWithProvas(id).orElseThrow(() -> new UsuarioNotFoundException(id));
+		Usuario usuario = findById(id);
+
+		UsuarioDTO dto = converteUsuarioParaUsuarioDTO(usuario);
+
+		List<QuestaoDTO> listaQuestoesDTO = mapperService.converteListDeQuestoesParaListDequestoesDTO(usuarioComQuestoes.getQuestoes());
+		dto.setQuestoes(listaQuestoesDTO);
+
+		List<ProvaDTO> listaProvasDTO = mapperService.converteListDeProvaParaListDeProvaDTO(usuarioComProvas.getProvas());
+		dto.setProvas(listaProvasDTO);
+
+		return Optional.of(dto);
+
+	}
+
+	public Optional<Usuario> findByIdWithQuestoes(Long id){
+		return Optional.of(usuarioRepository.findByIdWithQuestoes(id)).orElseThrow(UsuarioNotFoundException::new);
+	}
+
+	public Optional<Usuario> findByIdWithProvas(Long id){
+		return Optional.of(usuarioRepository.findByIdWithProvas(id)).orElseThrow(UsuarioNotFoundException::new);
+	}
+
+	public UsuarioDTO converteUsuarioParaUsuarioDTO(Usuario usuario){
+		UsuarioDTO dto = new UsuarioDTO();
+		dto.setId(usuario.getId());
+		dto.setNome(usuario.getNome());
+		dto.setUsername(usuario.getUsername());
+
+		dto.setQuestoes(mapperService.converteListDeQuestoesParaListDequestoesDTO(usuario.getQuestoes()));
+
+		dto.setProvas(mapperService.converteListDeProvaParaListDeProvaDTO(usuario.getProvas()));
+
+		return dto;
+	}
+
+
+
 
 }

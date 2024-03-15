@@ -1,23 +1,25 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
 import com.etec.tcc.sprint_quiz.exception.*;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.model.dto.*;
 import com.etec.tcc.sprint_quiz.repository.*;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
+import com.etec.tcc.sprint_quiz.service.UsuarioService;
+import com.etec.tcc.sprint_quiz.util.MapperService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.service.ProvaService;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ProvaServiceImp implements ProvaService {
 
@@ -33,6 +35,8 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    private final UsuarioService usuarioService;
+
 
     @Autowired
     private QuestaoRepository questaoRepository;
@@ -45,6 +49,8 @@ public class ProvaServiceImp implements ProvaService {
 
     @Autowired
     private AlternativaService alternativaService;
+
+    private final MapperService mapperService;
 
 
     public List<Prova> getAll() {
@@ -187,83 +193,13 @@ public class ProvaServiceImp implements ProvaService {
 //                }).collect(Collectors.toList());
 //    }
 
-    public Prova converteProvaComQuestaoDTOToProva(ProvaComQuestaoDTO dto){
-        Set<Questao> questoes = dto.questoes();
-
-        Prova prova = provaRepository.findById(dto.id()).orElseThrow(ProvaNotFoundException::new);
-        if(!prova.getQuestoes().isEmpty()){
-            return colocarQuestaoEmProva(prova, questoes, dto);
-        }
-
-        if(prova.getQuestoes().isEmpty() && !questoes.isEmpty()){
-            return adicionarQuestoes(prova, questoes);
-        }
-
-        return  prova;
 
 
-    }
-
-    public Prova colocarQuestaoEmProva(Prova prova, Set<Questao> questoes, ProvaComQuestaoDTO dto){
-        Prova provaComQuestoes = provaRepository.findAllFetch(dto.id()).get();
-        provaComQuestoes.setQuestoes(questoes);
-        return provaComQuestoes;
-    }
-
-    public Prova adicionarQuestoes(Prova prova, Set<Questao> questoes){
-        prova.setQuestoes(questoes);
-        return prova;
-    }
-
-    public ProvaResponse converteToProvaResponse(Prova prova) {
 
 
-//        Prova provaRequest = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
-
-//        ProvaComQuestaoDTO pcdto = new ProvaComQuestaoDTO(prova.getId(), prova.getQuestoes());
-//        Prova provaRequest = converteProvaComQuestaoDTOToProva(pcdto);
-        Prova provaRequest = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
-        Usuario usuario = usuarioRepository.findById(provaRequest.getUsuario().getId()).orElseThrow(UsuarioNotFoundException::new);
-        UsuarioSimplificadoDTO usuarioDTO = new UsuarioSimplificadoDTO(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getUsername());
-
-        Set<QuestaoDTO> listaQuestoesDTO = new HashSet<>();
-        List<Questao> listaDeQuestoes = new ArrayList<>(provaRequest.getQuestoes());
-        if(!provaRequest.getQuestoes().isEmpty()){
-            //provaQuestaoDTO
-
-            for (int j = 0; j < provaRequest.getQuestoes().size(); j++) {
-                Questao questao = questaoRepository.findById(listaDeQuestoes.get(j).getId()).orElseThrow(QuestaoNotFoundException::new);
-                QuestaoDTO questaoDTO = questaoService.converteQuestaoParaDTO(questao);
-    //
-                questaoDTO.setIdCategoriaQuestao(questao.getCategoria().getId());
-
-                questaoDTO.setCriadorId(questao.getCriador().getId());
-
-                listaQuestoesDTO.add(questaoDTO);
-
-            }
-        }
-        //provaQuestaoDTO
-
-        CategoriaProva categoriaProva = categoriaProvaRepository.findById(provaRequest.getCategoria().getId())
-                .orElseThrow(CategoriaProvaNotFoundException::new);
 
 
-        return new ProvaResponse(
-                provaRequest.getId(),
-                provaRequest.getNome(),
-                provaRequest.getDescricao(),
-                provaRequest.getDuracao(),
-                provaRequest.getInstituicao(),
-                usuarioDTO,
-//                provaRequest.getQuestoes(),
-                listaQuestoesDTO,
-                categoriaProva.getId()
-        );
-    }
+
 
 
 

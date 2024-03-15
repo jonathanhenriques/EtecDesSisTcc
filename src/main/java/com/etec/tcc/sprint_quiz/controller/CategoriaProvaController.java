@@ -2,6 +2,10 @@ package com.etec.tcc.sprint_quiz.controller;
 
 import java.util.List;
 
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
+import com.etec.tcc.sprint_quiz.util.MapperService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/categoriaProva")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaProvaController {
@@ -33,6 +38,8 @@ public class CategoriaProvaController {
 
     @Autowired
     private CategoriaProvaService categoriaProvaService;
+
+    private final MapperService mapperService;
     
    
 
@@ -42,11 +49,17 @@ public class CategoriaProvaController {
         return ResponseEntity.ok(categoriaProvaService.getById(id));  
     }
 
+    @Operation(summary = "Obtem categorias pelo id com provas")
+    @GetMapping("/{id}/comProvas")
+    public ResponseEntity<CategoriaProvaComProvasDTO> getByIdComProvas(@PathVariable Long id) {
+        return ResponseEntity.ok(categoriaProvaService.getByIdComProvas(id));
+    }
+
     @Operation(summary = "Obtem  todas as categorias")
     @GetMapping
-    public ResponseEntity<List<CategoriaProva>> getAll(){
+    public ResponseEntity<List<CategoriaProvaDTO>> getAll(){
     	log.info("Obtendo todas as categoriaProva");
-    	return ResponseEntity.ok(categoriaProvaService.getAll());
+    	return ResponseEntity.ok(categoriaProvaService.findAllDTO());
     }
     
     @Operation(summary = "Obtem  todas as categorias contendo título passado")

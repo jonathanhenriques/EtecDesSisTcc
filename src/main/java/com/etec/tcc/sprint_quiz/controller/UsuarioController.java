@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.UsuarioDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,12 @@ public class UsuarioController {
 		LOGGER.info("Chamando endpoint findById({})  em usuarioController", id);
 		return ResponseEntity.ok(usuarioService.findById(id));
 
+	}
+
+	@Operation(summary = "Obtem usuario por id com questoes")
+	@GetMapping("/{id}/comQuestoesEProvas")
+	public ResponseEntity<UsuarioDTO> findByIdWithQuestoesEProvas(@PathVariable Long id) {
+		return ResponseEntity.ok(usuarioService.findByIdWithQuestoesEProvas(id).get());
 	}
 
 	@Operation(summary = "Obtem usuario pelo email")

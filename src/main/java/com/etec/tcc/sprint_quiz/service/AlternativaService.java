@@ -79,9 +79,11 @@ public interface AlternativaService {
 	 */
 	void deleteById(Long id);
 
-	Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas);
+//	Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas);
+//
+//
+//	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa);
 
-
-	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa);
+	Alternativa buscarOuFalhar(Long alternativaId);
 	
 }

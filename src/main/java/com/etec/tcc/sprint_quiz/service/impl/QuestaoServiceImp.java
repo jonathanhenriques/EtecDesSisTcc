@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -335,63 +336,13 @@ public class QuestaoServiceImp implements QuestaoService {
 //        return q;
 //    }
 
-	public Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto){
-		Set<Alternativa> alternativas = dto.alternativas();
 
-		Questao questao = questaoRepository.findById(dto.id()).orElseThrow(QuestaoNotFoundException::new);
-		if(!questao.getAlternativas().isEmpty()){
-			return colocaAlternativasEmQuestao(alternativas, dto);
-		}
 
-		if(questao.getAlternativas().isEmpty() && !alternativas.isEmpty()) {
-			return adicionarAlternativasAQuestao(questao, alternativas);
-		}
 
-		return questao;
-	}
 
-	public Questao colocaAlternativasEmQuestao(Set<Alternativa> alternativas, QuestaoComAlternativaDTO dto){
-		Questao questaoComAlternativas = questaoRepository.findAllFetch(dto.id()).get();
-		questaoComAlternativas.setAlternativas(alternativas);
-		return questaoComAlternativas;
-	}
 
-	public Questao adicionarAlternativasAQuestao(Questao questao, Set<Alternativa> alternativas){
-		questao.setAlternativas(alternativas);
-		return questao;
-	}
 
-	public QuestaoDTO converteQuestaoParaDTO(Questao questao){
-		Set<AlternativaDTO> alternativasDTO = new HashSet<>();
-		if(!questao.getAlternativas().isEmpty()){
-			 alternativasDTO = alternativaService.
-					converteSetDeAlternativasParaSetDeAlternativasDTO(questao.getAlternativas());
-		}else {
-			alternativasDTO = null;
-		}
 
-		AlternativaDTO alternativaDTO = new AlternativaDTO();
-		if(questao.getResposta() != null){
-			Alternativa alternativa = alternativaRepository
-					.findById(questao.getResposta())
-					.orElseThrow(AlternativaNotFoundException::new);
-			alternativaDTO = alternativaService.converteAlternativaParaAlternativaDTO(alternativa);
-		}else{
-			alternativaDTO = null;
-		}
 
-		return new QuestaoDTO(
-				questao.getId(),
-				questao.getInstituicao(),
-				questao.getImagem(),
-				questao.getTexto(),
-				questao.getDificuldade(),
-				alternativasDTO,
-				alternativaDTO,
-				questao.getCategoria().getId(),
-				questao.getCriador().getId()
 
-		);
-
-	}
 }

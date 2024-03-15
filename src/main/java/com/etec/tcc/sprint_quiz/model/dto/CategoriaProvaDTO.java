@@ -13,9 +13,13 @@ import javax.validation.constraints.Size;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CategoriaProvaDTO {
-	
+
 	    private Long id;
 	    @NotBlank(message = "titulo {campo.texto.notBlank.obrigatorio}")
 	    @Size(max = 400, message = "titulo {campo.texto.sizeMax} 400")
@@ -26,7 +30,7 @@ public class CategoriaProvaDTO {
 //	    @Schema(name = "Vestibulares públicos")
 	    private String descricao;
 
-	    private List<Prova> provas;
+//	    private List<Prova> provas;
 
 
 	

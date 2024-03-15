@@ -179,22 +179,11 @@ public class AlternativaServiceImp implements AlternativaService {
 //		return alternativas;
 //	}
 
-	public Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas){
-		Set<AlternativaDTO> listaAlternativasDTO = alternativas
-				.stream()
-				.map(a -> {
-					return converteAlternativaParaAlternativaDTO(a);
-				}).collect(Collectors.toSet());
 
-		return listaAlternativasDTO;
-	}
 
-	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
-		AlternativaDTO dto = new AlternativaDTO();
-		dto.setId(alternativa.getId());
-		dto.setFoto(alternativa.getFoto());
-		dto.setTexto(alternativa.getTexto());
-		return dto;
+	public Alternativa buscarOuFalhar(Long alternativaId) {
+		return alternativaRepository.findById(alternativaId)
+				.orElseThrow(() -> new AlternativaNotFoundException(alternativaId));
 	}
 
 }
