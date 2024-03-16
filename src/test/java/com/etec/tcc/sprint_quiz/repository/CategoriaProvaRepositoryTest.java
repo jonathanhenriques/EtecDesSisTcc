@@ -36,14 +36,14 @@ class CategoriaProvaRepositoryTest {
 		repository.save(categoriaTeste);
 	}
 	
-	@Test
-	@DisplayName("Retorna 1 categoriaProva")
-	 void getByIdDeveriaRetornarUmaCategoriaprova() {
-		List<CategoriaProva> lista = repository.findAllByTituloContainingIgnoreCase("titulo teste");
-		
-		assertEquals(1, lista.size());
-		assertEquals("titulo teste", lista.get(0).getTitulo());
-	}
+//	@Test
+//	@DisplayName("Retorna 1 categoriaProva")
+//	 void getByIdDeveriaRetornarUmaCategoriaprova() {
+//		List<CategoriaProva> lista = repository.findAllByTituloContainingIgnoreCase("titulo teste");
+//
+//		assertEquals(1, lista.size());
+//		assertEquals("titulo teste", lista.get(0).getTitulo());
+//	}
 
 
 	

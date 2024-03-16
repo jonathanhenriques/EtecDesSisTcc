@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 
@@ -18,7 +20,7 @@ public interface AlternativaService {
 	 * 
 	 * @return <code>List<Alternativa></code> Alternativa
 	 */
-	List<AlternativaDTO> getAll();
+	Page<AlternativaDTO> getAll(Pageable pageable);
 
 	/**
 	 * Método que busca uma Alternativa pelo id.

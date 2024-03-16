@@ -261,6 +261,16 @@ public class MapperService {
         return listaAlternativasDTO;
     }
 
+    public List<AlternativaDTO> converteListDeAlternativasParaListDeAlternativasDTO(List<Alternativa> alternativas){
+        List<AlternativaDTO> listaAlternativasDTO = alternativas
+                .stream()
+                .map(a -> {
+                    return converteAlternativaParaAlternativaDTO(a);
+                }).collect(Collectors.toList());
+
+        return listaAlternativasDTO;
+    }
+
     public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
         alternativaRepository.findById(alternativa.getId());
         AlternativaDTO dto = new AlternativaDTO();

@@ -7,6 +7,9 @@ import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -64,8 +67,10 @@ public class CategoriaProvaController {
     
     @Operation(summary = "Obtem  todas as categorias contendo título passado")
     @GetMapping("/titulo/{titulo}")
-    public ResponseEntity<List<CategoriaProva>> getAllByTitulo(@PathVariable String titulo){
-		return ResponseEntity.ok(categoriaProvaService.getAllByTitulo(titulo));
+    public ResponseEntity<Page<CategoriaProva>> getAllByTitulo(@PathVariable String titulo,
+                                                               @PageableDefault(size = 2, page = 0, sort = "asc")
+                                                               Pageable pageable){
+		return ResponseEntity.ok(categoriaProvaService.getAllByTitulo(titulo, pageable));
 	}
 
     @Operation(summary = "Cadastra uma nova categoria")

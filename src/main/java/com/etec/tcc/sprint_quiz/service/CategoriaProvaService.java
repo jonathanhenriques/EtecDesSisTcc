@@ -6,6 +6,8 @@ import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoriaProvaService{
 
@@ -19,7 +21,7 @@ public interface CategoriaProvaService{
      List<CategoriaProvaDTO> findAllDTO();
      
 
-     List<CategoriaProva> getAllByTitulo(String titulo);
+     Page<CategoriaProva> getAllByTitulo(String titulo, Pageable pageable);
 
      CategoriaProva post(CategoriaProva categoria);
 

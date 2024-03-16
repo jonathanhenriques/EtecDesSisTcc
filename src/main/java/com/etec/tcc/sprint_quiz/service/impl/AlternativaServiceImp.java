@@ -7,9 +7,14 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.etec.tcc.sprint_quiz.util.MapperService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 //import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
@@ -24,6 +29,7 @@ import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class AlternativaServiceImp implements AlternativaService {
 
@@ -36,23 +42,33 @@ public class AlternativaServiceImp implements AlternativaService {
 	@Autowired
 	private QuestaoRepository questaoRepository;
 
+	private final MapperService mapperService;
+
+
+
 //	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	/**
 	 * @see AlternativaService#getAll()
 	 */
 	@Override
-	public List<AlternativaDTO> getAll() {
-		List<Alternativa> listaAlternativas = alternativaRepository.findAll();
-		List<AlternativaDTO> listaAlternativasDTO = listaAlternativas.stream().map(a -> {
-			AlternativaDTO dto = new AlternativaDTO();
-			dto.setId(a.getId());
-			dto.setTexto(a.getTexto());
-			dto.setFoto(a.getFoto());
-			return dto;
-		}).collect(Collectors.toList());
+	public Page<AlternativaDTO> getAll(Pageable pageable) {
+		Page<Alternativa> listaAlternativas = alternativaRepository.findAll(pageable);
 
-		return listaAlternativasDTO;
+//		List<Alternativa> listaAlternativas = alternativaRepository.findAll();
+		List<AlternativaDTO> listaAlternativasDTO = mapperService
+				.converteListDeAlternativasParaListDeAlternativasDTO(listaAlternativas.getContent());
+//		List<AlternativaDTO> listaAlternativasDTO = listaAlternativas.getContent().stream().map(a -> {
+//			AlternativaDTO dto = new AlternativaDTO();
+//			dto.setId(a.getId());
+//			dto.setTexto(a.getTexto());
+//			dto.setFoto(a.getFoto());
+//			return dto;
+//		}).collect(Collectors.toList());
+
+		Page<AlternativaDTO> pageAlternativasDTO =
+				new PageImpl<>(listaAlternativasDTO, pageable, listaAlternativas.getTotalElements());
+		return pageAlternativasDTO;
 	}
 
 	/**

@@ -13,6 +13,8 @@ import com.etec.tcc.sprint_quiz.service.ProvaService;
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,8 +60,8 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 		return listaDTO;
 	}
 
-	public List<CategoriaProva> getAllByTitulo(@PathVariable String titulo){
-		return categoriaProvaRepository.findAllByTituloContainingIgnoreCase(titulo);
+	public Page<CategoriaProva> getAllByTitulo(@PathVariable String titulo, Pageable pageable){
+		return categoriaProvaRepository.findAllByTituloContainingIgnoreCase(titulo, pageable);
 	}
 
 	public CategoriaProva post(@Valid @RequestBody CategoriaProva categoria) {
