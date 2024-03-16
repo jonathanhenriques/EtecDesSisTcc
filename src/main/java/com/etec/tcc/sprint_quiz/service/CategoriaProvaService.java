@@ -2,37 +2,20 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.util.List;
 
-import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface CategoriaProvaService{
 
-
-
-     CategoriaProva getById(Long id);
-
-
-//     List<CategoriaProva> getAll();
+     CategoriaProvaComProvasDTO getById(Long id);
 
      List<CategoriaProvaDTO> findAllDTO();
      
+     CategoriaProvaDTO post(CategoriaProvaDTO categoria);
 
-     Page<CategoriaProva> getAllByTitulo(String titulo, Pageable pageable);
-
-     CategoriaProva post(CategoriaProva categoria);
-
-
-     CategoriaProva put(CategoriaProva categoria);
-
-
-//     CategoriaProva patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria);
-
+     CategoriaProvaComProvasDTO put(CategoriaProvaDTO categoria);
 
      void delete(Long id);
-
 
      CategoriaProvaComProvasDTO getByIdComProvas(Long id);
 

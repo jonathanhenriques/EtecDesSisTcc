@@ -75,6 +75,18 @@ public class ProvaController {
         return ResponseEntity.ok(provaService.getAllByDescricao(descricao));
     }
 
+    @Operation(summary = "Obtem todas as provas por categoria da prova")
+    @GetMapping("/categoriaProva/{categoria}")
+    public ResponseEntity<List<Prova>> getAllByCategoriaProva(@PathVariable String categoria) {
+        return ResponseEntity.ok(provaService.getAllByCategoriaProva(categoria));
+    }
+
+    @Operation(summary = "Obtem todas as provas por categoria da prova")
+    @GetMapping("/categoriaProvaId/{categoriaProvaId}")
+    public ResponseEntity<List<Prova>> findAllByCategoriaProvaIdContainingIgnoreCase(@PathVariable Long categoriaProvaId) {
+        return ResponseEntity.ok(provaService.findAllByCategoriaId(categoriaProvaId));
+    }
+
 
     @Operation(summary = "Cadastra uma prova")
     @PostMapping

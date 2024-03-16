@@ -313,6 +313,22 @@ public class MapperService {
        }).collect(Collectors.toList());
     }
 
+    public CategoriaProvaDTO converteCategoriaProvaParaCategoriaProvaDTO(CategoriaProva categoriaProva){
+        CategoriaProvaDTO dto = new CategoriaProvaDTO();
+        dto.setId(categoriaProva.getId());
+        dto.setTitulo(categoriaProva.getTitulo());
+        dto.setDescricao(categoriaProva.getDescricao());
+        return dto;
+    }
+
+    public CategoriaProva converteCategoriaProvaDTOParaCategoriaProva(CategoriaProvaDTO categoriaProvaDTO){
+        CategoriaProva categoriaProva = new CategoriaProva();
+        categoriaProva.setId(categoriaProvaDTO.getId());
+        categoriaProva.setTitulo(categoriaProvaDTO.getTitulo());
+        categoriaProva.setDescricao(categoriaProvaDTO.getDescricao());
+        return categoriaProva;
+    }
+
 
 
     //////////////////////////////////CATEOGIRAPROVA///////////////////////////////////

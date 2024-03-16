@@ -21,6 +21,10 @@ public interface ProvaService{
 
     List<Prova> getByCriadorId(Long id);
 
+    List<Prova> getAllByCategoriaProva(String categoria);
+
+    List<Prova> findAllByCategoriaId(Long id);
+
     Prova post( Prova prova);
 
     Prova adicionarQuestaoEmProva(Prova prova);

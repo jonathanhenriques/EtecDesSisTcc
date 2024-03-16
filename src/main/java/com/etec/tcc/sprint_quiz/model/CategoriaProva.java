@@ -1,11 +1,9 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-//import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -33,7 +31,7 @@ public class CategoriaProva {
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @OneToMany(mappedBy = "categoria")
-//    @JsonIgnoreProperties(value = "categoria", allowSetters = true, allowGetters = true)
+    @JsonIgnoreProperties({"usuario", "questoes", "categoria"})
     private List<Prova> provas;
 
 

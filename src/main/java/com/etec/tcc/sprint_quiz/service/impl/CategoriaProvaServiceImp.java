@@ -35,17 +35,16 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 	private final CategoriaProvaRepository categoriaProvaRepository;
 
+	private final ProvaService provaService;
+
 	private final MapperService mapperService;
 
 
-	public CategoriaProva getById(@PathVariable Long id) {
-		return categoriaProvaRepository.findById(id).orElseThrow(CategoriaProvaNotFoundException::new);
+	public CategoriaProvaComProvasDTO getById(@PathVariable Long id) {
+		CategoriaProva categoria = categoriaProvaRepository.findById(id).orElseThrow(CategoriaProvaNotFoundException::new);
+		return getByIdComProvas(categoria.getId());
 	}
 
-//	public List<CategoriaProvaDTO> getAll() {
-//		log.info("Obtendo todas as categoriaProva");
-//		return categoriaProvaService.find();
-//	}
 
 	@Override
 	public List<CategoriaProvaDTO> findAllDTO() {
@@ -54,25 +53,30 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 				.converteListaCategoriaProvaParaListaCategoriaProvaDTO(listaCategoriaProva);
 	}
 
-	public Page<CategoriaProva> getAllByTitulo(@PathVariable String titulo, Pageable pageable){
-		return categoriaProvaRepository.findAllByTituloContainingIgnoreCase(titulo, pageable);
+
+	public CategoriaProvaDTO post(@Valid @RequestBody CategoriaProvaDTO categoria) {
+		CategoriaProva categoriaProva = new CategoriaProva();
+
+		categoriaProva.setTitulo(categoria.getTitulo());
+		categoriaProva.setDescricao(categoria.getDescricao());
+
+		 return mapperService.converteCategoriaProvaParaCategoriaProvaDTO(categoriaProvaRepository.save(categoriaProva));
 	}
 
-	public CategoriaProva post(@Valid @RequestBody CategoriaProva categoria) {
-		return categoriaProvaRepository.save(categoria);
-	}
-
-	public CategoriaProva put(@Valid @RequestBody CategoriaProva categoria) {
-		return categoriaProvaRepository.findById(categoria.getId()).map(c -> categoriaProvaRepository.save(categoria))
+	public CategoriaProvaComProvasDTO put(@Valid @RequestBody CategoriaProvaDTO categoria) {
+		CategoriaProva categoriaProva = categoriaProvaRepository.findById(categoria.getId())
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(categoria.getId().toString()));
+		List<ProvaDTO> provas = mapperService.converteListDeProvaParaListDeProvaDTO(provaService.findAllByCategoriaId(categoriaProva.getId()));
+
+		return new CategoriaProvaComProvasDTO(
+				categoriaProva.getId(),
+				categoriaProva.getTitulo(),
+				categoriaProva.getDescricao(),
+				provas
+
+		);
 	}
  
-//	public CategoriaProva patchCategoriaProvaTitulo(@RequestBody CategoriaProva categoria) {
-//		return categoriaProvaRepository.findById(categoria.getId()).map(c -> {
-//			c.setTitulo(categoria.getTitulo());
-//			return categoriaProvaRepository.save(c);
-//		}).orElseThrow(() -> new CategoriaQuestaoNaoEncontradaException());
-//	} 
 
 	public void delete(@PathVariable Long id) {
 		CategoriaProva cp = categoriaProvaRepository.findById(id)

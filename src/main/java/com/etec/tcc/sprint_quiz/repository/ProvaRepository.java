@@ -1,7 +1,6 @@
 package com.etec.tcc.sprint_quiz.repository;
 
 import com.etec.tcc.sprint_quiz.model.Prova;
-import com.etec.tcc.sprint_quiz.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +15,10 @@ public interface ProvaRepository extends JpaRepository<Prova, Long> {
     List<Prova> findAllByNomeContainingIgnoreCase(@Param("nome") String nome);
 
     List<Prova> findAllByDescricaoContainingIgnoreCase(@Param("descricao") String descricao);
+
+    List<Prova> findAllByCategoriaTituloContainingIgnoreCase(@Param("categoria") String categoria);
+
+    List<Prova> findAllByCategoriaId(@Param("id") Long id);
 
     List<Prova> findAllByUsuarioId(Long id);
 

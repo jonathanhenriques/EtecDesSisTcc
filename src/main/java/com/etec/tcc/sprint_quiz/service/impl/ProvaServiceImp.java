@@ -1,13 +1,11 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import com.etec.tcc.sprint_quiz.exception.*;
 import com.etec.tcc.sprint_quiz.model.*;
-import com.etec.tcc.sprint_quiz.model.dto.*;
 import com.etec.tcc.sprint_quiz.repository.*;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
@@ -77,6 +75,14 @@ public class ProvaServiceImp implements ProvaService {
 
     public List<Prova> getAllByDescricao(String descricao) {
         return provaRepository.findAllByDescricaoContainingIgnoreCase(descricao);
+    }
+
+    public List<Prova> getAllByCategoriaProva(String categoria) {
+        return provaRepository.findAllByCategoriaTituloContainingIgnoreCase(categoria);
+    }
+
+    public List<Prova> findAllByCategoriaId(Long categoriaProvaId) {
+        return provaRepository.findAllByCategoriaId(categoriaProvaId);
     }
 
 
