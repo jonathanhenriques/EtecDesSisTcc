@@ -1,6 +1,7 @@
 package com.etec.tcc.sprint_quiz.model.dto;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
@@ -41,7 +42,7 @@ public class QuestaoDTO {
 	@Size(min = 1, max = 1000, message = "texto {campo.texto.sizeMax} 1000")
 	private String texto;
 	private DificuldadeQuestao dificuldade;
-	private Set<AlternativaDTO> alternativas;
+	private List<AlternativaDTO> alternativas;
 	private AlternativaDTO resposta;
 	private Long idCategoriaQuestao;
 	private Long criadorId;

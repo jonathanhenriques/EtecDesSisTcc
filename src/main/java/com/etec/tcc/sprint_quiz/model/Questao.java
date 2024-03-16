@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.model;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //import javax.persistence.CascadeType;
@@ -77,7 +78,7 @@ public class Questao {
 
 
 	@OneToMany
-	private Set<Alternativa> alternativas;
+	private List<Alternativa> alternativas;
 
 	// @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
 //    @Size(max = 1)

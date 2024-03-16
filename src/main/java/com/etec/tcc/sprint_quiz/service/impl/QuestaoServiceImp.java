@@ -185,8 +185,8 @@ public class QuestaoServiceImp implements QuestaoService {
 			novasAlternativas.add(alternativa.get());
 		}
 		questao.setAlternativas(null);
-		Set<Alternativa> listaAlternativasSalvar = new HashSet<>(novasAlternativas);
-		questao.setAlternativas(listaAlternativasSalvar);
+//		List<Alternativa> listaAlternativasSalvar = new HashSet<>(novasAlternativas);
+		questao.setAlternativas(novasAlternativas);
 
 		String textoQuestao = questaoRepository.findById(questao.getId()).get().getTexto();
 		questao.setTexto(textoQuestao);

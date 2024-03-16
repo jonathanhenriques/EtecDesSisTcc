@@ -167,9 +167,9 @@ public class MapperService {
 
 
     public QuestaoDTO converteQuestaoParaQuestaoDTO(Questao questao){
-        Set<AlternativaDTO> alternativasDTO;
+        List<AlternativaDTO> alternativasDTO;
         if(!questao.getAlternativas().isEmpty()){
-            alternativasDTO = converteSetDeAlternativasParaSetDeAlternativasDTO(questao.getAlternativas());
+            alternativasDTO = converteListDeAlternativasParaListDeAlternativasDTO(questao.getAlternativas());
         }else {
             alternativasDTO = null;
         }
@@ -208,7 +208,7 @@ public class MapperService {
 
 
     public Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto){
-        Set<Alternativa> alternativas = dto.alternativas();
+        List<Alternativa> alternativas = dto.alternativas();
 
         Questao questao = questaoRepository.findById(dto.id()).orElseThrow(QuestaoNotFoundException::new);
         if(!questao.getAlternativas().isEmpty()){
@@ -223,13 +223,13 @@ public class MapperService {
     }
 
 
-    public Questao colocaAlternativasEmQuestao(Set<Alternativa> alternativas, QuestaoComAlternativaDTO dto){
+    public Questao colocaAlternativasEmQuestao(List<Alternativa> alternativas, QuestaoComAlternativaDTO dto){
         Questao questaoComAlternativas = questaoRepository.findAllFetch(dto.id()).orElseThrow(QuestaoNotFoundException::new);
         questaoComAlternativas.setAlternativas(alternativas);
         return questaoComAlternativas;
     }
 
-    public Questao adicionarAlternativasAQuestao(Questao questao, Set<Alternativa> alternativas){
+    public Questao adicionarAlternativasAQuestao(Questao questao, List<Alternativa> alternativas){
         questao.setAlternativas(alternativas);
         return questao;
     }
@@ -245,12 +245,12 @@ public class MapperService {
     /////////////////////////////////ALTERNATIVA//////////////////////////////////////////
 
 
-    public Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas){
-
-        return alternativas
-                .stream()
-                .map(this::converteAlternativaParaAlternativaDTO).collect(Collectors.toSet());
-    }
+//    public List<AlternativaDTO> converteListDeAlternativasParaListDeAlternativasDTO(List<Alternativa> alternativas){
+//
+//        return alternativas
+//                .stream()
+//                .map(this::converteAlternativaParaAlternativaDTO).collect(Collectors.toList());
+//    }
 
     public List<AlternativaDTO> converteListDeAlternativasParaListDeAlternativasDTO(List<Alternativa> alternativas){
 

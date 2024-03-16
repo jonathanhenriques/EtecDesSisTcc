@@ -1,6 +1,8 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
@@ -139,14 +141,30 @@ public class AlternativaServiceImp implements AlternativaService {
 
 		alternativaRepository.findById(alternativaId)
 				.orElseThrow(() -> new AlternativaNotFoundException(alternativaId.toString()));
+		List<Alternativa> listaAlternativas = new ArrayList<>(questao.getAlternativas());
+		Alternativa alternativaExcluir = new Alternativa();
+		for(int j = 0; j < questao.getAlternativas().size(); j++) {
+
+
+			if(listaAlternativas.get(j).getId().equals(alternativaId)) {
+				alternativaExcluir = listaAlternativas.get(j);
+				listaAlternativas.remove(j);
+			}
+			questao.setAlternativas(listaAlternativas);
+			questaoRepository.save(questao);
+			alternativaRepository.delete(alternativaExcluir);
+
+		}
 
 //		if (questao.getResposta().getId() == alternativaId)
 //			questao.setResposta(null);
 
 //		LOGGER.info("deletando da questaoId - " + questaoId + " a alternativaId" + alternativaId);
-		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
+
+//		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
 //		LOGGER.info("excluindo relacionamento alternativa e questao lista...");
-		alternativaRepository.deleteById(alternativaId);
+
+//		alternativaRepository.deleteById(alternativaId);
 //		LOGGER.info("excluindo  alternativa - " + alternativaId);
 
 	}
