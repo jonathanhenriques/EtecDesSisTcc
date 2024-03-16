@@ -36,11 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaProvaController {
  
-    @Autowired
-    private CategoriaProvaRepository categoriaProvaRepository;
-
-    @Autowired
-    private CategoriaProvaService categoriaProvaService;
+    private final CategoriaProvaService categoriaProvaService;
 
     private final MapperService mapperService;
     

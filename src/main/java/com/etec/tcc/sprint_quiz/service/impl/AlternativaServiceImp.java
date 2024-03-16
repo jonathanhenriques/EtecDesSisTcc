@@ -1,23 +1,14 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
-
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-//import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
@@ -33,14 +24,9 @@ import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 @Transactional
 public class AlternativaServiceImp implements AlternativaService {
 
-	@Autowired
-	private AlternativaRepository alternativaRepository;
+	private final AlternativaRepository alternativaRepository;
 
-//	@Autowired
-//	private ObjectMapperUtils objectMapperUtils;
-
-	@Autowired
-	private QuestaoRepository questaoRepository;
+	private final QuestaoRepository questaoRepository;
 
 	private final MapperService mapperService;
 

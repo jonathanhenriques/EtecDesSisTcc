@@ -33,18 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
-	@Autowired
-	private CategoriaProvaRepository categoriaProvaRepository;
-
-//	private final CategoriaProvaService categoriaProvaService;
-
-	private final ProvaService provaService;
+	private final CategoriaProvaRepository categoriaProvaRepository;
 
 	private final MapperService mapperService;
 
 
 	public CategoriaProva getById(@PathVariable Long id) {
-		return categoriaProvaRepository.findById(id).orElseThrow(() -> new CategoriaProvaNotFoundException());
+		return categoriaProvaRepository.findById(id).orElseThrow(CategoriaProvaNotFoundException::new);
 	}
 
 //	public List<CategoriaProvaDTO> getAll() {
@@ -55,9 +50,8 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 	@Override
 	public List<CategoriaProvaDTO> findAllDTO() {
 		List<CategoriaProva> listaCategoriaProva = categoriaProvaRepository.findAll();
-		List<CategoriaProvaDTO> listaDTO = mapperService
+		return mapperService
 				.converteListaCategoriaProvaParaListaCategoriaProvaDTO(listaCategoriaProva);
-		return listaDTO;
 	}
 
 	public Page<CategoriaProva> getAllByTitulo(@PathVariable String titulo, Pageable pageable){
@@ -85,7 +79,7 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(id.toString()));
 
 		List<Prova> listaProvasDaCategoria = cp.getProvas();
-		List<Long> lista = new ArrayList<Long>();
+		List<Long> lista = new ArrayList<>();
 
 		for(Prova p : listaProvasDaCategoria) {
 			lista.add(p.getId());
@@ -102,14 +96,12 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 		List<ProvaDTO> listaProvasDTO = mapperService.converteListDeProvaParaListDeProvaDTO(categoriaProva.getProvas());
 
-		CategoriaProvaComProvasDTO dto = new CategoriaProvaComProvasDTO(
+		return new CategoriaProvaComProvasDTO(
 				categoriaProva.getId(),
 				categoriaProva.getTitulo(),
 				categoriaProva.getDescricao(),
 				listaProvasDTO
 		);
-
-		return dto;
 	}
 
 

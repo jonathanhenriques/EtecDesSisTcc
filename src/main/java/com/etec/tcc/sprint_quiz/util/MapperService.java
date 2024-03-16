@@ -35,12 +35,10 @@ public class MapperService {
 //////////////////////PROVA///////////////////////////////////////////////////////////
 
     public List<ProvaDTO> converteListDeProvaParaListDeProvaDTO(List<Prova> provas){
-        List<ProvaDTO> listaProvas = provas.stream().map(p -> {
-            ProvaDTO dto = converteProvaParaProvaDTO(p);
-            return dto;
-        }).collect(Collectors.toList());
 
-        return listaProvas;
+        return provas.stream().map(p -> {
+            return converteProvaParaProvaDTO(p);
+        }).collect(Collectors.toList());
     }
 
     public ProvaDTO converteProvaParaProvaDTO(Prova prova) {
@@ -76,7 +74,7 @@ public class MapperService {
 
         Prova prova = provaRepository.findById(dto.id()).orElseThrow(ProvaNotFoundException::new);
         if(!prova.getQuestoes().isEmpty()){
-            return colocarQuestaoEmProva(prova, questoes, dto);
+            return colocarQuestaoEmProva(questoes, dto);
         }
 
         if(prova.getQuestoes().isEmpty() && !questoes.isEmpty()){
@@ -88,8 +86,8 @@ public class MapperService {
 
     }
 
-    public Prova colocarQuestaoEmProva(Prova prova, Set<Questao> questoes, ProvaComQuestaoDTO dto){
-        Prova provaComQuestoes = provaRepository.findAllFetch(dto.id()).get();
+    public Prova colocarQuestaoEmProva(Set<Questao> questoes, ProvaComQuestaoDTO dto){
+        Prova provaComQuestoes = provaRepository.findAllFetch(dto.id()).orElseThrow(ProvaNotFoundException::new);
         provaComQuestoes.setQuestoes(questoes);
         return provaComQuestoes;
     }
@@ -161,24 +159,22 @@ public class MapperService {
     //////////////////////////////QUESTAO/////////////////////////////////////////////////
 
     public List<QuestaoDTO> converteListDeQuestoesParaListDequestoesDTO(List<Questao> questoes){
-        List<QuestaoDTO> listaQuestoesDTO = questoes.stream().map(q -> {
-            QuestaoDTO dto = converteQuestaoParaQuestaoDTO(q);
-            return dto;
-        }).collect(Collectors.toList());
 
-        return listaQuestoesDTO;
+        return questoes.stream().map(q -> {
+            return converteQuestaoParaQuestaoDTO(q);
+        }).collect(Collectors.toList());
     }
 
 
     public QuestaoDTO converteQuestaoParaQuestaoDTO(Questao questao){
-        Set<AlternativaDTO> alternativasDTO = new HashSet<>();
+        Set<AlternativaDTO> alternativasDTO;
         if(!questao.getAlternativas().isEmpty()){
             alternativasDTO = converteSetDeAlternativasParaSetDeAlternativasDTO(questao.getAlternativas());
         }else {
             alternativasDTO = null;
         }
 
-        AlternativaDTO alternativaDTO = new AlternativaDTO();
+        AlternativaDTO alternativaDTO;
         if(questao.getResposta() != null){
             Alternativa alternativa = alternativaRepository
                     .findById(questao.getResposta())
@@ -204,12 +200,10 @@ public class MapperService {
     }
 
     public Set<QuestaoDTO> converteSetDeQuestoesParaSetDequestoesDTO(Set<Questao> questoes){
-        Set<QuestaoDTO> listaQuestoesDTO = questoes.stream().map(q -> {
-            QuestaoDTO dto = converteQuestaoParaQuestaoDTO(q);
-            return dto;
-        }).collect(Collectors.toSet());
 
-        return listaQuestoesDTO;
+        return questoes.stream().map(q -> {
+            return converteQuestaoParaQuestaoDTO(q);
+        }).collect(Collectors.toSet());
     }
 
 
@@ -230,7 +224,7 @@ public class MapperService {
 
 
     public Questao colocaAlternativasEmQuestao(Set<Alternativa> alternativas, QuestaoComAlternativaDTO dto){
-        Questao questaoComAlternativas = questaoRepository.findAllFetch(dto.id()).get();
+        Questao questaoComAlternativas = questaoRepository.findAllFetch(dto.id()).orElseThrow(QuestaoNotFoundException::new);
         questaoComAlternativas.setAlternativas(alternativas);
         return questaoComAlternativas;
     }
@@ -252,23 +246,17 @@ public class MapperService {
 
 
     public Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas){
-        Set<AlternativaDTO> listaAlternativasDTO = alternativas
-                .stream()
-                .map(a -> {
-                    return converteAlternativaParaAlternativaDTO(a);
-                }).collect(Collectors.toSet());
 
-        return listaAlternativasDTO;
+        return alternativas
+                .stream()
+                .map(this::converteAlternativaParaAlternativaDTO).collect(Collectors.toSet());
     }
 
     public List<AlternativaDTO> converteListDeAlternativasParaListDeAlternativasDTO(List<Alternativa> alternativas){
-        List<AlternativaDTO> listaAlternativasDTO = alternativas
-                .stream()
-                .map(a -> {
-                    return converteAlternativaParaAlternativaDTO(a);
-                }).collect(Collectors.toList());
 
-        return listaAlternativasDTO;
+        return alternativas
+                .stream()
+                .map(a -> converteAlternativaParaAlternativaDTO(a)).collect(Collectors.toList());
     }
 
     public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){

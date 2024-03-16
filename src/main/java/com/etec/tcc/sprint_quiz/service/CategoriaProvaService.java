@@ -3,7 +3,6 @@ package com.etec.tcc.sprint_quiz.service;
 import java.util.List;
 
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
-import com.etec.tcc.sprint_quiz.model.Prova;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
 import org.springframework.data.domain.Page;

@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-//import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
@@ -36,16 +33,13 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/alternativas")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AlternativaController {
 
-	@Autowired
-	private AlternativaService alternativaService;
-
-//    @Autowired
-//	private ObjectMapperUtils objectMapperUtils;
+	private final AlternativaService alternativaService;
 
 //	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
