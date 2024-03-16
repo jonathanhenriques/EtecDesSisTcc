@@ -1,11 +1,7 @@
 package com.etec.tcc.sprint_quiz.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,32 +78,6 @@ public class AlternativaController {
 		return ResponseEntity.ok(alternativaService.getById(id));
 	}
 
-	/**
-	 * Método que busca uma ou mais Alternativa por texto
-	 * 
-	 * @param texto - texto da Alternativa
-	 * 
-	 * @return ResponseEntity com o objeto <code>List<AlternativaDTO></code> e o
-	 *         HTTP status
-	 * 
-	 *         HTTP Status:
-	 * 
-	 *         200 - OK: Sucesso. 400 - Bad Request: Erro na Requisição!. 401 -
-	 *         unauthorized: Acesso Não Autorizado!. 500 - Server Errors: Erro na
-	 *         Aplicação!.
-	 * 
-	 */
-	@Operation(summary = "Obtem alternativas pelo texto da alternativa")
-	@GetMapping("/texto/{texto}")
-	public ResponseEntity<List<AlternativaDTO>> getAllByTexto(@PathVariable String texto) {
-		return ResponseEntity.ok(alternativaService.getAllByTexto(texto));
-	}
-
-//    @Operation(summary = "cria várias alternativas")
-//    @PostMapping("/listaAlternativas")
-//    public ResponseEntity<List<AlternativaDTO>> postListaAlternativa(@Valid @RequestBody List<Alternativa> alternativas) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(alternativaService.postListaAlternativa(alternativas));
-//    }
 
 	/**
 	 * Método que cria uma Alternativa.

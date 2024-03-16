@@ -2,11 +2,9 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +17,6 @@ import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
 import com.etec.tcc.sprint_quiz.repository.QuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
-import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +30,6 @@ public class AlternativaServiceImp implements AlternativaService {
 	private final MapperService mapperService;
 
 
-
-//	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
-
 	/**
 	 * @see AlternativaService#getAll()
 	 */
@@ -43,16 +37,8 @@ public class AlternativaServiceImp implements AlternativaService {
 	public Page<AlternativaDTO> getAll(Pageable pageable) {
 		Page<Alternativa> listaAlternativas = alternativaRepository.findAll(pageable);
 
-//		List<Alternativa> listaAlternativas = alternativaRepository.findAll();
 		List<AlternativaDTO> listaAlternativasDTO = mapperService
 				.converteListDeAlternativasParaListDeAlternativasDTO(listaAlternativas.getContent());
-//		List<AlternativaDTO> listaAlternativasDTO = listaAlternativas.getContent().stream().map(a -> {
-//			AlternativaDTO dto = new AlternativaDTO();
-//			dto.setId(a.getId());
-//			dto.setTexto(a.getTexto());
-//			dto.setFoto(a.getFoto());
-//			return dto;
-//		}).collect(Collectors.toList());
 
 		Page<AlternativaDTO> pageAlternativasDTO =
 				new PageImpl<>(listaAlternativasDTO, pageable, listaAlternativas.getTotalElements());
@@ -67,12 +53,8 @@ public class AlternativaServiceImp implements AlternativaService {
 	public AlternativaDTO getById(Long id) {
 
 
-		return alternativaRepository.findById(id).map(a -> {
-			AlternativaDTO dto = new AlternativaDTO();
-			dto.setTexto(a.getTexto());
-			dto.setFoto(a.getFoto());
-			return dto;
-		}).orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
+		return alternativaRepository.findById(id).map(mapperService::converteAlternativaParaAlternativaDTO)
+				.orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 
 	}
 
@@ -93,9 +75,6 @@ public class AlternativaServiceImp implements AlternativaService {
 		dto.setFoto(retorno.getFoto());
 
 		return dto;
-//		return ObjectMapperUtils.map(
-//				alternativaRepository.save(ObjectMapperUtils.map(alternativaDto, Alternativa.class)),
-//				AlternativaDTO.class);
 	}
 
 	/**
@@ -107,7 +86,17 @@ public class AlternativaServiceImp implements AlternativaService {
 		Alternativa a = alternativaRepository.findById(dto.getId())
 				.orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
 
-		return ObjectMapperUtils.map(alternativaRepository.save(a), AlternativaDTO.class);
+		Alternativa alternativa = new Alternativa();
+		alternativa.setTexto(dto.getTexto());
+		alternativa.setFoto(dto.getFoto());
+		Alternativa retorno = alternativaRepository.save(alternativa);
+
+		AlternativaDTO alternativaAtualizada = new AlternativaDTO();
+		alternativaAtualizada.setId(retorno.getId());
+		alternativaAtualizada.setTexto(retorno.getTexto());
+		alternativaAtualizada.setFoto(retorno.getFoto());
+
+		return alternativaAtualizada;
 
 	}
 
@@ -124,23 +113,15 @@ public class AlternativaServiceImp implements AlternativaService {
 	}
 
 	/**
-	 * @see AlternativaService#getAllByTexto(String)
-	 */
-	@Override
-	public List<AlternativaDTO> getAllByTexto(String texto) {
-		return ObjectMapperUtils.mapAll(alternativaRepository.findAllByTextoContainingIgnoreCase(texto), AlternativaDTO.class);
-	}
-
-	/**
-	 * @see AlternativaService#findById(Long) * @throws QuestaoNotFoundException
+	 * @see AlternativaService#removeAlternativaDeQuestao(Long questaoId, Long alternativaId) * @throws QuestaoNotFoundException
 	 * @throws AlternativaNotFoundException
 	 */
 	public void removeAlternativaDeQuestao(Long questaoId, Long alternativaId) {
 		Questao questao = questaoRepository.findById(questaoId)
 				.orElseThrow(() -> new QuestaoNotFoundException(questaoId.toString()));
 
-		alternativaRepository.findById(alternativaId)
-				.orElseThrow(() -> new AlternativaNotFoundException(alternativaId.toString()));
+		buscarOuFalhar(alternativaId);
+
 		List<Alternativa> listaAlternativas = new ArrayList<>(questao.getAlternativas());
 		Alternativa alternativaExcluir = new Alternativa();
 		for(int j = 0; j < questao.getAlternativas().size(); j++) {
@@ -156,48 +137,8 @@ public class AlternativaServiceImp implements AlternativaService {
 
 		}
 
-//		if (questao.getResposta().getId() == alternativaId)
-//			questao.setResposta(null);
-
-//		LOGGER.info("deletando da questaoId - " + questaoId + " a alternativaId" + alternativaId);
-
-//		alternativaRepository.deleteAlternativaFromQuestao(questaoId, alternativaId);
-//		LOGGER.info("excluindo relacionamento alternativa e questao lista...");
-
-//		alternativaRepository.deleteById(alternativaId);
-//		LOGGER.info("excluindo  alternativa - " + alternativaId);
-
 	}
 
-
-//	@Override
-//	public List<Alternativa> postListaAlternativa(List<Alternativa> alternativas) {
-//		Questao questao = questaoRepository.findById(alternativas.get(0).getQuestao().getId())
-//				.orElseThrow(() -> new RegraNegocioException(
-//						"Questão não encontrada | id:" + alternativas.get(0).getQuestao().getId()));
-//
-//		alternativas.forEach(a -> {
-//			questao.getAlternativas().add(a);
-//		});
-//
-//		alternativaRepository.saveAll(alternativas);
-//
-//		questaoService.putQuestao(questao);
-//		return alternativas;
-//	}
-
-//	public List<Alternativa> postListaAlternativasComQuestaoSalva(List<Alternativa> alternativas) {
-//		Questao questao = alternativas.get(0).getQuestao();
-//
-//		alternativas.forEach(a -> {
-//			questao.getAlternativas().add(a);
-//		});
-//
-//		alternativaRepository.saveAll(alternativas);
-//
-//		questaoService.putQuestao(questao);
-//		return alternativas;
-//	}
 
 
 

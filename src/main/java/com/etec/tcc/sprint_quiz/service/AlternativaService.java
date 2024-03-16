@@ -29,14 +29,6 @@ public interface AlternativaService {
 	AlternativaDTO getById(Long id);
 
 	/**
-	 * Retorna nenhuma,uma ou mais Alternativas filtradas por um Texto.
-	 * 
-	 * @param texto
-	 * @return <code>List<Alternativa></code> Alternativa
-	 */
-	List<AlternativaDTO> getAllByTexto(String texto);
-
-	/**
 	 * Método que salva uma Alternativa
 	 * 
 	 * @param alternativa
@@ -78,11 +70,6 @@ public interface AlternativaService {
 	 * @param id
 	 */
 	void deleteById(Long id);
-
-//	Set<AlternativaDTO> converteSetDeAlternativasParaSetDeAlternativasDTO(Set<Alternativa> alternativas);
-//
-//
-//	public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa);
 
 	Alternativa buscarOuFalhar(Long alternativaId);
 	
