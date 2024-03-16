@@ -74,6 +74,19 @@ public class QuestaoServiceImp implements QuestaoService {
 	}
 
 	@Override
+	public Questao findByIdFetch(Long id) {
+		return questaoRepository.findByIdFetch(id)
+				.orElseThrow(QuestaoNotFoundException::new);
+	}
+
+	@Override
+	public Optional<Questao> findByIdWithFetch(Long id) {
+		return questaoRepository.findByIdWithFetch(id);
+
+	}
+
+
+	@Override
 	public List<Questao> getAllByTexto(@PathVariable String texto) {
 		return questaoRepository.findAllByTextoContainingIgnoreCase(texto);
 	}
@@ -265,6 +278,8 @@ public class QuestaoServiceImp implements QuestaoService {
 		questaoRepository
 				.delete(questaoRepository.findById(id).orElseThrow(() -> new QuestaoNotFoundException(id.toString())));
 	}
+
+
 
 //    @Override
 //    @Transactional

@@ -2,11 +2,13 @@ package com.etec.tcc.sprint_quiz.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,5 +51,9 @@ public interface QuestaoService {
 //	List<QuestaoDTO> converteListDeQuestoesParaListDequestoesDTO(List<Questao> questoes);
 
 	void deleteQuestao(@PathVariable Long id);
+
+	Questao findByIdFetch(Long id);
+
+	Optional<Questao> findByIdWithFetch( Long id);
 
 }

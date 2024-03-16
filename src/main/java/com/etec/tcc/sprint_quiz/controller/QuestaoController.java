@@ -53,8 +53,9 @@ public class QuestaoController {
     @Operation(summary = "Obtem questoes por id")
     @GetMapping("/{id}")
     public ResponseEntity<Questao> getById(@PathVariable Long id) {
-    	return ResponseEntity.ok(questaoService.getById(id));
+    	return ResponseEntity.ok(questaoService.findByIdWithFetch(id).get());
     }
+
 
     @Operation(summary = "Obtem questoes pelo texto da questao")
     @GetMapping("/texto/{texto}")

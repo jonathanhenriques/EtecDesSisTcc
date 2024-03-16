@@ -29,6 +29,18 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long> {
     @Query("From Questao q JOIN FETCH q.alternativas JOIN FETCH q.categoria JOIN FETCH q.criador where q.id = :id")
     Optional<Questao> findAllFetch(@Param("id") Long id);
 
+    @Query("FROM Questao q JOIN FETCH  q.alternativas JOIN FETCH q.categoria JOIN FETCH q.criador" +
+            " JOIN FETCH q.provas p JOIN FETCH p.categoria JOIN FETCH p.questoes where q.id = :id")
+    Optional<Questao> findByIdFetch(@Param("id") Long id);
+
+    @Query("SELECT q FROM Questao q " +
+            "LEFT JOIN FETCH q.alternativas " +
+            "JOIN FETCH q.categoria " +
+            "JOIN FETCH q.criador c " +
+            "LEFT JOIN FETCH q.provas " +
+            "WHERE q.id = :id")
+    Optional<Questao> findByIdWithFetch(@Param("id") Long id);
+
 
 
 }

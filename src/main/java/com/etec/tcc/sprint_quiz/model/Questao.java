@@ -106,10 +106,11 @@ public class Questao {
 //	
 	@ManyToOne
 	@JoinColumn(name = "criador_id")
-//    @JsonIgnoreProperties({"email", "senha", "foto", "tipo", "provas", "questoes"})
+//    @JsonIgnoreProperties({ "senha", "foto", "tipo", "provas", "questoes"})
 //	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
 
+	@JsonIgnoreProperties({"questoes"})
 	@ManyToMany(mappedBy = "questoes")
 	private Set<Prova> provas = new HashSet<>();
 
