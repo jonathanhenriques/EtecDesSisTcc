@@ -6,6 +6,8 @@ import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
 import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,9 +49,9 @@ public class CategoriaProvaController {
 
     @Operation(summary = "Obtem  todas as categorias")
     @GetMapping
-    public ResponseEntity<List<CategoriaProvaDTO>> getAll(){
+    public ResponseEntity<Page<CategoriaProvaDTO>> getAll(Pageable pageable){
     	log.info("Obtendo todas as categoriaProva");
-    	return ResponseEntity.ok(categoriaProvaService.findAllDTO());
+    	return ResponseEntity.ok(categoriaProvaService.findAllDTO(pageable));
     }
     
 

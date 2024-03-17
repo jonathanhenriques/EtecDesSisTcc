@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
@@ -14,6 +15,7 @@ import com.etec.tcc.sprint_quiz.util.MapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,10 +49,19 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 
 	@Override
-	public List<CategoriaProvaDTO> findAllDTO() {
-		List<CategoriaProva> listaCategoriaProva = categoriaProvaRepository.findAll();
-		return mapperService
-				.converteListaCategoriaProvaParaListaCategoriaProvaDTO(listaCategoriaProva);
+	public Page<CategoriaProvaDTO> findAllDTO(Pageable pageable) {
+		Page<CategoriaProva> listaCategoriaProva = categoriaProvaRepository.findAll(pageable);
+
+
+		List<CategoriaProvaDTO> listaCategoriaProvaDTO = mapperService
+				.converteListaCategoriaProvaParaListaCategoriaProvaDTO(listaCategoriaProva.getContent());
+
+		Page<CategoriaProvaDTO> pageCategoriaProvaDTO =
+				new PageImpl<>(listaCategoriaProvaDTO, pageable, listaCategoriaProva.getTotalElements());
+
+
+		return pageCategoriaProvaDTO;
+
 	}
 
 
@@ -60,23 +71,36 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 		categoriaProva.setTitulo(categoria.getTitulo());
 		categoriaProva.setDescricao(categoria.getDescricao());
 
-		 return mapperService.converteCategoriaProvaParaCategoriaProvaDTO(categoriaProvaRepository.save(categoriaProva));
+		return mapperService.converteCategoriaProvaParaCategoriaProvaDTO(categoriaProvaRepository.save(categoriaProva));
 	}
 
 	public CategoriaProvaComProvasDTO put(@Valid @RequestBody CategoriaProvaDTO categoria) {
 		CategoriaProva categoriaProva = categoriaProvaRepository.findById(categoria.getId())
 				.orElseThrow(() -> new CategoriaProvaNotFoundException(categoria.getId().toString()));
-		List<ProvaDTO> provas = mapperService.converteListDeProvaParaListDeProvaDTO(provaService.findAllByCategoriaId(categoriaProva.getId()));
+		List<ProvaDTO> listaProvasDTO = mapperService.converteListDeProvaParaListDeProvaDTO(provaService.findAllByCategoriaId(categoriaProva.getId()));
 
-		return new CategoriaProvaComProvasDTO(
-				categoriaProva.getId(),
-				categoriaProva.getTitulo(),
-				categoriaProva.getDescricao(),
-				provas
 
-		);
+		CategoriaProvaComProvasDTO dto =  new CategoriaProvaComProvasDTO();
+		dto.setId(categoriaProva.getId());
+		dto.setTitulo(categoriaProva.getTitulo());
+		dto.setDescricao(categoriaProva.getDescricao());
+		dto.setProvas(listaProvasDTO);
+
+
+		if(categoria.getTitulo() != null)
+			dto.setTitulo(categoria.getTitulo());
+
+		if(categoria.getDescricao() != null)
+			dto.setDescricao(categoria.getDescricao());
+
+		CategoriaProva categoriaSalva =  categoriaProvaRepository
+				.save(mapperService.converteCategoriaProvaComProvasDTOParaCategoriaProva(dto));
+
+		return mapperService
+				.converteCategoriaProvaParaCategoriaProvaComProvasDTO(categoriaSalva);
+
 	}
- 
+
 
 	public void delete(@PathVariable Long id) {
 		CategoriaProva cp = categoriaProvaRepository.findById(id)
@@ -100,12 +124,13 @@ public class CategoriaProvaServiceImp implements CategoriaProvaService {
 
 		List<ProvaDTO> listaProvasDTO = mapperService.converteListDeProvaParaListDeProvaDTO(categoriaProva.getProvas());
 
-		return new CategoriaProvaComProvasDTO(
-				categoriaProva.getId(),
-				categoriaProva.getTitulo(),
-				categoriaProva.getDescricao(),
-				listaProvasDTO
-		);
+		CategoriaProvaComProvasDTO dto =  new CategoriaProvaComProvasDTO();
+		dto.setId(categoriaProva.getId());
+		dto.setTitulo(categoriaProva.getTitulo());
+		dto.setDescricao(categoriaProva.getDescricao());
+		dto.setProvas(listaProvasDTO);
+
+		return dto;
 	}
 
 

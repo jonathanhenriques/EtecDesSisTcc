@@ -7,10 +7,7 @@ import com.etec.tcc.sprint_quiz.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -66,6 +63,34 @@ public class MapperService {
         dto.setCategoria(categoriaProva.getId());
 
         return dto;
+
+    }
+
+    public Prova converteProvaDTOParaProva(ProvaDTO dto) {
+
+
+//        Prova provaRequest = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
+
+//        ProvaComQuestaoDTO pcdto = new ProvaComQuestaoDTO(prova.getId(), prova.getQuestoes());
+//        Prova provaRequest = converteProvaComQuestaoDTOToProva(pcdto);
+        Prova provaRequest = provaRepository.findById(dto.getId()).orElseThrow(ProvaNotFoundException::new);
+        Usuario usuario = usuarioRepository.findById(provaRequest.getUsuario().getId()).orElseThrow(UsuarioNotFoundException::new);
+//        UsuarioSimplificadoDTO usuarioDTO = converteUsuarioParaUsuarioSimplificadoDTO(usuario);
+
+        CategoriaProva categoriaProva = categoriaProvaRepository.findById(provaRequest.getCategoria().getId())
+                .orElseThrow(CategoriaProvaNotFoundException::new);
+
+
+        Prova prova = new Prova();
+        prova.setId(dto.getId());
+        prova.setNome(dto.getNome());
+        prova.setDescricao(dto.getDescricao());
+        prova.setDuracao(dto.getDuracao());
+        prova.setUsuario(usuario);
+        prova.setInstituicao(provaRequest.getInstituicao());
+        prova.setCategoria(categoriaProva);
+
+        return prova;
 
     }
 
@@ -327,6 +352,32 @@ public class MapperService {
         categoriaProva.setTitulo(categoriaProvaDTO.getTitulo());
         categoriaProva.setDescricao(categoriaProvaDTO.getDescricao());
         return categoriaProva;
+    }
+
+    public CategoriaProva converteCategoriaProvaComProvasDTOParaCategoriaProva(CategoriaProvaComProvasDTO dto){
+        CategoriaProva categoriaProva = new CategoriaProva();
+        categoriaProva.setId(dto.getId());
+        categoriaProva.setTitulo(dto.getTitulo());
+        categoriaProva.setDescricao(dto.getDescricao());
+
+        if(!Objects.isNull(dto.getProvas())) {
+            List<Prova> provas = dto.getProvas().stream().map(this::converteProvaDTOParaProva).toList();
+            categoriaProva.setProvas(provas);
+        }
+        return categoriaProva;
+    }
+
+    public CategoriaProvaComProvasDTO converteCategoriaProvaParaCategoriaProvaComProvasDTO(CategoriaProva categoria){
+        CategoriaProvaComProvasDTO dto = new CategoriaProvaComProvasDTO();
+        dto.setId(categoria.getId());
+        dto.setTitulo(categoria.getTitulo());
+        dto.setDescricao(categoria.getDescricao());
+        if(!Objects.isNull(categoria.getProvas())) {
+            List<ProvaDTO> provasDTO = converteListDeProvaParaListDeProvaDTO(categoria.getProvas());
+            dto.setProvas(provasDTO);
+        } else
+            dto.setProvas(null);
+        return dto;
     }
 
 
