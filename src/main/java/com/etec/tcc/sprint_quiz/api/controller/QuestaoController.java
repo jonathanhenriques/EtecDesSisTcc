@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.controller;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,7 +42,7 @@ public class QuestaoController {
     @Autowired
     private QuestaoService questaoService;
 
-    private final MapperService mapperService;
+    private final MapperAssembler mapperAssembler;
 
     @Operation(summary = "Obtem todas as questoes")
     @GetMapping
@@ -110,7 +110,7 @@ public class QuestaoController {
 
     @PutMapping("/questaoAlternativa")
     public Questao adicionarAlternativaEmQuestao(@RequestBody QuestaoComAlternativaDTO questao) {
-        Questao questaoRecuperada = mapperService.converteQuestaoComAlternativaDTOToQuestao(questao);
+        Questao questaoRecuperada = mapperAssembler.converteQuestaoComAlternativaDTOToQuestao(questao);
         return questaoService.adicionarAlternativaEmQuestao(questaoRecuperada);
     }
 

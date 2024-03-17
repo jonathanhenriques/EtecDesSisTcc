@@ -2,12 +2,10 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,10 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 //import com.etec.tcc.sprint_quiz.configuration.TesteConfigBd;
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;

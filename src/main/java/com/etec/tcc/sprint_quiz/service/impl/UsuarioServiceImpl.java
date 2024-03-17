@@ -2,18 +2,15 @@ package com.etec.tcc.sprint_quiz.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.etec.tcc.sprint_quiz.exception.*;
+import com.etec.tcc.sprint_quiz.api.exception.*;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.model.dto.*;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.repository.ProvaRepository;
-import com.etec.tcc.sprint_quiz.service.ProvaService;
-import com.etec.tcc.sprint_quiz.service.QuestaoService;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
@@ -58,7 +55,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 	private final CategoriaProvaRepository categoriaProvaRepository;
 
-	private final MapperService mapperService;
+	private final MapperAssembler mapperAssembler;
 
 	/**
 	 * Busca o usuário no banco e verifica se a senha passada e a do banco são
@@ -188,10 +185,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
 		UsuarioDTO dto = converteUsuarioParaUsuarioDTO(usuario);
 
-		List<QuestaoDTO> listaQuestoesDTO = mapperService.converteListDeQuestoesParaListDequestoesDTO(usuarioComQuestoes.getQuestoes());
+		List<QuestaoDTO> listaQuestoesDTO = mapperAssembler.converteListDeQuestoesParaListDequestoesDTO(usuarioComQuestoes.getQuestoes());
 		dto.setQuestoes(listaQuestoesDTO);
 
-		List<ProvaDTO> listaProvasDTO = mapperService.converteListDeProvaParaListDeProvaDTO(usuarioComProvas.getProvas());
+		List<ProvaDTO> listaProvasDTO = mapperAssembler.converteListDeProvaParaListDeProvaDTO(usuarioComProvas.getProvas());
 		dto.setProvas(listaProvasDTO);
 
 		return Optional.of(dto);
@@ -212,9 +209,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 		dto.setNome(usuario.getNome());
 		dto.setUsername(usuario.getUsername());
 
-		dto.setQuestoes(mapperService.converteListDeQuestoesParaListDequestoesDTO(usuario.getQuestoes()));
+		dto.setQuestoes(mapperAssembler.converteListDeQuestoesParaListDequestoesDTO(usuario.getQuestoes()));
 
-		dto.setProvas(mapperService.converteListDeProvaParaListDeProvaDTO(usuario.getProvas()));
+		dto.setProvas(mapperAssembler.converteListDeProvaParaListDeProvaDTO(usuario.getProvas()));
 
 		return dto;
 	}

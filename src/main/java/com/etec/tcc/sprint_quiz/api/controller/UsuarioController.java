@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.controller;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.etec.tcc.sprint_quiz.exception.SenhaInvalidaException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.SenhaInvalidaException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Role;
 import com.etec.tcc.sprint_quiz.model.Usuario;
 import com.etec.tcc.sprint_quiz.model.dto.RoleDTO;

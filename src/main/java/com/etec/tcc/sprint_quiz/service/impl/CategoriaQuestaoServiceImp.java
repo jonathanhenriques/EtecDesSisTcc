@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;

@@ -3,14 +3,14 @@ package com.etec.tcc.sprint_quiz.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.QuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
@@ -27,7 +27,7 @@ public class AlternativaServiceImp implements AlternativaService {
 
 	private final QuestaoRepository questaoRepository;
 
-	private final MapperService mapperService;
+	private final MapperAssembler mapperAssembler;
 
 
 	/**
@@ -37,7 +37,7 @@ public class AlternativaServiceImp implements AlternativaService {
 	public Page<AlternativaDTO> getAll(Pageable pageable) {
 		Page<Alternativa> listaAlternativas = alternativaRepository.findAll(pageable);
 
-		List<AlternativaDTO> listaAlternativasDTO = mapperService
+		List<AlternativaDTO> listaAlternativasDTO = mapperAssembler
 				.converteListDeAlternativasParaListDeAlternativasDTO(listaAlternativas.getContent());
 
 		Page<AlternativaDTO> pageAlternativasDTO =
@@ -53,7 +53,7 @@ public class AlternativaServiceImp implements AlternativaService {
 	public AlternativaDTO getById(Long id) {
 
 
-		return alternativaRepository.findById(id).map(mapperService::converteAlternativaParaAlternativaDTO)
+		return alternativaRepository.findById(id).map(mapperAssembler::converteAlternativaParaAlternativaDTO)
 				.orElseThrow(() -> new AlternativaNotFoundException(id.toString()));
 
 	}

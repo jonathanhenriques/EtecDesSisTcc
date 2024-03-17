@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 
+import com.etec.tcc.sprint_quiz.api.controller.ApplicationControllerAdvice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,13 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.ApiErrors;
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.ApiErrors;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 
 class ApplicationControllerAdviceTest {
 

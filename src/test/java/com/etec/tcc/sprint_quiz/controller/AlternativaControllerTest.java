@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.controller;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.etec.tcc.sprint_quiz.api.controller.AlternativaController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;

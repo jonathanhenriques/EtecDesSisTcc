@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.controller;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import io.swagger.v3.oas.annotations.Operation;

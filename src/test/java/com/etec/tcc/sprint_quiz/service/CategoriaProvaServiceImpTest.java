@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaProva;
 import com.etec.tcc.sprint_quiz.repository.CategoriaProvaRepository;
 import com.etec.tcc.sprint_quiz.service.impl.CategoriaProvaServiceImp;

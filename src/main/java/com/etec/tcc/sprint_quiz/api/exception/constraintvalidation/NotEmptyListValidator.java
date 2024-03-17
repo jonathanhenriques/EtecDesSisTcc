@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.exception.constraintvalidation;
+package com.etec.tcc.sprint_quiz.api.exception.constraintvalidation;
 
 import java.util.List;
 

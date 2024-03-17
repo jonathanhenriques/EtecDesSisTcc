@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.controller;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaResponse;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class ProvaController {
 //    @Autowired
 //    private CategoriaProvaRepository categoriaProvaRepository;
 
-    private final MapperService mapperService;
+    private final MapperAssembler mapperAssembler;
 
     @Operation(summary = "Obtem todas as provas")
     @GetMapping 
@@ -97,8 +97,8 @@ public class ProvaController {
     @PutMapping("/questaoProva")
     public ProvaResponse adicionandoQuestaoEmProva(@RequestBody ProvaComQuestaoDTO prova) {
 
-        Prova provaRecuperada = mapperService.converteProvaComQuestaoDTOToProva(prova);
-        return mapperService.converteToProvaResponse(provaRecuperada);
+        Prova provaRecuperada = mapperAssembler.converteProvaComQuestaoDTOToProva(prova);
+        return mapperAssembler.converteToProvaResponse(provaRecuperada);
     }
 
     @Operation(summary = "atualiza uma prova")

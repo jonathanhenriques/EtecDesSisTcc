@@ -1,10 +1,8 @@
-package com.etec.tcc.sprint_quiz.controller;
-
-import java.util.List;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaComProvasDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +30,7 @@ public class CategoriaProvaController {
  
     private final CategoriaProvaService categoriaProvaService;
 
-    private final MapperService mapperService;
+    private final MapperAssembler mapperAssembler;
     
 
     @Operation(summary = "Obtem categorias pelo id")

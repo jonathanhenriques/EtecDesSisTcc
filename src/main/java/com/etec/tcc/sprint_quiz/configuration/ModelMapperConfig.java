@@ -1,20 +1,16 @@
 package com.etec.tcc.sprint_quiz.configuration;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
 import com.etec.tcc.sprint_quiz.model.Questao;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;

@@ -4,13 +4,15 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
-import com.etec.tcc.sprint_quiz.exception.*;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.repository.*;
 import com.etec.tcc.sprint_quiz.service.AlternativaService;
 import com.etec.tcc.sprint_quiz.service.QuestaoService;
 import com.etec.tcc.sprint_quiz.service.UsuarioService;
-import com.etec.tcc.sprint_quiz.util.MapperService;
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class ProvaServiceImp implements ProvaService {
     @Autowired
     private AlternativaService alternativaService;
 
-    private final MapperService mapperService;
+    private final MapperAssembler mapperAssembler;
 
 
     public List<Prova> getAll() {

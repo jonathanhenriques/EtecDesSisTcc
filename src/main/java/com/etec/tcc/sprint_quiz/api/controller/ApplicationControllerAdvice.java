@@ -1,4 +1,4 @@
-package com.etec.tcc.sprint_quiz.controller;
+package com.etec.tcc.sprint_quiz.api.controller;
 
 import java.time.LocalDateTime;
 
@@ -9,16 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.ApiErrors;
-import com.etec.tcc.sprint_quiz.exception.CargoJaCadastradoException;
-import com.etec.tcc.sprint_quiz.exception.CargoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.ProvaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.QuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioJaCadastradoException;
-import com.etec.tcc.sprint_quiz.exception.UsuarioNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.AlternativaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.ApiErrors;
+import com.etec.tcc.sprint_quiz.api.exception.CargoJaCadastradoException;
+import com.etec.tcc.sprint_quiz.api.exception.CargoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.ProvaNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.QuestaoNotFoundException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioJaCadastradoException;
+import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 
 /**
  * Classe manipulador de erros que recebe os erros da aplicação

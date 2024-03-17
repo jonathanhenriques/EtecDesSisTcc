@@ -1,25 +1,13 @@
 package com.etec.tcc.sprint_quiz.util;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.etec.tcc.sprint_quiz.exception.AlternativaNotFoundException;
-import com.etec.tcc.sprint_quiz.exception.CategoriaQuestaoNotFoundException;
-import com.etec.tcc.sprint_quiz.model.Alternativa;
-import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
-import com.etec.tcc.sprint_quiz.model.Questao;
-import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
-import com.etec.tcc.sprint_quiz.model.dto.QuestaoDTO;
-import com.etec.tcc.sprint_quiz.repository.AlternativaRepository;
-import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 @Component
 public class ObjectMapperUtils {
 

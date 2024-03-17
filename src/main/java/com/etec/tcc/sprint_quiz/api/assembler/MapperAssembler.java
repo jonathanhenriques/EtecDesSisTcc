@@ -1,6 +1,6 @@
-package com.etec.tcc.sprint_quiz.util;
+package com.etec.tcc.sprint_quiz.api.assembler;
 
-import com.etec.tcc.sprint_quiz.exception.*;
+import com.etec.tcc.sprint_quiz.api.exception.*;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.model.dto.*;
 import com.etec.tcc.sprint_quiz.repository.*;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class MapperService {
+public class MapperAssembler {
 
     private final ProvaRepository provaRepository;
 
