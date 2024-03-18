@@ -71,28 +71,7 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
         return categoriaQuestaoRepository.findAllByDescricaoContainingIgnoreCase(descricao);
     }
 
-//    @Override
-//    public CategoriaQuestao postCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-//        return categoriaQuestaoRepository.save(categoria);
-//    }
-//
-//    @Override
-//    public CategoriaQuestao putCategoriaQuestao(@Valid @RequestBody CategoriaQuestao categoria){
-//        return categoriaQuestaoRepository.findById(categoria.getId())
-//                .map(c ->categoriaQuestaoRepository.save(categoria))
-//                .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + categoria.getId()));
-//    }
-//
-//    @Override
-//    public void deleteCategoriaQuestao(@PathVariable Long id){
-//         categoriaQuestaoRepository.findById(id)
-//                .map(c -> {
-//                    categoriaQuestaoRepository.delete(c);
-//                    return ResponseEntity.noContent().build();
-//                }).orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
-//
-//    }
-    
+
   @Override
   public CategoriaQuestao post(@Valid @RequestBody CategoriaQuestao categoria){
       return categoriaQuestaoRepository.save(categoria);
