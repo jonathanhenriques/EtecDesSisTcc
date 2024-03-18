@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,7 +16,7 @@ public interface CategoriaQuestaoService{
 
     CategoriaQuestao getById(Long id);
     
-    List<CategoriaQuestao> getAll();
+    Page<CategoriaQuestaoDTO> getAll(Pageable pageable);
 
     List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo);
 

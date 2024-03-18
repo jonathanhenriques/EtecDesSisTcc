@@ -2,10 +2,13 @@ package com.etec.tcc.sprint_quiz.api.controller;
 
 import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +33,16 @@ public class CategoriaQuestaoController {
         return ResponseEntity.ok(categoriaQuestaoService.getById(id));
     }
 
-    @Operation(summary = "Obtem categorias pela descricao da categoria")
-    @GetMapping("/descricao/{descricao}")
-    public ResponseEntity<List<CategoriaQuestao>> getAllByDescricao(@PathVariable("descricao") String descricao){
-        return ResponseEntity.ok(categoriaQuestaoService.getAllByDescricao(descricao));
-    }
+//    @Operation(summary = "Obtem categorias pela descricao da categoria")
+//    @GetMapping("/descricao/{descricao}")
+//    public ResponseEntity<List<CategoriaQuestao>> getAllByDescricao(@PathVariable("descricao") String descricao){
+//        return ResponseEntity.ok(categoriaQuestaoService.getAllByDescricao(descricao));
+//    }
 
     @Operation(summary = "Obtem todas as  categorias")
     @GetMapping
-    public ResponseEntity<List<CategoriaQuestao>> getAll(){
-        return ResponseEntity.ok(categoriaQuestaoService.getAll());
+    public ResponseEntity<Page<CategoriaQuestaoDTO>> getAll(Pageable pageable){
+        return ResponseEntity.ok(categoriaQuestaoService.getAll(pageable));
     }
 
     @Operation(summary = "Cadastra uma categoria")

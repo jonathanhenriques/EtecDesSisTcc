@@ -5,7 +5,14 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,25 +24,38 @@ import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
 
 
-    @Autowired
-    private CategoriaQuestaoRepository categoriaQuestaoRepository;
+    private final CategoriaQuestaoRepository categoriaQuestaoRepository;
+
+    private final MapperAssembler mapperAssembler;
+
+
 
     @Override
     public CategoriaQuestao getById(@PathVariable Long id) {
         return categoriaQuestaoRepository.findById(id)
                 .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
     }
-    
+
     @Override
-    public List<CategoriaQuestao> getAll(){
-        return categoriaQuestaoRepository.findAll();
-        		
+    public Page<CategoriaQuestaoDTO> getAll(Pageable pageable){
+        Page<CategoriaQuestao> listaCategoriaQuestao = categoriaQuestaoRepository.findAll(pageable);
+
+        List<CategoriaQuestaoDTO> listaCategoriaQuestaoDTO = mapperAssembler
+                .converteListaCategoriaQuestaoParaListaCategoriaQuestaoDTO(listaCategoriaQuestao.getContent());
+
+        Page<CategoriaQuestaoDTO> pageCategoriaQuestaoDTO =
+                new PageImpl<>(listaCategoriaQuestaoDTO, pageable, listaCategoriaQuestao.getTotalElements());
+
+
+        return pageCategoriaQuestaoDTO;
+
     }
-    
+
 
     @Override
     public List<CategoriaQuestao> getByTitutlo(@PathVariable("titulo") String titulo){

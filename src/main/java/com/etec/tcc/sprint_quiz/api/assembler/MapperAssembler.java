@@ -384,4 +384,23 @@ public class MapperAssembler {
 
     //////////////////////////////////CATEOGIRAPROVA///////////////////////////////////
 
+
+    /////////////////////////////////CATEGORIAQUESTAO///////////////////////////////////
+
+    public List<CategoriaQuestaoDTO> converteListaCategoriaQuestaoParaListaCategoriaQuestaoDTO
+            (List<CategoriaQuestao> listaCategoriaQuestao){
+
+        return listaCategoriaQuestao.stream().map(categoriaQuestao -> {
+            CategoriaQuestaoDTO dto = new CategoriaQuestaoDTO();
+            dto.setId(categoriaQuestao.getId());
+            dto.setTitulo(categoriaQuestao.getTitulo());
+            dto.setDescricao(categoriaQuestao.getDescricao());
+            return dto;
+
+        }).collect(Collectors.toList());
+    }
+
+
+    /////////////////////////////////CATEGORIAQUESTAO///////////////////////////////////
+
 }
