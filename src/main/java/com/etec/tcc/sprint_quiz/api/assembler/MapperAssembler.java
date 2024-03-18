@@ -400,6 +400,76 @@ public class MapperAssembler {
         }).collect(Collectors.toList());
     }
 
+    public CategoriaQuestaoDTO converteCategoriaQuestaoParaCategoriaQuestaoDTO(CategoriaQuestao categoriaQuestao){
+        CategoriaQuestaoDTO dto = new CategoriaQuestaoDTO();
+        dto.setId(categoriaQuestao.getId());
+        dto.setTitulo(categoriaQuestao.getTitulo());
+        dto.setDescricao(categoriaQuestao.getDescricao());
+        return dto;
+    }
+
+
+
+        public CategoriaQuestao converteCategoriaQuestaoDTOParaCategoriaQuestao(CategoriaQuestaoDTO categoriaQuestaoDTO){
+        CategoriaQuestao categoriaQuestao = new CategoriaQuestao();
+        categoriaQuestao.setId(categoriaQuestaoDTO.getId());
+        categoriaQuestao.setTitulo(categoriaQuestaoDTO.getTitulo());
+        categoriaQuestao.setDescricao(categoriaQuestaoDTO.getDescricao());
+        return categoriaQuestao;
+    }
+
+    public CategoriaQuestao converteCategoriaQuestaoComQuestoesDTOParaCategoriaQuestao(CategoriaQuestaoComQuestoesDTO dto){
+        CategoriaQuestao categoriaQuestao = new CategoriaQuestao();
+        categoriaQuestao.setId(dto.getId());
+        categoriaQuestao.setTitulo(dto.getTitulo());
+        categoriaQuestao.setDescricao(dto.getDescricao());
+
+        if(!Objects.isNull(dto.getQuestoes())) {
+            List<Questao> questoes = dto.getQuestoes().stream().map(questaoDTO -> {
+                Questao questao = new Questao();
+                questao = questaoRepository.getById(questaoDTO.getId());
+                return questao;
+            }).toList();
+            categoriaQuestao.setQuestoes(questoes);
+        }
+        return categoriaQuestao;
+    }
+
+    public CategoriaQuestaoComQuestoesDTO converteCategoriaQuestaoParaCategoriaQuestaoComQuestoesDTO(CategoriaQuestao categoria){
+        CategoriaQuestaoComQuestoesDTO dto = new CategoriaQuestaoComQuestoesDTO();
+        dto.setId(categoria.getId());
+        dto.setTitulo(categoria.getTitulo());
+        dto.setDescricao(categoria.getDescricao());
+        if(!Objects.isNull(categoria.getQuestoes())) {
+            List<QuestaoSemAlternativasDTO> listaCategoriaQuestaoSemAlternativas = new ArrayList<>();
+            List<QuestaoSemAlternativasDTO> QuestoesSemAlternativaDTO = converteListaDeQuestoesParaListDeQuestoesSemAlternativaDTO(categoria.getQuestoes());
+            dto.setQuestoes(QuestoesSemAlternativaDTO);
+        } else
+            dto.setQuestoes(null);
+        return dto;
+    }
+
+    List<QuestaoSemAlternativasDTO> converteListaDeQuestoesParaListDeQuestoesSemAlternativaDTO(List<Questao> listaQuestoes){
+        return listaQuestoes.stream().map(q -> {
+            QuestaoSemAlternativasDTO dto = new QuestaoSemAlternativasDTO();
+            dto.setId(q.getId());
+            dto.setDificuldade(q.getDificuldade());
+            dto.setImagem(q.getImagem());
+            dto.setInstituicao(q.getInstituicao());
+            dto.setCriadorId(q.getCriador().getId());
+            dto.setTexto(q.getTexto());
+           if(q.getResposta() != null){
+               Alternativa resposta = alternativaRepository.findById(q.getResposta()).orElseThrow(AlternativaNotFoundException::new);
+               AlternativaDTO alternativaDTO = converteAlternativaParaAlternativaDTO(resposta);
+               dto.setResposta(alternativaDTO);
+           }else
+               dto.setResposta(null);
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+
+
 
     /////////////////////////////////CATEGORIAQUESTAO///////////////////////////////////
 

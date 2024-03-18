@@ -2,6 +2,7 @@ package com.etec.tcc.sprint_quiz.api.controller;
 
 import com.etec.tcc.sprint_quiz.api.exception.CategoriaQuestaoNotFoundException;
 import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoComQuestoesDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
 import com.etec.tcc.sprint_quiz.repository.CategoriaQuestaoRepository;
 import com.etec.tcc.sprint_quiz.service.CategoriaQuestaoService;
@@ -29,7 +30,7 @@ public class CategoriaQuestaoController {
 
     @Operation(summary = "Obtem categoria pelo id")
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaQuestao> getById(@PathVariable Long id) {
+    public ResponseEntity<CategoriaQuestaoComQuestoesDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaQuestaoService.getById(id));
     }
 

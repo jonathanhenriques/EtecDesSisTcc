@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoComQuestoesDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import com.etec.tcc.sprint_quiz.model.CategoriaQuestao;
 
 public interface CategoriaQuestaoService{
 
-    CategoriaQuestao getById(Long id);
+    CategoriaQuestaoComQuestoesDTO getById(Long id);
     
     Page<CategoriaQuestaoDTO> getAll(Pageable pageable);
 

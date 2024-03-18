@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaProvaDTO;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoComQuestoesDTO;
 import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,11 @@ public class CategoriaQuestaoServiceImp implements CategoriaQuestaoService {
 
 
     @Override
-    public CategoriaQuestao getById(@PathVariable Long id) {
-        return categoriaQuestaoRepository.findById(id)
+    public CategoriaQuestaoComQuestoesDTO getById(@PathVariable Long id) {
+        CategoriaQuestao categoriaQuestao = categoriaQuestaoRepository.findById(id)
                 .orElseThrow(() -> new CategoriaQuestaoNotFoundException("id:" + id));
+
+        return mapperAssembler.converteCategoriaQuestaoParaCategoriaQuestaoComQuestoesDTO(categoriaQuestao);
     }
 
     @Override
