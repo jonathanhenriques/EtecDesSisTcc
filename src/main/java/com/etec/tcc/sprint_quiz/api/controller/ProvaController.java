@@ -5,10 +5,13 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.etec.tcc.sprint_quiz.model.dto.ProvaComQuestaoDTO;
+import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaResponse;
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,15 +49,17 @@ public class ProvaController {
 
     @Operation(summary = "Obtem todas as provas")
     @GetMapping 
-    public ResponseEntity<List<Prova>> getAll() {
-        return ResponseEntity.ok(provaService.getAll());
+    public ResponseEntity<Page<ProvaResponse>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(provaService.getAll(pageable));
     }
 
 
     @Operation(summary = "Obtem uma prova pelo seu id")
     @GetMapping("/{id}")
-    public ResponseEntity<Prova> getByIdProva(@PathVariable Long id) {
-        return ResponseEntity.ok(provaService.getById(id));
+    public ResponseEntity<ProvaResponse> getByIdProva(@PathVariable Long id) {
+        Prova prova = provaService.getById(id);
+        ProvaResponse provaResponse = mapperAssembler.converteToProvaResponse(prova);
+        return ResponseEntity.ok(provaResponse);
     }
 
     @Operation(summary = "Obtem todas as provas pelo id do usuario")
@@ -90,7 +95,7 @@ public class ProvaController {
 
     @Operation(summary = "Cadastra uma prova")
     @PostMapping
-    public ResponseEntity<Prova> postProva(@Valid @RequestBody Prova prova) {
+    public ResponseEntity<ProvaDTO> postProva(@Valid @RequestBody ProvaDTO prova) {
         return ResponseEntity.ok(provaService.post(prova));
     }
 
@@ -98,7 +103,8 @@ public class ProvaController {
     public ProvaResponse adicionandoQuestaoEmProva(@RequestBody ProvaComQuestaoDTO prova) {
 
         Prova provaRecuperada = mapperAssembler.converteProvaComQuestaoDTOToProva(prova);
-        return mapperAssembler.converteToProvaResponse(provaRecuperada);
+        Prova provaSalva = provaService.adicionarQuestaoEmProva(provaRecuperada);
+        return mapperAssembler.converteToProvaResponse(provaSalva);
     }
 
     @Operation(summary = "atualiza uma prova")

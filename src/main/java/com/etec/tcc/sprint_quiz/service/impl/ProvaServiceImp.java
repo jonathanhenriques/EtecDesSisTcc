@@ -1,20 +1,20 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
-import java.util.*;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-
 import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.api.exception.ProvaNotFoundException;
 import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.*;
+import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
+import com.etec.tcc.sprint_quiz.model.dto.ProvaResponse;
 import com.etec.tcc.sprint_quiz.repository.*;
-import com.etec.tcc.sprint_quiz.service.AlternativaService;
-import com.etec.tcc.sprint_quiz.service.QuestaoService;
-import com.etec.tcc.sprint_quiz.service.UsuarioService;
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.etec.tcc.sprint_quiz.service.ProvaService;
 
@@ -23,44 +23,28 @@ import com.etec.tcc.sprint_quiz.service.ProvaService;
 @Transactional
 public class ProvaServiceImp implements ProvaService {
 
-    @Autowired
-    private ProvaRepository provaRepository;
+    private final ProvaRepository provaRepository;
 
-    @Autowired
-    private CategoriaProvaRepository categoriaProvaRepository;
+    private final CategoriaProvaRepository categoriaProvaRepository;
 
-    @Autowired
-    private CategoriaQuestaoRepository categoriaQuestaoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    private final UsuarioService usuarioService;
-
-
-    @Autowired
-    private QuestaoRepository questaoRepository;
-
-    @Autowired
-    private QuestaoService questaoService;
-
-    @Autowired
-    private AlternativaRepository alternativaRepository;
-
-    @Autowired
-    private AlternativaService alternativaService;
+    private final UsuarioRepository usuarioRepository;
 
     private final MapperAssembler mapperAssembler;
 
 
-    public List<Prova> getAll() {
-        return provaRepository.findAll();
+    public Page<ProvaResponse> getAll(Pageable pageable) {
+        Page<Prova> provas = provaRepository.findAll(pageable);
+        List<ProvaResponse> response = provas.getContent().stream().map(provaResponse -> {
+            return mapperAssembler.converteToProvaResponse(provaResponse);
+        }).collect(Collectors.toList());
+
+        Page<ProvaResponse> pageProvaResponse =
+                new PageImpl<>(response, pageable, provas.getTotalElements());
+        return pageProvaResponse;
+
     }
 
     public Prova getById(Long id) {
-//    	Optional<Prova> prova = provaRepository.findById(id);
-//    	return prova.orElseThrow(() -> new ProvaNotFoundException(id.toString()));
-//    	
         return provaRepository.findById(id)
                 .orElseThrow(() -> new ProvaNotFoundException(id.toString()));
     }
@@ -90,76 +74,37 @@ public class ProvaServiceImp implements ProvaService {
 
     @Override
 //    @Transactional
-    public Prova post(Prova prova) {
-
-        usuarioRepository.findById(prova.getUsuario().getId())
-                .orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
-
-//      return categoriaProvaRepository.findById(prova.getCategoria().getId())
-//      .map(c -> ResponseEntity.ok(provaRepository.save(prova)))
-//      .orElseThrow(() -> new CategoriaProvaNotFoundException());
+    public ProvaDTO post(ProvaDTO dto) {
 
 
-        categoriaProvaRepository.findById(prova.getCategoria().getId()).orElseThrow(CategoriaProvaNotFoundException::new);
-//        if(!prova.getQuestoes().isEmpty()) {
-//            Set<QuestaoProva> listaQuestaoProva = prova.getQuestoes();
-//            questaoProvaRepository.saveAll(listaQuestaoProva);
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario()).orElseThrow(UsuarioNotFoundException::new);
+
+        CategoriaProva categoriaProva = categoriaProvaRepository.findById(dto.getIdCategoria())
+                .orElseThrow(CategoriaProvaNotFoundException::new);
+
+
+        Prova provaRequest = new Prova();
+        provaRequest.setId(dto.getId());
+        provaRequest.setNome(dto.getNome());
+        provaRequest.setDescricao(dto.getDescricao());
+        provaRequest.setDuracao(dto.getDuracao());
+        provaRequest.setUsuario(usuario);
+        provaRequest.setInstituicao(dto.getInstituicao());
+        provaRequest.setCategoria(categoriaProva);
 //        }
 
-        return provaRepository.save(prova);
+        return mapperAssembler.converteProvaParaProvaDTO(provaRepository.save(provaRequest));
 
-//    	if(usuarioRepository.existsById(prova.getUsuario().getId())) {
-//
-//    		return categoriaProvaRepository.findById(prova.getCategoria().getId())
-//                    .map(c -> provaRepository.save(prova))
-//                    .orElseThrow(() -> new CategoriaProvaNotFoundException());
-//
-//    	} else
-//    		throw new UsuarioNotFoundException(prova.getUsuario().getId().toString());
 
     }
 
-    public Prova adicionarQuestaoEmProva(Prova prova) {
-
-//        List<Questao> listaQuestoes = new ArrayList<>(prova.getQuestoes());
-//        List<Questao> novasQuestoes = new ArrayList<>();
-//        for(int j = 0; j < prova.getQuestoes().size();j++) {
-//            Optional<Questao> questao = Optional.ofNullable(listaQuestoes.get(j));
-//            questao = questaoRepository.findById(questao.get().getId());
-//            novasQuestoes.add(questao.get());
-//        }
-//
-//        prova.setQuestoes(new HashSet<>(novasQuestoes));
-
-//        String nomeProva = provaRepository.findById(prova.getId()).get().getNome();
-//        prova.setNome(nomeProva);
-
-
-
-        provaRepository.save(prova);
-
-
-
-        return  prova;
-//        return post(prova);
-    }
 
     @Override
     public Prova put(Prova prova) {
-//        if (categoriaProvaRepository.existsById(prova.getCategoria().getId()))
-//            return ResponseEntity.ok(provaRepository.save(prova));
-//
-//        throw new RegraNegocioException("Categoria não encontrada! | id:" + prova.getCategoria().getId());
-
         categoriaProvaRepository.findById(prova.getCategoria().getId()).orElseThrow(() -> new ProvaNotFoundException());
         usuarioRepository.findById(prova.getUsuario().getId()).orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
 
         return provaRepository.save(prova);
-
-
-//        return categoriaProvaRepository.findById(prova.getCategoria().getId())
-//                .map(c -> ok(provaRepository.save(prova))
-//                .orElseThrow(() -> new CategoriaProvaNotFoundException())); 
 
     }
 
@@ -168,47 +113,6 @@ public class ProvaServiceImp implements ProvaService {
         Prova prova =  provaRepository.findById(id).orElseThrow(() -> new ProvaNotFoundException(id.toString()));
 
          provaRepository.delete((prova));
-
     }
-
-
-//    private List<QuestaoProva> converterLista(List<QuestaoProvaDTO> lista, Prova prova) {
-////        if (lista.isEmpty())
-////            throw new RegraNegocioException("Não é possível criar uma prova sem questões!");
-//
-//        return lista
-//                .stream()
-//                .map(dto -> {
-//                    QuestaoProva questaoProva = new QuestaoProva();
-//                    Questao questao = questaoRepository.findById(dto.getQuestao())
-//                            .orElseThrow(() -> new RegraNegocioException("código da questao não encontrado!" + dto.getQuestao()));
-//                    questaoProva.setQuestao(questao);
-//                    questaoProva.setProva(prova);
-//                    return questaoProva;
-//
-//                }).collect(Collectors.toList());
-//    }
-//
-//    private List<QuestaoProva> trocaIdQuestaoProva(List<QuestaoProva> lista, Prova prova) {
-////        List<Prova> pp = provaRepository.findAll();
-//        return lista
-//                .stream()
-//                .map(questaoProva -> {
-////                    questaoProvaRepository.findById(questaoProva.getId())
-////                            .orElseThrow(() -> new RegraNegocioException("código da questão não encontrado! " + questaoProva.getQuestao().getId()));
-//                    questaoProva.getProva().setId(prova.getId());
-//                    return questaoProva;
-//                }).collect(Collectors.toList());
-//    }
-
-
-
-
-
-
-
-
-
-
 
 }

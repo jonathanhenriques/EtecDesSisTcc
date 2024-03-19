@@ -53,14 +53,6 @@ public class Prova {
     private Usuario usuario;
 
 
-//    @OneToMany(mappedBy = "prova")
-//    @JsonIgnoreProperties("prova")
-//    private List<QuestaoProva> questoes;
-
-//    @OneToMany()
-//    @JsonIgnoreProperties("prova")
-//    private Set<Questao> questoes;
-
     @JsonIgnoreProperties({"provas"})
     @ManyToMany
     @JoinTable(
@@ -70,23 +62,12 @@ public class Prova {
     private Set<Questao> questoes = new HashSet<>();
 
 
-
-
-//    @OneToMany(fetch = FetchType.EAGER)
-////	@OneToMany(orphanRemoval = true)
-//    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
-//    @JoinTable(name = "tb_questao_prova", joinColumns = @JoinColumn(name = "prova_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"))
-////	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
-//    private Set<Questao> questoes;
-
-
 //    @Schema(name = "Etec JK")
     private String instituicao;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"descritivo", "provas"})
-//    @JsonIgnoreProperties(value = "provas", allowSetters = true, allowGetters = true)
+    @JsonIgnoreProperties({"provas"})
     private CategoriaProva categoria;
 
 

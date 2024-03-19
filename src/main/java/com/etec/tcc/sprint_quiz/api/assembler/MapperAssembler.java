@@ -58,9 +58,9 @@ public class MapperAssembler {
         dto.setNome(provaRequest.getNome());
         dto.setDescricao(provaRequest.getDescricao());
         dto.setDuracao(provaRequest.getDuracao());
-        dto.setUsuario(usuarioDTO.id());
+        dto.setIdUsuario(usuarioDTO.id());
         dto.setInstituicao(provaRequest.getInstituicao());
-        dto.setCategoria(categoriaProva.getId());
+        dto.setIdCategoria(categoriaProva.getId());
 
         return dto;
 
@@ -122,6 +122,60 @@ public class MapperAssembler {
         return prova;
     }
 
+//
+//    public ProvaResponse converteToProvaResponse(Prova prova) {
+//
+//
+////        Prova provaRequest = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
+//
+////        ProvaComQuestaoDTO pcdto = new ProvaComQuestaoDTO(prova.getId(), prova.getQuestoes());
+////        Prova provaRequest = converteProvaComQuestaoDTOToProva(pcdto);
+//        Prova provaRequest = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
+//        Usuario usuario = usuarioRepository.findById(provaRequest.getUsuario().getId()).orElseThrow(UsuarioNotFoundException::new);
+//        UsuarioSimplificadoDTO usuarioDTO = converteUsuarioParaUsuarioSimplificadoDTO(usuario);
+//
+//        List<QuestaoDTO> listaQuestoesDTO = new ArrayList<>();
+//        List<Questao> listaDeQuestoes = new ArrayList<>(provaRequest.getQuestoes());
+//        if(!provaRequest.getQuestoes().isEmpty()){
+//            //provaQuestaoDTO
+//
+//            for (int j = 0; j < provaRequest.getQuestoes().size(); j++) {
+//                Questao questao = questaoRepository.findById(listaDeQuestoes.get(j).getId()).orElseThrow(QuestaoNotFoundException::new);
+//                QuestaoDTO questaoDTO = converteQuestaoParaQuestaoDTO(questao);
+//                //
+//                questaoDTO.setIdCategoriaQuestao(questao.getCategoria().getId());
+//
+//                questaoDTO.setCriadorId(questao.getCriador().getId());
+//
+//                listaQuestoesDTO.add(questaoDTO);
+//
+//            }
+//        }
+//        //provaQuestaoDTO
+//
+//
+//
+//        CategoriaProva categoriaProva = categoriaProvaRepository.findById(provaRequest.getCategoria().getId())
+//                .orElseThrow(CategoriaProvaNotFoundException::new);
+//
+//
+//        return new ProvaResponse(
+//                provaRequest.getId(),
+//                provaRequest.getNome(),
+//                provaRequest.getDescricao(),
+//                provaRequest.getDuracao(),
+//                provaRequest.getInstituicao(),
+//                usuarioDTO,
+////                provaRequest.getQuestoes(),
+//                listaQuestoesDTO,
+//                categoriaProva.getId()
+//        );
+//    }
+
+    public Prova converteProvaResponseParaProva(ProvaResponse provaResponse){
+
+        return provaRepository.getReferenceById(provaResponse.getId());
+    }
 
     public ProvaResponse converteToProvaResponse(Prova prova) {
 
@@ -134,7 +188,7 @@ public class MapperAssembler {
         Usuario usuario = usuarioRepository.findById(provaRequest.getUsuario().getId()).orElseThrow(UsuarioNotFoundException::new);
         UsuarioSimplificadoDTO usuarioDTO = converteUsuarioParaUsuarioSimplificadoDTO(usuario);
 
-        Set<QuestaoDTO> listaQuestoesDTO = new HashSet<>();
+        List<QuestaoDTO> listaQuestoesDTO = new ArrayList<>();
         List<Questao> listaDeQuestoes = new ArrayList<>(provaRequest.getQuestoes());
         if(!provaRequest.getQuestoes().isEmpty()){
             //provaQuestaoDTO
@@ -159,22 +213,19 @@ public class MapperAssembler {
                 .orElseThrow(CategoriaProvaNotFoundException::new);
 
 
-        return new ProvaResponse(
-                provaRequest.getId(),
-                provaRequest.getNome(),
-                provaRequest.getDescricao(),
-                provaRequest.getDuracao(),
-                provaRequest.getInstituicao(),
-                usuarioDTO,
-//                provaRequest.getQuestoes(),
-                listaQuestoesDTO,
-                categoriaProva.getId()
-        );
+          ProvaResponse provaResponse = new ProvaResponse();
+        provaResponse.setId(provaRequest.getId());
+        provaResponse.setNome(provaRequest.getNome());
+        provaResponse.setDescricao(provaRequest.getDescricao());
+        provaResponse.setDuracao(provaRequest.getDuracao());
+        provaResponse.setInstituicao(provaRequest.getInstituicao());
+
+        provaResponse.setUsuario(converteUsuarioParaUsuarioSimplificadoDTO(usuario));
+        provaResponse.setQuestao(listaQuestoesDTO);
+        provaResponse.setCategoriaProva(categoriaProva.getId());
+
+        return provaResponse;
     }
-
-
-
-
 
 
 
