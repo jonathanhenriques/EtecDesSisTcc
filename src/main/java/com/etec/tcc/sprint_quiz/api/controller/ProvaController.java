@@ -36,14 +36,7 @@ import io.swagger.v3.oas.annotations.Operation;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProvaController {
 
-//    @Autowired
-//    private ProvaRepository provaRepository;
-
-    @Autowired
-    private ProvaService provaService;
-
-//    @Autowired
-//    private CategoriaProvaRepository categoriaProvaRepository;
+    private final ProvaService provaService;
 
     private final MapperAssembler mapperAssembler;
 
@@ -97,14 +90,6 @@ public class ProvaController {
     @PostMapping
     public ResponseEntity<ProvaDTO> postProva(@Valid @RequestBody ProvaDTO prova) {
         return ResponseEntity.ok(provaService.post(prova));
-    }
-
-    @PutMapping("/questaoProva")
-    public ProvaResponse adicionandoQuestaoEmProva(@RequestBody ProvaComQuestaoDTO prova) {
-
-        Prova provaRecuperada = mapperAssembler.converteProvaComQuestaoDTOToProva(prova);
-        Prova provaSalva = provaService.adicionarQuestaoEmProva(provaRecuperada);
-        return mapperAssembler.converteToProvaResponse(provaSalva);
     }
 
     @Operation(summary = "atualiza uma prova")
