@@ -57,58 +57,18 @@ public class Questao {
 
 	private DificuldadeQuestao dificuldade;
 
-//	@OneToMany
-//    @OneToMany(mappedBy = "questao", orphanRemoval = true)
-//    @Cascade(CascadeType.REFRESH)
-//    @OneToOne(cascade = CascadeType.REMOVE, optional = true)
-//    @JoinColumn(name = "tb_alternativa_id")
-//    @OneToMany(mappedBy = "questao")
-//	@OneToMany
-//	@JoinColumn(name = "alternativa_id")
-//	@JoinColumn
-
-//	@OneToMany(fetch = FetchType.EAGER)
-////	@OneToMany(orphanRemoval = true)
-//	@Cascade(CascadeType.MERGE)
-//	@JoinTable(name = "tb_questao_alternativas", joinColumns = @JoinColumn(name = "questao_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "alternativa_id", referencedColumnName = "id"))
-////	@JsonIgnoreProperties(value = { "questao" }, allowSetters = true)
-//	private Set<Alternativa> alternativas;
-//    private Alternativa alternativas;
-
-
-
 	@OneToMany
 	private List<Alternativa> alternativas;
 
-	// @NotBlank(message = "O atributo resposta não pode ser nullo nem vazio!")
-//    @Size(max = 1)
-//    @OneToOne(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "respostaid")
-//    @Cascade(CascadeType.ALL)
-//	@OneToOne(cascade = javax.persistence.CascadeType.ALL, orphanRemoval = true)
-//	@JoinColumn(name = "resposta_id", referencedColumnName = "id")
-//	@JsonProperty("respostaId")
-//	@OneToOne()
-//	private Alternativa resposta;
-
-
-
-
 	private Long resposta;
-
-//    private String resposta;
 
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
-//    @JsonIgnoreProperties({"descritivo", "questoes"})
 	@JsonIgnoreProperties(value = { "questoes" })
 	private CategoriaQuestao categoria;
 
-//	
 	@ManyToOne
 	@JoinColumn(name = "criador_id")
-//    @JsonIgnoreProperties({ "senha", "foto", "tipo", "provas", "questoes"})
-//	@JsonIgnoreProperties(value = "questoes", allowSetters = true)
 	private Usuario criador;
 
 	@JsonIgnoreProperties({"questoes"})

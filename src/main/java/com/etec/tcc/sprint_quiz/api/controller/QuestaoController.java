@@ -56,46 +56,29 @@ public class QuestaoController {
     }
 
 
-    @Operation(summary = "Obtem questoes pelo texto da questao")
-    @GetMapping("/texto/{texto}")
-    public ResponseEntity<List<Questao>> getAllByTexto(@PathVariable String texto) {
-        return ResponseEntity.ok(questaoService.getAllByTexto(texto));
-    }
 
-    @Operation(summary = "Obtem questoes  pela instituicao da questao")
-    @GetMapping("/instituicao/{instituicao}")
-    public ResponseEntity<List<Questao>> getAllByInstituicao(@PathVariable String instituicao) {
-        return ResponseEntity.ok(questaoService.getAllByInstituicao(instituicao));
-    }
+//    @Operation(summary = "Obtem questoes  pelo ano da questao")
+//    @GetMapping("/ano/{ano}")
+//    public ResponseEntity<List<Questao>> findAllByAno(@PathVariable
+//                                                      @DateTimeFormat(
+//                                                              iso = DateTimeFormat.ISO.DATE)
+//                                                              LocalDate ano) {
+//        return ResponseEntity.ok(questaoService.findAllByAno(ano));
+//    }
 
-    @Operation(summary = "Obtem questoes  pelo ano da questao")
-    @GetMapping("/ano/{ano}")
-    public ResponseEntity<List<Questao>> findAllByAno(@PathVariable
-                                                      @DateTimeFormat(
-                                                              iso = DateTimeFormat.ISO.DATE)
-                                                              LocalDate ano) {
-        return ResponseEntity.ok(questaoService.findAllByAno(ano));
-    }
+//    @Operation(summary = "Obtem questoes entre um periodo inicial e final")
+//    @GetMapping("/ano/entre/{anoInicial}/{anoFinal}")
+//    public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
+//        return ResponseEntity.ok(questaoService.findAllByAnoInicialFinal(anoInicial, anoFinal));
+//    }
 
-    @Operation(summary = "Obtem questoes entre um periodo inicial e final")
-    @GetMapping("/ano/entre/{anoInicial}/{anoFinal}")
-    public ResponseEntity<List<Questao>> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal) {
-        return ResponseEntity.ok(questaoService.findAllByAnoInicialFinal(anoInicial, anoFinal));
-    }
-
-    @Operation(summary = "Obtem questoes pelo anteriores a um periodo")
-    @GetMapping("/ano/antes/{ano}")
-    public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable @DateTimeFormat(
-            iso = DateTimeFormat.ISO.DATE)
-            LocalDate ano) {
-        return ResponseEntity.ok(questaoService.findAllByAntesAno(ano));
-    }
-
-    @Operation(summary = "Obtem questoes pelo id do criador da questão")
-    @GetMapping("/criador/{id}")
-    public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long id){
-//        return questaoService.getQuestoesByCriadorId(id);
-        return ResponseEntity.ok(questaoService.getQuestoesByCriadorId(id));    }
+//    @Operation(summary = "Obtem questoes pelo anteriores a um periodo")
+//    @GetMapping("/ano/antes/{ano}")
+//    public ResponseEntity<List<Questao>> findAllByAntesAno(@PathVariable @DateTimeFormat(
+//            iso = DateTimeFormat.ISO.DATE)
+//            LocalDate ano) {
+//        return ResponseEntity.ok(questaoService.findAllByAntesAno(ano));
+//    }
 
 
     @Operation(summary = "Cadastra uma questao")
@@ -113,12 +96,6 @@ public class QuestaoController {
         QuestaoDTO questaoDTO = mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRecuperada);
         return questaoService.adicionarAlternativaEmQuestao(questaoDTO);
     }
-
-//    @Operation(summary = "Cadastra uma questao com alternativas")
-//    @PutMapping("/questaoComAlternativas")
-//    public ResponseEntity<Questao> postQuestaoComAlternativas(@RequestBody Questao questao){
-//        return ResponseEntity.ok(questaoService.salvarQuestaoComAlternativa(questao));
-//    }
 
     @Operation(summary = "Atualiza uma questao")
     @PutMapping

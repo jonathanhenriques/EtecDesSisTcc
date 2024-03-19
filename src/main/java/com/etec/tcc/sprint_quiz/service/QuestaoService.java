@@ -44,14 +44,6 @@ public interface QuestaoService {
 
 	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
 
-//	Questao converteQuestaoComAlternativaDTOToQuestao(QuestaoComAlternativaDTO dto);
-//
-//	QuestaoDTO converteQuestaoParaQuestaoDTO(Questao questao);
-//
-//	Set<QuestaoDTO> converteSetDeQuestoesParaSetDequestoesDTO(Set<Questao> questoes);
-//
-//	List<QuestaoDTO> converteListDeQuestoesParaListDequestoesDTO(List<Questao> questoes);
-
 	void deleteQuestao(@PathVariable Long id);
 
 	Questao findByIdFetch(Long id);
