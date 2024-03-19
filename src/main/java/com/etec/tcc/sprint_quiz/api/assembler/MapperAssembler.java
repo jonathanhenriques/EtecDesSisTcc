@@ -193,7 +193,7 @@ public class MapperAssembler {
 
     public QuestaoDTO converteQuestaoParaQuestaoDTO(Questao questao){
         List<AlternativaDTO> alternativasDTO;
-        if(!questao.getAlternativas().isEmpty()){
+        if(questao.getAlternativas() != null){
             alternativasDTO = converteListDeAlternativasParaListDeAlternativasDTO(questao.getAlternativas());
         }else {
             alternativasDTO = null;
@@ -221,6 +221,37 @@ public class MapperAssembler {
                 questao.getCriador().getId()
 
         );
+
+    }
+
+    public Questao converteQuestaoDTOParaQuestao(QuestaoDTO questaoDTO){
+        List<Alternativa> alternativas = new ArrayList<>();
+        if(questaoDTO.getAlternativas() != null){
+            for(int j = 0; j < questaoDTO.getAlternativas().size(); j++){
+                Alternativa alternativaBuscada = alternativaRepository.getReferenceById(questaoDTO.getAlternativas().get(j).getId());
+                alternativas.add(alternativaBuscada);
+            }
+
+//             alternativas = converteListDeAlternativasDTOParaListDeAlternativas(questaoDTO.getAlternativas());
+        }else {
+            alternativas = null;
+        }
+
+
+
+        Questao questao = new Questao();
+        questao.setId(questaoDTO.getId());
+        questao.setInstituicao(questaoDTO.getInstituicao());
+        questao.setImagem(questaoDTO.getImagem());
+        questao.setTexto(questaoDTO.getTexto());
+        questao.setDificuldade(questaoDTO.getDificuldade());
+        questao.setAlternativas(alternativas);
+        CategoriaQuestao categoria = categoriaQuestaoRepository.getReferenceById(questaoDTO.getIdCategoriaQuestao());
+        questao.setCategoria(categoria);
+        Usuario usuario = usuarioRepository.getReferenceById(questaoDTO.getCriadorId());
+        questao.setCriador(usuario);
+
+        return questao;
 
     }
 
@@ -284,13 +315,29 @@ public class MapperAssembler {
                 .map(a -> converteAlternativaParaAlternativaDTO(a)).collect(Collectors.toList());
     }
 
+    public List<Alternativa> converteListDeAlternativasDTOParaListDeAlternativas(List<AlternativaDTO> alternativasDTO){
+
+        return alternativasDTO
+                .stream()
+                .map(this::converteAlternativaDTOParaAlternativa).collect(Collectors.toList());
+    }
+
     public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
-        alternativaRepository.findById(alternativa.getId());
+        alternativaRepository.findById(alternativa.getId()).orElseThrow(AlternativaNotFoundException::new);
         AlternativaDTO dto = new AlternativaDTO();
         dto.setId(alternativa.getId());
         dto.setFoto(alternativa.getFoto());
         dto.setTexto(alternativa.getTexto());
         return dto;
+    }
+
+    public Alternativa converteAlternativaDTOParaAlternativa(AlternativaDTO alternativaDTO){
+        Alternativa alternativa = alternativaRepository
+                .findById(alternativaDTO.getId()).orElseThrow(AlternativaNotFoundException::new);
+        alternativa.setId(alternativaDTO.getId());
+        alternativa.setFoto(alternativaDTO.getFoto());
+        alternativa.setTexto(alternativaDTO.getTexto());
+        return alternativa;
     }
 
 

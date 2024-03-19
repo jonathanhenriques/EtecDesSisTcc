@@ -5,9 +5,15 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import com.etec.tcc.sprint_quiz.model.Alternativa;
+import com.etec.tcc.sprint_quiz.model.dto.CategoriaQuestaoDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,36 +39,41 @@ import com.etec.tcc.sprint_quiz.util.ObjectMapperUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class QuestaoServiceImp implements QuestaoService {
 
-	@Autowired
-	private QuestaoRepository questaoRepository;
+	private final QuestaoRepository questaoRepository;
 
-	@Autowired
-	private CategoriaQuestaoRepository categoriaQuestaoRepository;
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	@Autowired
-	private AlternativaRepository alternativaRepository;
+	private final CategoriaQuestaoRepository categoriaQuestaoRepository;
 
-	@Autowired
+	private final UsuarioRepository usuarioRepository;
+
+	private final AlternativaRepository alternativaRepository;
+
 	@Lazy
-	private AlternativaService alternativaService;
+	private final AlternativaService alternativaService;
+
+	private final MapperAssembler mapperAssembler;
 
 
-	@Autowired
-	private ObjectMapperUtils objectMapperUtils;
+
 
 //	private static final Logger LOGGER = LoggerFactory.getLogger(TesteConfigBd.class);
 
 	@Override
-	public List<QuestaoDTO> getAll() {
-		List<Questao> lista = questaoRepository.findAll();
-		List<QuestaoDTO> listaDTO = (List<QuestaoDTO>) objectMapperUtils.map(lista, QuestaoDTO.class);//VERIFICAR SE FUNCIONA
-		return listaDTO;
+	public Page<QuestaoDTO> getAll(Pageable pageable) {
+		Page<Questao> lista = questaoRepository.findAll(pageable);
+		List<QuestaoDTO> listaDTO = mapperAssembler.converteListDeQuestoesParaListDequestoesDTO(lista.getContent());
+		Page<QuestaoDTO> pageListaQuestaoDTO = new PageImpl<>(listaDTO, pageable, lista.getTotalElements());
+
+		Page<QuestaoDTO> pageCategoriaQuestaoDTO =
+				new PageImpl<>(listaDTO, pageable, lista.getTotalElements());
+
+
+
+		return pageCategoriaQuestaoDTO;
 	}
 
 	@Override
@@ -116,8 +127,8 @@ public class QuestaoServiceImp implements QuestaoService {
 	}
 
 	@Override
-	public Questao postQuestao(@Valid @RequestBody Questao questao) {
-		usuarioRepository.findById(questao.getCriador().getId())
+	public QuestaoDTO postQuestao(@Valid @RequestBody QuestaoDTO questao) {
+		usuarioRepository.findById(questao.getCriadorId())
 				.orElseThrow(() -> new UsuarioNotFoundException());
 //						questao.getCriador().getId().toString()));
 
@@ -148,9 +159,12 @@ public class QuestaoServiceImp implements QuestaoService {
 //
 //		questao.setAlternativas(listaAlternativasConvertidas);
 
-		return categoriaQuestaoRepository.findById(questao.getCategoria().getId())
-				.map(c -> questaoRepository.save(questao))
-				.orElseThrow(() -> new CategoriaQuestaoNotFoundException(questao.getCategoria().getId().toString()));
+		return categoriaQuestaoRepository.findById(questao.getIdCategoriaQuestao())
+				.map(c -> {
+					Questao questaoRequest = mapperAssembler.converteQuestaoDTOParaQuestao(questao);
+					QuestaoDTO questaoResponse = mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRepository.save(questaoRequest));
+					return questaoResponse;
+				}).orElseThrow(CategoriaQuestaoNotFoundException::new);
 
 	}
 
@@ -163,10 +177,11 @@ public class QuestaoServiceImp implements QuestaoService {
 //	}
 
 	@Transactional
-	public Questao adicionarAlternativaEmQuestao(Questao questao) {
+	public QuestaoDTO adicionarAlternativaEmQuestao(QuestaoDTO questao) {
 
-		List<Alternativa> listaAlternativas = new ArrayList<>(questao.getAlternativas());
-		Questao questaoDoBanco = questaoRepository.findById(questao.getId()).orElseThrow(QuestaoNotFoundException::new);
+		Questao questaoRequest = mapperAssembler.converteQuestaoDTOParaQuestao(questao);
+		List<Alternativa> listaAlternativas = new ArrayList<>(questaoRequest.getAlternativas());
+		Questao questaoDoBanco = questaoRepository.findById(questaoRequest.getId()).orElseThrow(QuestaoNotFoundException::new);
 //		List<Alternativa> converteAlternativasQuestao = new ArrayList<>(questaoDoBanco.getAlternativas());
 //		int quantidadeAlternativas = listaAlternativas.size() + converteAlternativasQuestao.size();
 //
@@ -182,33 +197,32 @@ public class QuestaoServiceImp implements QuestaoService {
 			alternativa = alternativaRepository.findById(alternativa.get().getId());
 			novasAlternativas.add(alternativa.get());
 		}
-		questao.setAlternativas(null);
+		questaoRequest.setAlternativas(null);
 //		List<Alternativa> listaAlternativasSalvar = new HashSet<>(novasAlternativas);
-		questao.setAlternativas(novasAlternativas);
+		questaoRequest.setAlternativas(novasAlternativas);
 
-		String textoQuestao = questaoRepository.findById(questao.getId()).get().getTexto();
-		questao.setTexto(textoQuestao);
+		String textoQuestao = questaoRepository.findById(questaoRequest.getId()).get().getTexto();
+		questaoRequest.setTexto(textoQuestao);
+		QuestaoDTO dto = mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRequest);
 
-		return postQuestao(questao);
+		return postQuestao(dto);
 	}
 
 
 	@Override
 	public QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO dto) {
-		questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
-		for (AlternativaDTO a : dto.getAlternativas()) {
-			alternativaRepository.findById(a.getId()).orElseThrow(() -> new AlternativaNotFoundException(a.getId().toString()));
+		Questao questaoBanco = questaoRepository.findById(dto.getId()).orElseThrow(() -> new QuestaoNotFoundException(dto.getId().toString()));
+		List<Alternativa> listaAlternativa = new ArrayList<>();
+		if(questaoBanco.getAlternativas() != null){
+			listaAlternativa = questaoBanco.getAlternativas();
 		}
+//		}
 
-//		Alternativa resposta =  alternativaRepository.findById(dto.getResposta().getId()).orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
-//		Questao questaoRequest = modelMapper.map(dto, Questao.class);
-		Questao questaoRequest = objectMapperUtils.map(dto, Questao.class);////////
-//		questaoRequest.setResposta(resposta);
-//		questaoRepository.save(questaoRequest);
-		QuestaoDTO dtoResponse = objectMapperUtils.map(questaoRepository.save(questaoRequest), QuestaoDTO.class);
-//		dtoResponse.setResposta(modelMapper.map(resposta, AlternativaDTO.class));
+		Questao questaoRequest = mapperAssembler.converteQuestaoDTOParaQuestao(dto);
+		questaoRequest = questaoRepository.save(questaoRequest);
 
-		return dtoResponse;
+		return mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRequest);
+
 
 	}
 

@@ -9,6 +9,8 @@ import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,18 +38,15 @@ import io.swagger.v3.oas.annotations.Operation;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuestaoController {
 
-    @Autowired
-    private QuestaoRepository questaoRepository;
 
-    @Autowired
-    private QuestaoService questaoService;
+    private final QuestaoService questaoService;
 
     private final MapperAssembler mapperAssembler;
 
     @Operation(summary = "Obtem todas as questoes")
     @GetMapping
-    public ResponseEntity<List<Questao>> getAll() {
-        return ResponseEntity.ok(questaoRepository.findAll());
+    public ResponseEntity<Page<QuestaoDTO>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(questaoService.getAll(pageable));
     }
 
     @Operation(summary = "Obtem questoes por id")
@@ -96,22 +95,23 @@ public class QuestaoController {
     @GetMapping("/criador/{id}")
     public ResponseEntity<List<Questao>> getQuestoesByCriadorId(@PathVariable Long id){
 //        return questaoService.getQuestoesByCriadorId(id);
-        return ResponseEntity.ok(questaoRepository.findAllByCriadorId(id));    }
+        return ResponseEntity.ok(questaoService.getQuestoesByCriadorId(id));    }
 
 
     @Operation(summary = "Cadastra uma questao")
     @PostMapping
-    public ResponseEntity<Questao> postQuestao(@Valid @RequestBody
+    public ResponseEntity<QuestaoDTO> postQuestao(@Valid @RequestBody
 //                                                       @DateTimeFormat(
 //                                                                  iso = DateTimeFormat.ISO.DATE)
-                                                       Questao questao) {
+                                                       QuestaoDTO questao) {
         return ResponseEntity.status(HttpStatus.CREATED).body(questaoService.postQuestao(questao));
     }
 
     @PutMapping("/questaoAlternativa")
-    public Questao adicionarAlternativaEmQuestao(@RequestBody QuestaoComAlternativaDTO questao) {
+    public QuestaoDTO adicionarAlternativaEmQuestao(@RequestBody QuestaoComAlternativaDTO questao) {
         Questao questaoRecuperada = mapperAssembler.converteQuestaoComAlternativaDTOToQuestao(questao);
-        return questaoService.adicionarAlternativaEmQuestao(questaoRecuperada);
+        QuestaoDTO questaoDTO = mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRecuperada);
+        return questaoService.adicionarAlternativaEmQuestao(questaoDTO);
     }
 
 //    @Operation(summary = "Cadastra uma questao com alternativas")

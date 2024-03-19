@@ -20,20 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestaoDTO {
-
-//	private Long id;
-//	private String instituicao;
-//	@CreationTimestamp
-//	private LocalDate ano;
-//	private String imagem;
-//	@NotBlank(message = "texto {campo.texto.notBlank.obrigatorio}")
-//	@Size(min = 1, max = 1000, message = "texto {campo.texto.sizeMax} 1000")
-//	private String texto;
-//	private DificuldadeQuestao dificuldade;
-//	private Set<AlternativaDTO> alternativas;
-//	private Alternativa resposta;
-//	private CategoriaQuestao categoria;
-//	private Usuario criador;
 	
 	private Long id;
 	private String instituicao;
