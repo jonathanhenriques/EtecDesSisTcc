@@ -1,6 +1,6 @@
 package com.etec.tcc.sprint_quiz.service.impl;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import com.etec.tcc.sprint_quiz.api.exception.CategoriaProvaNotFoundException;
@@ -9,6 +9,7 @@ import com.etec.tcc.sprint_quiz.api.exception.UsuarioNotFoundException;
 import com.etec.tcc.sprint_quiz.model.*;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.ProvaResponse;
+import com.etec.tcc.sprint_quiz.model.dto.UsuarioSimplificadoDTO;
 import com.etec.tcc.sprint_quiz.repository.*;
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class ProvaServiceImp implements ProvaService {
     private final CategoriaProvaRepository categoriaProvaRepository;
 
     private final UsuarioRepository usuarioRepository;
+
+    private final QuestaoRepository questaoRepository;
 
     private final MapperAssembler mapperAssembler;
 
@@ -100,11 +103,20 @@ public class ProvaServiceImp implements ProvaService {
 
 
     @Override
-    public Prova put(Prova prova) {
-        categoriaProvaRepository.findById(prova.getCategoria().getId()).orElseThrow(() -> new ProvaNotFoundException());
-        usuarioRepository.findById(prova.getUsuario().getId()).orElseThrow(() -> new UsuarioNotFoundException(prova.getUsuario().getId().toString()));
+    public ProvaResponse put(ProvaDTO dto) {
+        CategoriaProva categoriaProva = categoriaProvaRepository.findById(dto.getIdCategoria()).orElseThrow(() -> new ProvaNotFoundException());
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario()).orElseThrow(() -> new UsuarioNotFoundException(dto.getIdUsuario().toString()));
 
-        return provaRepository.save(prova);
+        Prova provaRequest = new Prova();
+        provaRequest.setId(dto.getId());
+        provaRequest.setNome(dto.getNome());
+        provaRequest.setDescricao(dto.getDescricao());
+        provaRequest.setDuracao(dto.getDuracao());
+        provaRequest.setUsuario(usuario);
+        provaRequest.setInstituicao(dto.getInstituicao());
+        provaRequest.setCategoria(categoriaProva);
+
+        return mapperAssembler.converteToProvaResponse(provaRepository.save(provaRequest));
 
     }
 
@@ -113,6 +125,25 @@ public class ProvaServiceImp implements ProvaService {
         Prova prova =  provaRepository.findById(id).orElseThrow(() -> new ProvaNotFoundException(id.toString()));
 
          provaRepository.delete((prova));
+    }
+
+    public Prova adicionarQuestaoEmProva(Prova prova) {
+
+        List<Questao> listaQuestoes = new ArrayList<>(prova.getQuestoes());
+        List<Questao> novasQuestoes = new ArrayList<>();
+        for(int j = 0; j < prova.getQuestoes().size();j++) {
+            Optional<Questao> questao = Optional.ofNullable(listaQuestoes.get(j));
+            questao = questaoRepository.findById(questao.get().getId());
+            novasQuestoes.add(questao.get());
+        }
+        Prova provaSalvar = provaRepository.findById(prova.getId()).orElseThrow(ProvaNotFoundException::new);
+        provaSalvar.setQuestoes(null);
+        Set<Questao> listaQuestoesSalvar = new HashSet<>(novasQuestoes);
+        provaSalvar.setQuestoes(listaQuestoesSalvar);
+
+//        String nomeProva = provaRepository.findById(prova.getId()).get().getNome();
+//        provaSalvar.setNome(nomeProva);
+        return provaRepository.save(provaSalvar);
     }
 
 }

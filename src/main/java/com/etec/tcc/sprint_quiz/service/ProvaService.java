@@ -29,9 +29,11 @@ public interface ProvaService{
 
     ProvaDTO post( ProvaDTO prova);
 
-    Prova put(Prova prova);
+    ProvaResponse put(ProvaDTO prova);
 
     void delete(Long id);
+
+    Prova adicionarQuestaoEmProva(Prova prova);
     
     
 }

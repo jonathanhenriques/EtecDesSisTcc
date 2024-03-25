@@ -94,7 +94,7 @@ public class ProvaController {
 
     @Operation(summary = "atualiza uma prova")
     @PutMapping
-    public ResponseEntity<Prova> putProva(@Valid @RequestBody Prova prova){
+    public ResponseEntity<ProvaResponse> putProva(@Valid @RequestBody ProvaDTO prova){
     	return ResponseEntity.ok(provaService.put(prova));
     }
 
@@ -107,6 +107,11 @@ public class ProvaController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+
+    @PutMapping("/questaoProva")
+    public Prova adicionandoQuestaoEmProva(@RequestBody Prova prova) {
+        return provaService.adicionarQuestaoEmProva(prova);
+    }
 
 
 

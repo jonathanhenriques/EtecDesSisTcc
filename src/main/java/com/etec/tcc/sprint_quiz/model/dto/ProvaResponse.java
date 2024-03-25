@@ -13,7 +13,7 @@ public class ProvaResponse{
         String descricao;
         Integer duracao;
         String instituicao;
-        UsuarioSimplificadoDTO usuario;
+        Long usuario;
         @JsonIgnoreProperties({"criadorId","idCategoriaQuestao","resposta","alternativas","dificuldade","imagem","texto","instituicao"})
         List<QuestaoDTO> questoes;
         Long categoriaProva;

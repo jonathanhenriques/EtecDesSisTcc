@@ -220,7 +220,7 @@ public class MapperAssembler {
         provaResponse.setDuracao(provaRequest.getDuracao());
         provaResponse.setInstituicao(provaRequest.getInstituicao());
 
-        provaResponse.setUsuario(converteUsuarioParaUsuarioSimplificadoDTO(usuario));
+        provaResponse.setUsuario(usuario.getId());
         provaResponse.setQuestoes(listaQuestoesDTO);
         provaResponse.setCategoriaProva(categoriaProva.getId());
 
@@ -376,20 +376,26 @@ public class MapperAssembler {
     public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
         alternativaRepository.findById(alternativa.getId()).orElseThrow(AlternativaNotFoundException::new);
         AlternativaDTO dto = new AlternativaDTO();
-        dto.setId(alternativa.getId());
+        if(alternativa.getId() != null)
+            dto.setId(alternativa.getId());
+        else
+            dto.setId(null);
         dto.setFoto(alternativa.getFoto());
         dto.setTexto(alternativa.getTexto());
-        dto.setResposta(alternativa.getResposta());
+        dto.setIsResposta(alternativa.getIsResposta());
         return dto;
     }
 
     public Alternativa converteAlternativaDTOParaAlternativa(AlternativaDTO alternativaDTO){
         Alternativa alternativa = alternativaRepository
                 .findById(alternativaDTO.getId()).orElseThrow(AlternativaNotFoundException::new);
-        alternativa.setId(alternativaDTO.getId());
+        if(alternativaDTO.getId() != null)
+            alternativa.setId(alternativaDTO.getId());
+        else
+            alternativa.setId(null);
         alternativa.setFoto(alternativaDTO.getFoto());
         alternativa.setTexto(alternativaDTO.getTexto());
-        alternativa.setResposta(alternativaDTO.getResposta());
+        alternativa.setIsResposta(alternativaDTO.getIsResposta());
         return alternativa;
     }
 

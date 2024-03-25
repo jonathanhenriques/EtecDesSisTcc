@@ -36,7 +36,7 @@ public class Alternativa {
 	private String foto;
 
 
-	@Column(name = "resposta", columnDefinition = "BOOLEAN DEFAULT FALSE")
+	@Column(name = "isResposta", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean isResposta;
 
 //	public Alternativa(AlternativaDTO dto) {
