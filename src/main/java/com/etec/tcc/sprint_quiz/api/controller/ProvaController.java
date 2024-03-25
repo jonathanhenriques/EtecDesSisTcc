@@ -109,8 +109,10 @@ public class ProvaController {
 
 
     @PutMapping("/questaoProva")
-    public Prova adicionandoQuestaoEmProva(@RequestBody Prova prova) {
-        return provaService.adicionarQuestaoEmProva(prova);
+    public ProvaResponse adicionandoQuestaoEmProva(@RequestBody ProvaComQuestaoDTO prova) {
+        Prova provaRequest = mapperAssembler.converteProvaComQuestaoDTOToProva(prova);
+        Prova provaResponse = provaService.adicionarQuestaoEmProva(provaRequest);
+        return mapperAssembler.converteToProvaResponse(provaResponse);
     }
 
 

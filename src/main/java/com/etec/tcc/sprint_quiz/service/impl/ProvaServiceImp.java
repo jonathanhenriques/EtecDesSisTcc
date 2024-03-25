@@ -129,6 +129,7 @@ public class ProvaServiceImp implements ProvaService {
 
     public Prova adicionarQuestaoEmProva(Prova prova) {
 
+
         List<Questao> listaQuestoes = new ArrayList<>(prova.getQuestoes());
         List<Questao> novasQuestoes = new ArrayList<>();
         for(int j = 0; j < prova.getQuestoes().size();j++) {
