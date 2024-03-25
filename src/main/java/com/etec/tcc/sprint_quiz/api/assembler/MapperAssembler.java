@@ -221,7 +221,7 @@ public class MapperAssembler {
         provaResponse.setInstituicao(provaRequest.getInstituicao());
 
         provaResponse.setUsuario(converteUsuarioParaUsuarioSimplificadoDTO(usuario));
-        provaResponse.setQuestao(listaQuestoesDTO);
+        provaResponse.setQuestoes(listaQuestoesDTO);
         provaResponse.setCategoriaProva(categoriaProva.getId());
 
         return provaResponse;

@@ -1,6 +1,5 @@
 package com.etec.tcc.sprint_quiz.model.dto;
 
-import com.etec.tcc.sprint_quiz.model.Questao;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -16,6 +15,6 @@ public class ProvaResponse{
         String instituicao;
         UsuarioSimplificadoDTO usuario;
         @JsonIgnoreProperties({"criadorId","idCategoriaQuestao","resposta","alternativas","dificuldade","imagem","texto","instituicao"})
-        List<QuestaoDTO> questao;
+        List<QuestaoDTO> questoes;
         Long categoriaProva;
 }

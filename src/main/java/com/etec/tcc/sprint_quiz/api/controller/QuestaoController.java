@@ -51,8 +51,10 @@ public class QuestaoController {
 
     @Operation(summary = "Obtem questoes por id")
     @GetMapping("/{id}")
-    public ResponseEntity<Questao> getById(@PathVariable Long id) {
-    	return ResponseEntity.ok(questaoService.findByIdWithFetch(id).get());
+    public ResponseEntity<QuestaoDTO> getById(@PathVariable Long id) {
+        Questao questao = questaoService.findByIdWithFetch(id).get();
+        QuestaoDTO dto = mapperAssembler.converteQuestaoParaQuestaoDTO(questao);
+    	return ResponseEntity.ok(dto);
     }
 
 
