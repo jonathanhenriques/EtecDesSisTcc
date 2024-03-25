@@ -1,11 +1,7 @@
 package com.etec.tcc.sprint_quiz.model;
 
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
@@ -39,10 +35,14 @@ public class Alternativa {
 //    @Schema(name = "https://imgur.com/9q3tXhG")
 	private String foto;
 
-	public Alternativa(AlternativaDTO dto) {
-		this.id = Objects.isNull(dto.getId()) ?  null :  dto.getId();
-		this.texto = dto.getTexto();
-		this.foto = dto.getFoto();
-	}
+
+	@Column(name = "resposta", columnDefinition = "BOOLEAN DEFAULT FALSE")
+	private Boolean isResposta;
+
+//	public Alternativa(AlternativaDTO dto) {
+//		this.id = Objects.isNull(dto.getId()) ?  null :  dto.getId();
+//		this.texto = dto.getTexto();
+//		this.foto = dto.getFoto();
+//	}
 
 }

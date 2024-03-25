@@ -34,13 +34,14 @@ public class AlternativaDTO {
 	@Size(max = 1000)
 	private String texto;
 	private String foto;
+	private Boolean isResposta;
 
-	public AlternativaDTO(Alternativa alternativa) {
-		this.id = alternativa.getId();
-		this.texto = alternativa.getTexto();
-		this.foto = alternativa.getFoto();
-//		this.questaoTexto = alternativa.getQuestao().getId();
-	}
+//	public AlternativaDTO(Alternativa alternativa) {
+//		this.id = alternativa.getId();
+//		this.texto = alternativa.getTexto();
+//		this.foto = alternativa.getFoto();
+////		this.questaoTexto = alternativa.getQuestao().getId();
+//	}
 
 	@Override
 	public String toString() {

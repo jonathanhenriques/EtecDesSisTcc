@@ -67,12 +67,14 @@ public class AlternativaServiceImp implements AlternativaService {
 		Alternativa alternativa = new Alternativa();
 		alternativa.setTexto(alternativaDto.getTexto());
 		alternativa.setFoto(alternativaDto.getFoto());
+		alternativa.setResposta(alternativaDto.getResposta());
 		Alternativa retorno = alternativaRepository.save(alternativa);
 
 		AlternativaDTO dto = new AlternativaDTO();
 		dto.setId(retorno.getId());
 		dto.setTexto(retorno.getTexto());
 		dto.setFoto(retorno.getFoto());
+		dto.setResposta(retorno.getResposta());
 
 		return dto;
 	}
@@ -89,12 +91,14 @@ public class AlternativaServiceImp implements AlternativaService {
 		Alternativa alternativa = new Alternativa();
 		alternativa.setTexto(dto.getTexto());
 		alternativa.setFoto(dto.getFoto());
+		alternativa.setResposta(dto.getResposta());
 		Alternativa retorno = alternativaRepository.save(alternativa);
 
 		AlternativaDTO alternativaAtualizada = new AlternativaDTO();
 		alternativaAtualizada.setId(retorno.getId());
 		alternativaAtualizada.setTexto(retorno.getTexto());
 		alternativaAtualizada.setFoto(retorno.getFoto());
+		alternativaAtualizada.setResposta(retorno.getResposta());
 
 		return alternativaAtualizada;
 

@@ -379,6 +379,7 @@ public class MapperAssembler {
         dto.setId(alternativa.getId());
         dto.setFoto(alternativa.getFoto());
         dto.setTexto(alternativa.getTexto());
+        dto.setResposta(alternativa.getResposta());
         return dto;
     }
 
@@ -388,6 +389,7 @@ public class MapperAssembler {
         alternativa.setId(alternativaDTO.getId());
         alternativa.setFoto(alternativaDTO.getFoto());
         alternativa.setTexto(alternativaDTO.getTexto());
+        alternativa.setResposta(alternativaDTO.getResposta());
         return alternativa;
     }
 
