@@ -366,11 +366,25 @@ public class MapperAssembler {
                 .map(a -> converteAlternativaParaAlternativaDTO(a)).collect(Collectors.toList());
     }
 
+    public List<AlternativaDTO> converteListDeAlternativasSemIdParaListDeAlternativasDTO(List<Alternativa> alternativas){
+
+        return alternativas
+                .stream()
+                .map(a -> converteAlternativaSemIdParaAlternativaDTO(a)).collect(Collectors.toList());
+    }
+
     public List<Alternativa> converteListDeAlternativasDTOParaListDeAlternativas(List<AlternativaDTO> alternativasDTO){
 
         return alternativasDTO
                 .stream()
                 .map(this::converteAlternativaDTOParaAlternativa).collect(Collectors.toList());
+    }
+
+    public List<Alternativa> converteListDeAlternativasDTOSemIdParaListDeAlternativas(List<AlternativaDTO> alternativasDTO){
+
+        return alternativasDTO
+                .stream()
+                .map(this::converteAlternativaDTOSemIdParaAlternativa).collect(Collectors.toList());
     }
 
     public AlternativaDTO converteAlternativaParaAlternativaDTO(Alternativa alternativa){
@@ -386,6 +400,16 @@ public class MapperAssembler {
         return dto;
     }
 
+    public AlternativaDTO converteAlternativaSemIdParaAlternativaDTO(Alternativa alternativa){
+        AlternativaDTO dto = new AlternativaDTO();
+
+        dto.setId(null);
+        dto.setFoto(alternativa.getFoto());
+        dto.setTexto(alternativa.getTexto());
+        dto.setIsResposta(alternativa.getIsResposta());
+        return dto;
+    }
+
     public Alternativa converteAlternativaDTOParaAlternativa(AlternativaDTO alternativaDTO){
         Alternativa alternativa = alternativaRepository
                 .findById(alternativaDTO.getId()).orElseThrow(AlternativaNotFoundException::new);
@@ -393,6 +417,16 @@ public class MapperAssembler {
             alternativa.setId(alternativaDTO.getId());
         else
             alternativa.setId(null);
+        alternativa.setFoto(alternativaDTO.getFoto());
+        alternativa.setTexto(alternativaDTO.getTexto());
+        alternativa.setIsResposta(alternativaDTO.getIsResposta());
+        return alternativa;
+    }
+
+    public Alternativa converteAlternativaDTOSemIdParaAlternativa(AlternativaDTO alternativaDTO){
+        Alternativa alternativa = new Alternativa();
+
+        alternativa.setId(null);
         alternativa.setFoto(alternativaDTO.getFoto());
         alternativa.setTexto(alternativaDTO.getTexto());
         alternativa.setIsResposta(alternativaDTO.getIsResposta());

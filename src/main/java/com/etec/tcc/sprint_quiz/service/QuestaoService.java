@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,29 +23,31 @@ public interface QuestaoService {
 
 	Page<QuestaoDTO> getAll(Pageable pageable);
 
-	Questao getById(@PathVariable Long id);
+	Questao getById(Long id);
 
-	List<Questao> getAllByTexto(@PathVariable String texto);
+	List<Questao> getAllByTexto(String texto);
 
-	List<Questao> getAllByInstituicao(@PathVariable String instituicao);
+	List<Questao> getAllByInstituicao(String instituicao);
 
-	List<Questao> findAllByAno(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ano);
+	List<Questao> findAllByAno(LocalDate ano);
 
-	List<Questao> findAllByAnoInicialFinal(@PathVariable LocalDate anoInicial, LocalDate anoFinal);
+	List<Questao> findAllByAnoInicialFinal(LocalDate anoInicial, LocalDate anoFinal);
 
-	List<Questao> findAllByAntesAno(@PathVariable LocalDate ano);
+	List<Questao> findAllByAntesAno(LocalDate ano);
 
-	List<Questao> getQuestoesByCriadorId(@PathVariable Long criadorId);
+	List<Questao> getQuestoesByCriadorId(Long criadorId);
 
-	QuestaoDTO postQuestao(@Valid @RequestBody QuestaoDTO questao);
+	QuestaoDTO postQuestao(QuestaoDTO questao);
+
+	QuestaoDTO postQuestaoComPostAlternativas(QuestaoDTO questao);
 
 	QuestaoDTO adicionarAlternativaEmQuestao(QuestaoDTO questao);
 
 //	Questao salvarQuestaoComAlternativa(@RequestBody Questao questao);
 
-	QuestaoDTO putQuestao(@Valid @RequestBody QuestaoDTO questao);
+	QuestaoDTO putQuestao(QuestaoDTO questao);
 
-	void deleteQuestao(@PathVariable Long id);
+	void deleteQuestao(Long id);
 
 	Questao findByIdFetch(Long id);
 

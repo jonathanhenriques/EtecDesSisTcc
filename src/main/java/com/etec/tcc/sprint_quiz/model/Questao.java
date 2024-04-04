@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.etec.tcc.sprint_quiz.enums.DificuldadeQuestao;
@@ -57,7 +56,7 @@ public class Questao {
 
 	private DificuldadeQuestao dificuldade;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Alternativa> alternativas;
 
 	private Long resposta;

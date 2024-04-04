@@ -168,6 +168,28 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	}
 
+	@Override
+	public QuestaoDTO postQuestaoComPostAlternativas(@Valid @RequestBody QuestaoDTO questao) {
+		usuarioRepository.findById(questao.getCriadorId())
+				.orElseThrow(() -> new UsuarioNotFoundException());
+
+		 categoriaQuestaoRepository.findById(questao.getIdCategoriaQuestao()).orElseThrow(CategoriaQuestaoNotFoundException::new);
+		List<Alternativa> listaAlternativas = new ArrayList<>(mapperAssembler.converteListDeAlternativasDTOSemIdParaListDeAlternativas(questao.getAlternativas()));
+		List<Alternativa> listaAlternativasSalvas = alternativaRepository.saveAll(listaAlternativas);
+		alternativaRepository.flush();
+		List<AlternativaDTO> listaAlternativasSalvasDTO = new ArrayList<>(mapperAssembler
+				.converteListDeAlternativasParaListDeAlternativasDTO(listaAlternativasSalvas));
+
+		questao.setAlternativas(null);
+		questao.setAlternativas(listaAlternativasSalvasDTO);
+
+
+		Questao questaoRequest = mapperAssembler.converteQuestaoDTOParaQuestao(questao);
+		questaoRequest = questaoRepository.save(questaoRequest);
+		QuestaoDTO questaoResponse = mapperAssembler.converteQuestaoParaQuestaoDTO(questaoRequest);
+		return questaoResponse;
+	}
+
 //	private Questao salvaQuestao(Questao questao) {
 //		usuarioRepository.findById(questao.getCriador().getId())
 //				.orElseThrow(() -> new UsuarioNotFoundException(questao.getCriador().getId().toString()));

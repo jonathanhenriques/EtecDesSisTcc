@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etec.tcc.sprint_quiz.model.dto.AlternativaDTO;
 import com.etec.tcc.sprint_quiz.model.dto.QuestaoComAlternativaDTO;
 import com.etec.tcc.sprint_quiz.api.assembler.MapperAssembler;
 import lombok.RequiredArgsConstructor;
@@ -90,6 +91,14 @@ public class QuestaoController {
 //                                                                  iso = DateTimeFormat.ISO.DATE)
                                                        QuestaoDTO questao) {
         return ResponseEntity.status(HttpStatus.CREATED).body(questaoService.postQuestao(questao));
+    }
+
+    @Operation(summary = "Cadastra uma questao com uma lista de novas alternativas")
+    @PostMapping("/questaoComPostAlternativas")
+    public ResponseEntity<QuestaoDTO> postQuestaoComListaDeNovasAlternativas(@RequestBody
+                                                    QuestaoDTO questao) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(questaoService.postQuestaoComPostAlternativas(questao));
     }
 
     @PutMapping("/questaoAlternativa")
