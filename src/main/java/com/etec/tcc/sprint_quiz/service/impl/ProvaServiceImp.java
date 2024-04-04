@@ -106,6 +106,7 @@ public class ProvaServiceImp implements ProvaService {
     public ProvaResponse put(ProvaDTO dto) {
         CategoriaProva categoriaProva = categoriaProvaRepository.findById(dto.getIdCategoria()).orElseThrow(() -> new ProvaNotFoundException());
         Usuario usuario = usuarioRepository.findById(dto.getIdUsuario()).orElseThrow(() -> new UsuarioNotFoundException(dto.getIdUsuario().toString()));
+        Prova provaRecuperada = provaRepository.findById(dto.getId()).orElseThrow(ProvaNotFoundException::new);
 
         Prova provaRequest = new Prova();
         provaRequest.setId(dto.getId());
@@ -115,6 +116,7 @@ public class ProvaServiceImp implements ProvaService {
         provaRequest.setUsuario(usuario);
         provaRequest.setInstituicao(dto.getInstituicao());
         provaRequest.setCategoria(categoriaProva);
+        provaRequest.setQuestoes(provaRecuperada.getQuestoes());
 
         return mapperAssembler.converteToProvaResponse(provaRepository.save(provaRequest));
 
