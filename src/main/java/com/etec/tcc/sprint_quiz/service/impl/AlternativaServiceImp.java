@@ -89,6 +89,7 @@ public class AlternativaServiceImp implements AlternativaService {
 				.orElseThrow(() -> new AlternativaNotFoundException(dto.getId().toString()));
 
 		Alternativa alternativa = new Alternativa();
+		alternativa.setId(a.getId());
 		alternativa.setTexto(dto.getTexto());
 		alternativa.setFoto(dto.getFoto());
 		alternativa.setIsResposta(dto.getIsResposta());
